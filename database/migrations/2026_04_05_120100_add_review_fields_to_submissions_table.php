@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::table('submissions', function (Blueprint $table) {
             $table->string('review_status', 40)->default('submitted')->after('note');
             $table->text('review_note')->nullable()->after('review_status');
-            $table->foreignId('reviewed_by')->nullable()->after('review_note')->constrained('users')->nullOnDelete();
+            $table->foreignId('reviewed_by')->nullable()->after('review_note')->constrained('users')->noActionOnDelete();
             $table->timestamp('reviewed_at')->nullable()->after('reviewed_by');
             $table->unsignedInteger('revision_number')->default(1)->after('reviewed_at');
         });

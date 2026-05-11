@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('department')->nullable()->after('role');
-            $table->string('student_code')->nullable()->unique()->after('department');
+            $table->string('student_code')->nullable()->after('department');
             $table->string('cohort')->nullable()->after('student_code');
         });
     }
@@ -18,7 +18,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropUnique(['student_code']);
             $table->dropColumn(['department', 'student_code', 'cohort']);
         });
     }

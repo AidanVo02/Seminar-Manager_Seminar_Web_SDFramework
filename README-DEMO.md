@@ -35,7 +35,8 @@ Open your browser at:
 
 ## Environment note for this machine
 This project currently uses:
-- SQLite in the temp folder to avoid Windows path issues
+- SQL Server 2022 Express on `localhost`
+- Windows Authentication for the local database connection
 - Blade compiled views in the temp folder to avoid view compilation issues
 - Blade for the main UI and React for the dashboard analytics module
 - The default Laravel `log` mail driver, so outgoing mail is written to logs rather than sent externally

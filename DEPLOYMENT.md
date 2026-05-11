@@ -9,7 +9,7 @@ This document explains how to run and publish Seminar Manager in a practical env
 - PHP 8.3
 - Composer
 - Node.js and npm
-- SQLite or another supported database
+- SQL Server or another supported database
 
 ### Install
 
@@ -25,13 +25,39 @@ copy .env.example .env
 php artisan key:generate
 ```
 
-If you want to use the seeded local demo mode on this machine, keep the SQLite path in `.env` and make sure the database file exists.
+If you want to use the seeded local demo mode on this machine, keep the SQL Server settings in `.env` and make sure the `seminar_manager` database exists.
 
 ### Database
 
 ```bash
 php artisan migrate:fresh --seed
 ```
+
+### Switching to SQL Server
+
+Yes, Seminar Manager can run on SQL Server.
+
+The project already includes a `sqlsrv` connection in `config/database.php`, so you only need to update environment settings and make sure the SQL Server PHP driver is installed.
+
+Use this kind of `.env` setup:
+
+```env
+DB_CONNECTION=sqlsrv
+DB_HOST=127.0.0.1
+DB_PORT=1433
+DB_DATABASE=seminar_manager
+DB_USERNAME=sa
+DB_PASSWORD=your_password
+DB_ENCRYPT=yes
+DB_TRUST_SERVER_CERTIFICATE=yes
+```
+
+Notes:
+
+- keep `SESSION_DRIVER=file` if you do not want sessions stored in the database
+- `CACHE_STORE=file` is also the easiest option during development
+- if you want database-backed sessions and cache on SQL Server, run the session/cache migrations on that connection
+- make sure the Microsoft ODBC driver and the `pdo_sqlsrv` / `sqlsrv` PHP extensions are installed
 
 ### Frontend assets
 
@@ -55,7 +81,7 @@ Before deployment, review these items:
 
 - set `APP_ENV=production`
 - set `APP_DEBUG=false`
-- use a real database instead of the temp SQLite demo file
+- use the SQL Server demo database or another real database
 - configure a production mail driver
 - configure queue workers if you want background processing
 - run `php artisan migrate --force`
@@ -93,9 +119,15 @@ If `OPENAI_API_KEY` is not set, Seminar Manager falls back to a local demo assis
 
 ### Login page returns 500
 
-- check that the SQLite file exists
+- check that the SQL Server database exists
 - run migrations and seeders again
 - make sure `SESSION_DRIVER=database` has a working database
+
+If you switch to SQL Server, also check:
+
+- SQL Server service is running
+- PHP SQL Server extensions are installed
+- the credentials in `.env` are correct
 
 ### AI chat returns configuration error
 
@@ -110,4 +142,4 @@ If `OPENAI_API_KEY` is not set, Seminar Manager falls back to a local demo assis
 
 ## Final Note
 
-For this seminar project, the local demo setup is usually enough for classroom presentation, but the checklist above makes it ready to move toward production if needed.
+For this seminar project, the local SQL Server demo setup is usually enough for classroom presentation, but the checklist above makes it ready to move toward production if needed.

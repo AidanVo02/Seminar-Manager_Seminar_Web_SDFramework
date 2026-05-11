@@ -29,10 +29,23 @@ Route::middleware('auth')->group(function () {
     Route::post('/ai-chat/conversations', [AiChatController::class, 'createConversation'])->name('ai-chat.conversations.store');
     Route::get('/ai-chat/conversations/{conversation}', [AiChatController::class, 'showConversation'])->name('ai-chat.conversations.show');
 
-    Route::resource('topics', TopicController::class)->except(['create', 'store', 'edit', 'update', 'destroy']);
-    Route::resource('topics', TopicController::class)
-        ->only(['create', 'store', 'edit', 'update', 'destroy'])
-        ->middleware('role:lecturer,admin');
+    Route::get('/topics/create', [TopicController::class, 'create'])
+        ->middleware('role:lecturer,admin')
+        ->name('topics.create');
+    Route::post('/topics', [TopicController::class, 'store'])
+        ->middleware('role:lecturer,admin')
+        ->name('topics.store');
+    Route::get('/topics/{topic}/edit', [TopicController::class, 'edit'])
+        ->middleware('role:lecturer,admin')
+        ->name('topics.edit');
+    Route::put('/topics/{topic}', [TopicController::class, 'update'])
+        ->middleware('role:lecturer,admin')
+        ->name('topics.update');
+    Route::delete('/topics/{topic}', [TopicController::class, 'destroy'])
+        ->middleware('role:lecturer,admin')
+        ->name('topics.destroy');
+
+    Route::resource('topics', TopicController::class)->only(['index', 'show']);
     Route::get('/topics/{topic}/summary', [ExportController::class, 'topicSummary'])
         ->middleware('role:lecturer,admin')
         ->name('topics.summary');

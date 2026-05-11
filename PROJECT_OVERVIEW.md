@@ -156,7 +156,7 @@ Responsibilities:
 - Framework: Laravel 13
 - Language: PHP 8.3
 - Frontend approach: Laravel Blade with a React-powered analytics module
-- Database: SQLite for local/demo setup
+- Database: SQL Server for the current local/demo setup
 - Test framework: PHPUnit feature tests
 
 ## Frontend Strategy

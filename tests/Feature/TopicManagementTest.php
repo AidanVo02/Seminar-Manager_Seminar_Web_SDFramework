@@ -37,6 +37,26 @@ class TopicManagementTest extends TestCase
         ]);
     }
 
+    public function test_admin_can_open_the_topic_creation_page(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+
+        $response = $this->actingAs($admin)->get(route('topics.create'));
+
+        $response->assertOk();
+        $response->assertSee('Create a seminar topic');
+    }
+
+    public function test_lecturer_can_open_the_topic_creation_page(): void
+    {
+        $lecturer = User::factory()->create(['role' => 'lecturer']);
+
+        $response = $this->actingAs($lecturer)->get(route('topics.create'));
+
+        $response->assertOk();
+        $response->assertSee('Create a seminar topic');
+    }
+
     public function test_topic_list_can_be_filtered_by_search_term_status_and_category(): void
     {
         $lecturer = User::factory()->create(['role' => 'lecturer']);

@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->foreignId('lecturer_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('lecturer_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('status')->default('open');
             $table->timestamps();
         });

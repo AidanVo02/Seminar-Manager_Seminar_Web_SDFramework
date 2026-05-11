@@ -88,7 +88,7 @@ The project also includes:
 - PHP 8.3
 - Blade
 - React for dashboard analytics and AI chat UI
-- SQLite for local demo
+- SQL Server for the current local demo setup
 - PHPUnit for tests
 
 ## 9. Architecture Summary

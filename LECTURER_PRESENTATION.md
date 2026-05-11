@@ -101,7 +101,7 @@ The project also includes richer academic data to make the demo feel realistic:
 - PHP 8.3
 - Blade templates
 - React for interactive analytics and AI chat
-- SQLite for local demo usage
+- SQL Server for the current local demo setup
 - PHPUnit feature tests
 
 ## 6. Architecture

@@ -8,9 +8,12 @@ Detailed project documentation is available in these files:
 
 - `DOCUMENTATION_INDEX.md` - entry point for the full documentation pack
 - `SEMINAR_PROJECT_PACK.md` - compact but detailed project summary for seminar use
+- `PROJECT_DEEP_DIVE.md` - one-file deep dive for the whole project
+- `USER_PERMISSIONS.md` - what each user role can and cannot do
 - `PROJECT_OVERVIEW.md` - business context, goals, roles, and use cases
 - `DATABASE.md` - database explanation, relationships, and ERD
 - `ARCHITECTURE.md` - Laravel structure and application layers
+- `LARAVEL_BOOST_ARCHITECTURE.md` - architecture guide focused on Laravel Boost and AI context
 - `API_FLOW.md` - route flow and database impact by feature
 - `SEMINAR_SCRIPT.md` - ready-to-use seminar presentation script
 - `LECTURER_PRESENTATION.md` - presentation outline for the lecturer
@@ -45,7 +48,7 @@ Detailed project documentation is available in these files:
 - PHP 8.3
 - Blade templates
 - React for interactive dashboard analytics
-- SQLite for local/demo usage
+- SQL Server for the current local/demo setup
 - PHPUnit feature tests
 
 ## Project Structure
@@ -61,6 +64,7 @@ Detailed project documentation is available in these files:
 - `database/seeders` - demo data setup
 - `tests/Feature` - project behavior tests
 - `PROJECT_OVERVIEW.md` - project description and business context
+- `PROJECT_DEEP_DIVE.md` - one-file deep dive for the whole system
 - `DATABASE.md` - database explanation and relationship guide
 - `ARCHITECTURE.md` - system architecture notes
 - `API_FLOW.md` - route and request flow guide
@@ -156,6 +160,14 @@ OPENAI_MODEL=gpt-4.1-mini
 php artisan migrate:fresh --seed
 ```
 
+If you are using the SQL Server setup from this repository, make sure your `.env` points to:
+
+- `DB_CONNECTION=sqlsrv`
+- `DB_HOST=localhost`
+- `DB_DATABASE=seminar_manager`
+- `DB_USERNAME=` for Windows Authentication
+- `DB_PASSWORD=` for Windows Authentication
+
 ### 4. Start the development server
 
 ```bash
@@ -172,7 +184,7 @@ Open:
 
 This project is configured to work around Windows path issues on this machine:
 
-- SQLite is stored in a temp folder instead of the default project path
+- SQL Server is the current local database
 - Compiled Blade views are stored in a temp folder
 - Frontend assets are optional at runtime, so the app still works in tests or before a Vite build finishes
 - On some Windows setups, Vite/Tailwind native binaries may be sensitive to special characters in the folder path
