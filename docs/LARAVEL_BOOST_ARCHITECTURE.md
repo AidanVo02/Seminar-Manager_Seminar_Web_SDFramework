@@ -2,6 +2,10 @@
 
 Tài liệu này giải thích cách Laravel Boost liên quan đến dự án Seminar Manager, và vì sao kiến trúc hiện tại phù hợp để AI hiểu đúng codebase hơn.
 
+Nếu bạn cần bản dễ học thuộc để thuyết trình, xem thêm:
+
+- `LARAVEL_BOOST_SEMINAR_GUIDE.md`
+
 ## 1. Laravel Boost Là Gì
 
 Laravel Boost là lớp hỗ trợ AI dành cho dự án Laravel.

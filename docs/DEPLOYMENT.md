@@ -6,7 +6,7 @@ This document explains how to run and publish Seminar Manager in a practical env
 
 ### Requirements
 
-- PHP 8.3
+- PHP 8.4
 - Composer
 - Node.js and npm
 - SQL Server or another supported database
@@ -93,7 +93,7 @@ Before deployment, review these items:
 The project can be deployed on common PHP hosting or cloud platforms that support:
 
 - Laravel 13
-- PHP 8.3
+- PHP 8.4
 - persistent storage
 - a relational database
 

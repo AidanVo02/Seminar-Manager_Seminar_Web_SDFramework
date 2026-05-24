@@ -6,19 +6,20 @@ This file is the entry point for the full documentation pack of the Seminar Mana
 
 If you are a lecturer, reviewer, or classmate and want the fastest overview, follow this order:
 
-1. [README.md](README.md)
+1. [README.md](../README.md)
 2. [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md)
 3. [PROJECT_DEEP_DIVE.md](PROJECT_DEEP_DIVE.md)
 4. [USER_PERMISSIONS.md](USER_PERMISSIONS.md)
 5. [DATABASE.md](DATABASE.md)
 6. [ARCHITECTURE.md](ARCHITECTURE.md)
 7. [LARAVEL_BOOST_ARCHITECTURE.md](LARAVEL_BOOST_ARCHITECTURE.md)
-8. [API_FLOW.md](API_FLOW.md)
-9. [SEMINAR_SCRIPT.md](SEMINAR_SCRIPT.md)
-10. [LECTURER_PRESENTATION.md](LECTURER_PRESENTATION.md)
-11. [README-DEMO.md](README-DEMO.md)
-12. [DEPLOYMENT.md](DEPLOYMENT.md)
-13. [AI_KNOWLEDGE_BASE.md](AI_KNOWLEDGE_BASE.md)
+8. [LARAVEL_BOOST_SEMINAR_GUIDE.md](LARAVEL_BOOST_SEMINAR_GUIDE.md)
+9. [API_FLOW.md](API_FLOW.md)
+10. [SEMINAR_SCRIPT.md](SEMINAR_SCRIPT.md)
+11. [LECTURER_PRESENTATION.md](LECTURER_PRESENTATION.md)
+12. [README-DEMO.md](README-DEMO.md)
+13. [DEPLOYMENT.md](DEPLOYMENT.md)
+14. [AI_KNOWLEDGE_BASE.md](AI_KNOWLEDGE_BASE.md)
 
 ## File Map
 
@@ -26,7 +27,7 @@ If you are a lecturer, reviewer, or classmate and want the fastest overview, fol
 
 - `PROJECT_OVERVIEW.md`
 - `PROJECT_DEEP_DIVE.md`
-- `README.md`
+- `../README.md`
 
 Use these files to explain:
 
@@ -49,6 +50,8 @@ Use this file to explain:
 ### Architecture and code structure
 
 - `ARCHITECTURE.md`
+- `LARAVEL_BOOST_ARCHITECTURE.md`
+- `LARAVEL_BOOST_SEMINAR_GUIDE.md`
 
 Use this file to explain:
 
@@ -56,6 +59,7 @@ Use this file to explain:
 - support classes
 - hybrid Blade + React frontend design
 - request and rendering flow
+- how Laravel Boost fits into the app
 
 ### Route and request flow
 
@@ -69,6 +73,7 @@ Use this file to explain:
 
 ### Seminar speaking materials
 
+- `LARAVEL_BOOST_SEMINAR_GUIDE.md`
 - `SEMINAR_SCRIPT.md`
 - `LECTURER_PRESENTATION.md`
 
@@ -114,9 +119,10 @@ Use this file to explain:
 
 If you only need the minimum set for class, use these files:
 
-- `README.md`
+- `../README.md`
 - `PROJECT_OVERVIEW.md`
 - `PROJECT_DEEP_DIVE.md`
+- `LARAVEL_BOOST_SEMINAR_GUIDE.md`
 - `DATABASE.md`
 - `SEMINAR_SCRIPT.md`
 - `README-DEMO.md`

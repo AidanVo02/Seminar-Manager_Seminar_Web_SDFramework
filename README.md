@@ -6,20 +6,21 @@ A Laravel-based student seminar management system built for classroom seminar/de
 
 Detailed project documentation is available in these files:
 
-- `DOCUMENTATION_INDEX.md` - entry point for the full documentation pack
-- `SEMINAR_PROJECT_PACK.md` - compact but detailed project summary for seminar use
-- `PROJECT_DEEP_DIVE.md` - one-file deep dive for the whole project
-- `USER_PERMISSIONS.md` - what each user role can and cannot do
-- `PROJECT_OVERVIEW.md` - business context, goals, roles, and use cases
-- `DATABASE.md` - database explanation, relationships, and ERD
-- `ARCHITECTURE.md` - Laravel structure and application layers
-- `LARAVEL_BOOST_ARCHITECTURE.md` - architecture guide focused on Laravel Boost and AI context
-- `API_FLOW.md` - route flow and database impact by feature
-- `SEMINAR_SCRIPT.md` - ready-to-use seminar presentation script
-- `LECTURER_PRESENTATION.md` - presentation outline for the lecturer
-- `DEPLOYMENT.md` - setup and deployment guide
-- `AI_KNOWLEDGE_BASE.md` - curated knowledge base used by the AI chat assistant
-- `README-DEMO.md` - quick demo guide
+- `docs/DOCUMENTATION_INDEX.md` - entry point for the full documentation pack
+- `docs/SEMINAR_PROJECT_PACK.md` - compact but detailed project summary for seminar use
+- `docs/PROJECT_DEEP_DIVE.md` - one-file deep dive for the whole project
+- `docs/USER_PERMISSIONS.md` - what each user role can and cannot do
+- `docs/PROJECT_OVERVIEW.md` - business context, goals, roles, and use cases
+- `docs/DATABASE.md` - database explanation, relationships, and ERD
+- `docs/ARCHITECTURE.md` - Laravel structure and application layers
+- `docs/LARAVEL_BOOST_ARCHITECTURE.md` - architecture guide focused on Laravel Boost and AI context
+- `docs/LARAVEL_BOOST_SEMINAR_GUIDE.md` - presentation-ready Laravel Boost guide
+- `docs/API_FLOW.md` - route flow and database impact by feature
+- `docs/SEMINAR_SCRIPT.md` - ready-to-use seminar presentation script
+- `docs/LECTURER_PRESENTATION.md` - presentation outline for the lecturer
+- `docs/DEPLOYMENT.md` - setup and deployment guide
+- `docs/AI_KNOWLEDGE_BASE.md` - curated knowledge base used by the AI chat assistant
+- `docs/README-DEMO.md` - quick demo guide
 
 ## Features
 
@@ -45,7 +46,7 @@ Detailed project documentation is available in these files:
 ## Tech Stack
 
 - Laravel 13
-- PHP 8.3
+- PHP 8.4
 - Blade templates
 - React for interactive dashboard analytics
 - SQL Server for the current local/demo setup
@@ -63,15 +64,16 @@ Detailed project documentation is available in these files:
 - `database/migrations` - schema definition
 - `database/seeders` - demo data setup
 - `tests/Feature` - project behavior tests
-- `PROJECT_OVERVIEW.md` - project description and business context
-- `PROJECT_DEEP_DIVE.md` - one-file deep dive for the whole system
-- `DATABASE.md` - database explanation and relationship guide
-- `ARCHITECTURE.md` - system architecture notes
-- `API_FLOW.md` - route and request flow guide
-- `SEMINAR_SCRIPT.md` - presentation speaking script
-- `LECTURER_PRESENTATION.md` - lecturer-facing presentation outline
-- `DEPLOYMENT.md` - deployment and production checklist
-- `AI_KNOWLEDGE_BASE.md` - chatbot knowledge base reference
+- `docs/PROJECT_OVERVIEW.md` - project description and business context
+- `docs/PROJECT_DEEP_DIVE.md` - one-file deep dive for the whole system
+- `docs/DATABASE.md` - database explanation and relationship guide
+- `docs/ARCHITECTURE.md` - system architecture notes
+- `docs/API_FLOW.md` - route and request flow guide
+- `docs/LARAVEL_BOOST_SEMINAR_GUIDE.md` - seminar-ready Laravel Boost notes
+- `docs/SEMINAR_SCRIPT.md` - presentation speaking script
+- `docs/LECTURER_PRESENTATION.md` - lecturer-facing presentation outline
+- `docs/DEPLOYMENT.md` - deployment and production checklist
+- `docs/AI_KNOWLEDGE_BASE.md` - chatbot knowledge base reference
 
 ## Core Workflow
 

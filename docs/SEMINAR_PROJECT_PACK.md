@@ -85,7 +85,7 @@ The project also includes:
 ## 8. Technology Stack
 
 - Laravel 13
-- PHP 8.3
+- PHP 8.4
 - Blade
 - React for dashboard analytics and AI chat UI
 - SQL Server for the current local demo setup

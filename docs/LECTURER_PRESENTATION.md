@@ -98,7 +98,7 @@ The project also includes richer academic data to make the demo feel realistic:
 ## 5. Technology Stack
 
 - Laravel 13
-- PHP 8.3
+- PHP 8.4
 - Blade templates
 - React for interactive analytics and AI chat
 - SQL Server for the current local demo setup

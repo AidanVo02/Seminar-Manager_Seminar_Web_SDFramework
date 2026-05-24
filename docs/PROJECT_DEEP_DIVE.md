@@ -49,7 +49,7 @@ The codebase supports Laravel conventions and can be adapted to different databa
 - Windows Authentication
 - `sqlsrv` and `pdo_sqlsrv` PHP extensions
 - Laravel 13
-- PHP 8.3
+- PHP 8.4
 
 The project was switched from SQLite local demo mode to SQL Server local mode because:
 
@@ -590,7 +590,7 @@ The app can still run with Blade pages even if the frontend build is not availab
 
 If you want the fastest understanding order:
 
-1. `README.md`
+1. `../README.md`
 2. `PROJECT_OVERVIEW.md`
 3. `PROJECT_DEEP_DIVE.md` this file
 4. `USER_PERMISSIONS.md`

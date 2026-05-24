@@ -249,7 +249,7 @@ This is appropriate for a CRUD-heavy Laravel project where user flows matter mor
 
 If someone wants to understand the project quickly, this is the best order:
 
-1. `README.md`
+1. `../README.md`
 2. `DATABASE.md`
 3. `routes/web.php`
 4. `app/Models`
