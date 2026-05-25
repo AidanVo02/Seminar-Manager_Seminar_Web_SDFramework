@@ -2,7 +2,7 @@
 
 This file is a ready-to-speak outline for presenting the Seminar Manager project to a lecturer.
 
-https://app.agnes-ai.com/?conversationId=1776676960536297
+https://gamma.app/docs/He-thong-quan-ly-Seminar-cho-sinh-vien-rz6i3emmf2jl57a
 
 ## 1. Opening
 
