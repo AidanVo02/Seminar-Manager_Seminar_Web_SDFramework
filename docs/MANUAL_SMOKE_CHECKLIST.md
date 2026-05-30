@@ -1,111 +1,111 @@
-# Manual Smoke Checklist
+# Checklist Kiểm Tra Thủ Công
 
-Use this checklist to verify the Seminar Manager project manually before a demo or submission.
+Dùng checklist này trước khi demo hoặc nộp bài.
 
-## Environment
+## 1. Môi trường
 
-- `php artisan migrate:fresh --seed` completed successfully
-- `php artisan serve` is running
-- `npm run dev` is running
-- Login page opens at `http://127.0.0.1:8000/login`
+- `php artisan migrate:fresh --seed` chạy thành công
+- `php artisan serve` đang chạy
+- `npm run dev` đang chạy nếu muốn xem React
+- mở được `http://127.0.0.1:8000/login`
 
-## Login and Roles
+## 2. Đăng nhập và role
 
-- Login as admin works
-- Login as lecturer works
-- Login as student works
-- Invalid credentials show a validation or login error
+- đăng nhập admin được
+- đăng nhập lecturer được
+- đăng nhập student được
+- sai mật khẩu hiển thị lỗi
 
-## Dashboard
+## 3. Dashboard
 
-- Dashboard opens after login
-- Summary cards display topic and registration counts
-- React analytics section renders
-- Role breakdown appears
-- Department breakdown appears
-- Category breakdown appears
-- Top lecturers leaderboard appears for admin and lecturer users
+- dashboard mở sau khi đăng nhập
+- thẻ thống kê hiển thị đúng
+- phần analytics React render được
+- hiện role breakdown
+- hiện department breakdown
+- hiện category breakdown
+- hiện top lecturers nếu là admin hoặc lecturer
 
-## Topic Management
+## 4. Topic management
 
-- Lecturer or admin can create a topic
-- Topic form accepts category, capacity, semester, difficulty, and expected outcomes
-- Topic list can be searched by title or description
-- Topic list can be filtered by status
-- Topic list can be filtered by category
-- Topic list can be filtered by difficulty
-- Admin can assign a lecturer
-- Topic detail page opens correctly
-- Printable summary page opens correctly
+- lecturer hoặc admin tạo topic được
+- form topic nhận category, capacity, semester, difficulty, expected outcomes
+- danh sách topic tìm kiếm được
+- lọc theo status được
+- lọc theo category được
+- lọc theo difficulty được
+- admin chọn lecturer cho topic được
+- trang topic detail mở đúng
+- trang summary in được
 
-## Registration Flow
+## 5. Registration flow
 
-- Student can register for an open topic
-- Duplicate registration is blocked
-- Registration is blocked when topic capacity is full
-- Lecturer can approve a pending registration
-- Lecturer can reject a pending registration
+- student đăng ký topic mở được
+- không đăng ký trùng được
+- topic đầy capacity thì không đăng ký được
+- lecturer duyệt pending registration được
+- lecturer từ chối pending registration được
 
-## Submission Flow
+## 6. Submission flow
 
-- Student can upload a PDF report
-- Student can upload DOC or DOCX reports
-- Student can see the uploaded report on dashboard and topic detail
-- Student can delete their report
-- Lecturer can review a report
-- Lecturer can request changes
-- Lecturer can accept a report
-- Student can resubmit after a change request
-- Revision number increases after resubmission
-- Review note is visible to the student
+- student upload PDF được
+- student upload DOC/DOCX được
+- student thấy report trên dashboard và topic detail
+- student xoá report của mình được
+- lecturer review report được
+- lecturer yêu cầu sửa được
+- lecturer chấp nhận report được
+- student nộp lại được sau khi bị yêu cầu sửa
+- revision number tăng sau khi nộp lại
+- review note hiển thị cho student
 
-## Presentation and Scoring
+## 7. Presentation và scoring
 
-- Lecturer can create a presentation schedule
-- Lecturer can edit a presentation schedule
-- Lecturer can save a score
-- Lecturer can update a score
-- Student can see the schedule and score
+- lecturer tạo lịch bảo vệ được
+- lecturer sửa lịch bảo vệ được
+- lecturer lưu điểm được
+- lecturer cập nhật điểm được
+- student xem được lịch và điểm
 
-## Activity Logs
+## 8. Activity logs
 
-- Activity page opens
-- Topic creation appears in activity feed
-- Registration approval appears in activity feed
-- Report review appears in activity feed
-- Presentation scheduling appears in activity feed
-- Score publishing appears in activity feed
+- mở được activity page
+- thấy log tạo topic
+- thấy log duyệt registration
+- thấy log review report
+- thấy log lên lịch bảo vệ
+- thấy log chấm điểm
 
-## AI Chat
+## 9. AI chat
 
-- AI Chat page opens
-- Saved conversations load correctly
-- New conversation can be created
-- Quick actions appear
-- Quick actions send a prompt successfully
-- Manual message can be sent successfully
-- Rate limit returns a friendly error after repeated requests
-- Local demo mode works when `OPENAI_API_KEY` is empty
-- Cloud AI mode works when `OPENAI_API_KEY` is configured
+- mở được AI Chat
+- load được conversation cũ
+- tạo conversation mới được
+- quick actions hiển thị
+- quick actions gửi prompt được
+- gửi message thường được
+- rate limit trả lỗi thân thiện khi spam
+- chế độ demo cục bộ chạy khi không có `OPENAI_API_KEY`
+- cloud AI chạy khi có `OPENAI_API_KEY`
 
-## Admin User Management
+## 10. Admin user management
 
-- Admin can open the user management page
-- Admin can create a user
-- Admin can edit a user
-- Admin can delete a user
-- Non-admin users are blocked from user management
+- admin mở được trang user management
+- admin tạo user được
+- admin sửa user được
+- admin xoá user được
+- non-admin bị chặn
 
-## Notifications and Demo Data
+## 11. Demo data và notification
 
-- Demo seed data creates multiple lecturers
-- Demo seed data creates multiple students
-- Demo seed data creates topics with different categories
-- Demo seed data creates open, pending, approved, rejected, and closed examples
-- Email notifications are written to the Laravel log driver during demo mode
+- seed tạo nhiều lecturer
+- seed tạo nhiều student
+- seed tạo topic nhiều category
+- seed tạo open/pending/approved/rejected/closed examples
+- thông báo email được ghi ra log khi ở chế độ demo
 
-## Verification Summary
+## 12. Kết luận kiểm tra
 
-- Automated tests pass
-- Key flows are visible in the UI
-- The project is ready for live seminar presentation
+- test tự động pass
+- các luồng chính nhìn thấy được trên UI
+- project đủ để demo seminar

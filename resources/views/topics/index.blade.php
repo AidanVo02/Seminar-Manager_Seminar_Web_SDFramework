@@ -5,6 +5,7 @@
 ])
 
 @section('content')
+    {{-- Topics index is the browse-and-filter screen for the seminar catalog. --}}
     <section class="page-intro">
         <div>
             <div class="kicker-nav">
@@ -23,6 +24,7 @@
         @endif
     </section>
 
+    {{-- Filters keep the topic list easy to search and explain. --}}
     <section class="card filter-card">
         <form action="{{ route('topics.index') }}" method="GET" class="filter-grid topics-filter-grid">
             <label>
@@ -80,6 +82,7 @@
         </form>
     </section>
 
+    {{-- Table shows the topic catalog and the register action. --}}
     <section class="card">
         <div class="section-head">
             <div>

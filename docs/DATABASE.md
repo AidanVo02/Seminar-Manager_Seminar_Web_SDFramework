@@ -1,522 +1,171 @@
 # Database Guide
 
-This document explains the database structure of the Seminar Manager project so the data flow is easy to understand before reading the code.
+Tài liệu này giải thích database theo cách dễ học và dễ thuyết trình.
 
-## Overview
+## Ý tưởng chính
 
-The application is centered around one seminar workflow:
+Quy trình seminar đi theo chuỗi:
 
-1. A lecturer creates a topic.
-2. A student registers for that topic.
-3. The lecturer approves or rejects the registration.
-4. The student uploads a report submission.
-5. The lecturer schedules the presentation.
-6. The lecturer publishes a score and comment.
+1. Lecturer tạo topic
+2. Student đăng ký topic
+3. Lecturer duyệt đăng ký
+4. Student upload báo cáo
+5. Lecturer review báo cáo
+6. Lecturer lên lịch bảo vệ
+7. Lecturer chấm điểm
 
-Because of that workflow, the most important table is `registrations`. It connects a `student` to a `topic`, and every later step hangs off that registration.
+Vì vậy, bảng trung tâm của hệ thống là `registrations`.
 
-## Main Tables
+## Các bảng chính
 
 ### `users`
 
-Stores all authenticated accounts in the system.
+Lưu tài khoản hệ thống:
 
-Key columns:
+- admin
+- lecturer
+- student
 
-- `id`: primary key
-- `name`: full name
-- `email`: unique login email
-- `role`: application role, usually `admin`, `lecturer`, or `student`
-- `department`: academic department or functional unit
-- `student_code`: optional student identifier
-- `cohort`: academic intake or staff group
-- `password`: hashed password
-- `email_verified_at`: optional verification timestamp
-- `remember_token`: login persistence token
-- `created_at`, `updated_at`: Laravel timestamps
+Trường đáng nhớ:
 
-How it is used:
-
-- `admin` manages users and can manage all data
-- `lecturer` owns topics and reviews student work
-- `student` registers for topics and uploads reports
+- `name`
+- `email`
+- `role`
+- `department`
+- `student_code`
+- `cohort`
 
 ### `topics`
 
-Stores seminar topics created by lecturers.
+Lưu topic seminar.
 
-Key columns:
+Trường đáng nhớ:
 
-- `id`: primary key
-- `title`: topic title
-- `description`: topic details
-- `category`: topic portfolio group
-- `capacity`: max number of students who can register
-- `semester`: academic semester label
-- `difficulty`: beginner, intermediate, or advanced
-- `expected_outcomes`: expected learning or project outcomes
-- `lecturer_id`: foreign key to `users.id`
-- `status`: topic state, currently defaults to `open`
-- `created_at`, `updated_at`
-
-Meaning:
-
-- One lecturer can create many topics
-- One topic can receive many student registrations
-- Capacity can be used to limit registrations for a topic
+- `title`
+- `description`
+- `category`
+- `capacity`
+- `semester`
+- `difficulty`
+- `expected_outcomes`
+- `lecturer_id`
+- `status`
 
 ### `registrations`
 
-Stores a student's registration for a topic.
+Lưu một sinh viên đã đăng ký topic nào.
 
-Key columns:
+Trường đáng nhớ:
 
-- `id`: primary key
-- `topic_id`: foreign key to `topics.id`
-- `student_id`: foreign key to `users.id`
-- `status`: registration state, defaults to `pending`
-- `created_at`, `updated_at`
+- `topic_id`
+- `student_id`
+- `status`
 
-Important rule:
+Ràng buộc quan trọng:
 
-- `unique(topic_id, student_id)` prevents the same student from registering for the same topic more than once
-
-Meaning:
-
-- One topic has many registrations
-- One student has many registrations
-- One registration may later have one submission, one presentation, and one score
+- một student không được đăng ký cùng một topic hai lần
 
 ### `submissions`
 
-Stores the uploaded report file for a registration.
+Lưu file báo cáo và trạng thái review.
 
-Key columns:
+Trường đáng nhớ:
 
-- `id`: primary key
-- `registration_id`: unique foreign key to `registrations.id`
-- `original_name`: original uploaded filename
-- `file_path`: saved storage path
-- `mime_type`: file MIME type
-- `submitted_at`: report submission time
-- `note`: optional note from the student
-- `review_status`: lecturer review state such as `submitted`, `changes_requested`, or `accepted`
-- `review_note`: lecturer feedback for the student
-- `reviewed_by`: optional foreign key to `users.id`
-- `reviewed_at`: review timestamp
-- `revision_number`: current revision count for resubmission tracking
-- `created_at`, `updated_at`
-
-Meaning:
-
-- Each registration can have at most one current uploaded report
-- The same record can move through multiple revisions as the student resubmits
-- Lecturer review feedback is stored directly on the current submission record
+- `registration_id`
+- `original_name`
+- `file_path`
+- `mime_type`
+- `submitted_at`
+- `review_status`
+- `review_note`
+- `reviewed_by`
+- `reviewed_at`
+- `revision_number`
 
 ### `presentations`
 
-Stores the defense/presentation schedule for an approved registration.
+Lưu lịch bảo vệ.
 
-Key columns:
+Trường đáng nhớ:
 
-- `id`: primary key
-- `registration_id`: unique foreign key to `registrations.id`
-- `scheduled_at`: scheduled datetime
-- `room`: room or venue
-- `created_at`, `updated_at`
-
-Meaning:
-
-- Each registration can have at most one presentation schedule
+- `registration_id`
+- `scheduled_at`
+- `room`
 
 ### `scores`
 
-Stores the final evaluation for a registration.
+Lưu điểm cuối cùng.
 
-Key columns:
+Trường đáng nhớ:
 
-- `id`: primary key
-- `registration_id`: unique foreign key to `registrations.id`
-- `score`: numeric score, stored as `decimal(4,2)`
-- `comment`: lecturer feedback
-- `created_at`, `updated_at`
-
-Meaning:
-
-- Each registration can have at most one final score record
-
-### `ai_chat_conversations`
-
-Stores saved AI chat sessions for each authenticated user.
-
-Key columns:
-
-- `id`: primary key
-- `user_id`: foreign key to `users.id`
-- `title`: short label for the conversation
-- `last_response_id`: last AI provider response id for continuing context
-- `created_at`, `updated_at`
-
-Meaning:
-
-- One user can have many saved AI chat conversations
-
-### `ai_chat_messages`
-
-Stores the messages inside each saved AI chat conversation.
-
-Key columns:
-
-- `id`: primary key
-- `conversation_id`: foreign key to `ai_chat_conversations.id`
-- `role`: message sender, such as `user` or `assistant`
-- `content`: message body
-- `response_id`: optional AI provider response id
-- `meta`: optional structured metadata such as model info
-- `created_at`, `updated_at`
-
-Meaning:
-
-- One conversation can have many messages
-- Together, these tables provide AI chat persistence
+- `registration_id`
+- `score`
+- `comment`
 
 ### `activity_logs`
 
-Stores important audit-style events across the seminar workflow.
+Lưu log hoạt động để xem ai đã làm gì.
 
-Key columns:
+Trường đáng nhớ:
 
-- `id`: primary key
-- `user_id`: optional foreign key to `users.id` for the actor
-- `action`: machine-friendly action name such as `submission.reviewed`
-- `description`: human-readable description of the event
-- `subject_type`, `subject_id`: optional polymorphic link to the related record
-- `metadata`: JSON payload with related ids such as `topic_id`, `student_id`, and `lecturer_id`
-- `created_at`, `updated_at`
+- `user_id`
+- `action`
+- `description`
+- `subject_type`
+- `subject_id`
+- `metadata`
 
-Meaning:
+### AI chat
 
-- This table provides the activity feed shown in the dashboard and activity page
-- It also helps admins, lecturers, and students understand what happened recently in the system
+Lưu lịch sử chat:
 
-## Supporting Laravel Tables
+- `ai_chat_conversations`
+- `ai_chat_messages`
 
-These tables come from the standard Laravel setup and support framework features:
-
-### `password_reset_tokens`
-
-- Password reset data keyed by email
-
-### `sessions`
-
-- Database session storage for authenticated sessions
-
-### `cache`
-
-- Laravel cache storage
-
-### `cache_locks`
-
-- Cache lock support
-
-### `jobs`
-
-- Queued job records
-
-### `job_batches`
-
-- Batched job metadata
-
-### `failed_jobs`
-
-- Failed queued job records
-
-For seminar understanding, these are less important than `users`, `topics`, `registrations`, `submissions`, `presentations`, and `scores`.
-The AI module adds `ai_chat_conversations` and `ai_chat_messages`, which are important for the assistant feature.
-
-## Relationship Map
+## Quan hệ dữ liệu
 
 ```text
 users
-  |- hasMany topics           via lecturer_id
-  |- hasMany registrations    via student_id
+  ├── topics (lecturer)
+  ├── registrations (student)
+  ├── ai_chat_conversations
+  └── activity_logs
 
 topics
-  |- belongsTo users          as lecturer
-  |- hasMany registrations
+  └── registrations
 
 registrations
-  |- belongsTo topics
-  |- belongsTo users          as student
-  |- hasOne submissions
-  |- hasOne presentations
-  |- hasOne scores
-  |- morphMany activity_logs
-
-submissions
-  |- belongsTo registrations
-  |- belongsTo users          as reviewer
-  |- morphMany activity_logs
-
-presentations
-  |- belongsTo registrations
-
-scores
-  |- belongsTo registrations
-
-ai_chat_conversations
-  |- belongsTo users
-  |- hasMany ai_chat_messages
-
-ai_chat_messages
-  |- belongsTo ai_chat_conversations
-
-activity_logs
-  |- belongsTo users          as actor
-  |- morphTo subject
+  ├── submission
+  ├── presentation
+  └── score
 ```
 
-## ERD Diagram
+## Vì sao registrations là bảng quan trọng nhất
 
-```mermaid
-erDiagram
-    USERS ||--o{ TOPICS : creates
-    USERS ||--o{ REGISTRATIONS : submits
-    USERS ||--o{ AI_CHAT_CONVERSATIONS : owns
-    TOPICS ||--o{ REGISTRATIONS : receives
-    REGISTRATIONS ||--o| SUBMISSIONS : has
-    REGISTRATIONS ||--o| PRESENTATIONS : schedules
-    REGISTRATIONS ||--o| SCORES : receives
-    AI_CHAT_CONVERSATIONS ||--o{ AI_CHAT_MESSAGES : contains
+Vì nó là điểm nối giữa:
 
-    USERS {
-        bigint id PK
-        string name
-        string email UK
-        string role
-        string department
-        string student_code
-        string cohort
-        string password
-        datetime email_verified_at
-        datetime created_at
-        datetime updated_at
-    }
+- student
+- topic
+- submission
+- presentation
+- score
 
-    TOPICS {
-        bigint id PK
-        string title
-        text description
-        string category
-        int capacity
-        string semester
-        string difficulty
-        text expected_outcomes
-        bigint lecturer_id FK
-        string status
-        datetime created_at
-        datetime updated_at
-    }
+Nếu hiểu được `registrations`, bạn gần như hiểu được toàn bộ luồng xử lý.
 
-    REGISTRATIONS {
-        bigint id PK
-        bigint topic_id FK
-        bigint student_id FK
-        string status
-        datetime created_at
-        datetime updated_at
-    }
+## Dữ liệu demo
 
-    SUBMISSIONS {
-        bigint id PK
-        bigint registration_id FK
-        string original_name
-        string file_path
-        string mime_type
-        datetime submitted_at
-        text note
-        string review_status
-        text review_note
-        bigint reviewed_by FK
-        datetime reviewed_at
-        int revision_number
-        datetime created_at
-        datetime updated_at
-    }
+Seeder tạo sẵn:
 
-    PRESENTATIONS {
-        bigint id PK
-        bigint registration_id FK
-        datetime scheduled_at
-        string room
-        datetime created_at
-        datetime updated_at
-    }
+- nhiều lecturer
+- nhiều student
+- topic open/closed
+- registration pending/approved/rejected
+- submission đã review và chưa review
+- presentation
+- score
 
-    SCORES {
-        bigint id PK
-        bigint registration_id FK
-        decimal score
-        text comment
-        datetime created_at
-        datetime updated_at
-    }
+Nhờ vậy chạy demo lên là có dữ liệu ngay.
 
-    AI_CHAT_CONVERSATIONS {
-        bigint id PK
-        bigint user_id FK
-        string title
-        string last_response_id
-        datetime created_at
-        datetime updated_at
-    }
+## Ghi nhớ nhanh
 
-    AI_CHAT_MESSAGES {
-        bigint id PK
-        bigint conversation_id FK
-        string role
-        text content
-        string response_id
-        json meta
-        datetime created_at
-        datetime updated_at
-    }
-
-    ACTIVITY_LOGS {
-        bigint id PK
-        bigint user_id FK
-        string action
-        string description
-        string subject_type
-        bigint subject_id
-        json metadata
-        datetime created_at
-        datetime updated_at
-    }
-```
-
-## Core Data Flow
-
-### 1. Lecturer creates a topic
-
-- A new row is inserted into `topics`
-- `lecturer_id` points to the lecturer account in `users`
-
-### 2. Student registers for a topic
-
-- A new row is inserted into `registrations`
-- It links one `student_id` and one `topic_id`
-- Initial status is `pending`
-
-### 3. Lecturer reviews the registration
-
-- The `status` field in `registrations` is updated
-- Common states in the current app are:
-  - `pending`
-  - `approved`
-  - `rejected`
-
-### 4. Student uploads a report
-
-- A row is created in `submissions`
-- It is linked to the registration through `registration_id`
-- Since `registration_id` is unique, only one active submission exists per registration
-
-### 4b. Lecturer reviews the report
-
-- The `submissions` row is updated with review status, review note, reviewer id, and review timestamp
-- If the student uploads a new revision later, the review fields are reset and `revision_number` increases
-
-### 5. Lecturer schedules the presentation
-
-- A row is created in `presentations`
-- It stores date/time and room information
-
-### 6. Lecturer gives a score
-
-- A row is created in `scores`
-- Final numeric score and comment are stored there
-
-### 7. Activity is recorded
-
-- Important actions insert rows into `activity_logs`
-- These rows capture who performed the action and which topic, student, or lecturer it affected
-
-## Why `registrations` Is the Center Table
-
-If you want to understand the whole app, focus on `registrations`.
-
-It acts like the business-process table:
-
-- It tells you which student joined which topic
-- It stores approval status
-- It connects to submission data
-- It connects to scheduling data
-- It connects to grading data
-
-So in practice:
-
-- `topic` = what the seminar is about
-- `registration` = who joined
-- `submission` = what file they submitted
-- `presentation` = when they present
-- `score` = how they were evaluated
-
-## Example Query Ideas
-
-### Get all topics with lecturer names
-
-```sql
-SELECT topics.title, users.name AS lecturer_name, topics.status
-FROM topics
-JOIN users ON users.id = topics.lecturer_id;
-```
-
-### Get all registrations for one student
-
-```sql
-SELECT registrations.id, topics.title, registrations.status
-FROM registrations
-JOIN topics ON topics.id = registrations.topic_id
-WHERE registrations.student_id = 4;
-```
-
-### Get the full seminar pipeline for one registration
-
-```sql
-SELECT
-    registrations.id,
-    registrations.status,
-    submissions.original_name,
-    presentations.scheduled_at,
-    presentations.room,
-    scores.score,
-    scores.comment
-FROM registrations
-LEFT JOIN submissions ON submissions.registration_id = registrations.id
-LEFT JOIN presentations ON presentations.registration_id = registrations.id
-LEFT JOIN scores ON scores.registration_id = registrations.id
-WHERE registrations.id = 1;
-```
-
-## Eloquent Model Mapping
-
-The database structure maps directly to these models:
-
-- `App\Models\AiChatConversation`
-- `App\Models\AiChatMessage`
-- `App\Models\User`
-- `App\Models\ActivityLog`
-- `App\Models\Topic`
-- `App\Models\Registration`
-- `App\Models\Submission`
-- `App\Models\Presentation`
-- `App\Models\Score`
-
-If you want to understand the code side after this document, read these models first, then the controllers.
-
-## Quick Summary
-
-If you remember only one sentence, remember this:
-
-The Seminar Manager database is built around `registrations`, which connect students to topics and then extend into submission, scheduling, and scoring.
+> `users` là người dùng, `topics` là đề tài, `registrations` là trung tâm của luồng xử lý, `submissions` là báo cáo, `presentations` là lịch bảo vệ, `scores` là kết quả cuối cùng.

@@ -9,6 +9,7 @@ use Illuminate\View\View;
 
 class ActivityLogController extends Controller
 {
+    // Log hoạt động được lọc theo vai trò để mỗi người chỉ thấy sự kiện liên quan.
     public function index(Request $request): View
     {
         $user = $request->user();

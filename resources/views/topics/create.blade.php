@@ -5,6 +5,7 @@
 ])
 
 @section('content')
+    {{-- Create page simply passes context into the shared topic form. --}}
     @include('topics.partials.form', [
         'action' => route('topics.store'),
         'method' => 'POST',

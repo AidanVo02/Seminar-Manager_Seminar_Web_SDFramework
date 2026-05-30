@@ -5,6 +5,7 @@
 ])
 
 @section('content')
+    {{-- Edit page reuses the same shared topic form. --}}
     @include('topics.partials.form', [
         'action' => route('topics.update', $topic),
         'method' => 'PUT',

@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 
 function escapeHtml(value) {
+    // Ngăn HTML chèn vào làm hỏng việc render markdown.
     return value
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
@@ -18,6 +19,7 @@ function renderInlineMarkdown(text) {
 }
 
 function renderMarkdownBlocks(text) {
+    // Bộ parse markdown gọn nhẹ cho phản hồi demo của trợ lý.
     const lines = text.split(/\r?\n/);
     const blocks = [];
     let paragraph = [];
@@ -103,6 +105,7 @@ function renderMarkdownBlocks(text) {
 }
 
 function MarkdownMessage({ text }) {
+    // Phản hồi của trợ lý được render dạng markdown để dễ đọc hơn.
     const blocks = useMemo(() => renderMarkdownBlocks(text), [text]);
 
     return (
@@ -133,6 +136,7 @@ function MarkdownMessage({ text }) {
 }
 
 function MessageBubble({ message }) {
+    // Mỗi message giữ nguyên vai trò người gửi và nội dung.
     return (
         <article className={`chat-bubble ${message.role}`}>
             <div className="chat-bubble-meta">
@@ -144,6 +148,7 @@ function MessageBubble({ message }) {
 }
 
 function buildWelcomeMessage(user) {
+    // Trợ lý mở đầu bằng một lời chào có ngữ cảnh thân thiện.
     return {
         id: 'welcome',
         role: 'assistant',
@@ -152,6 +157,7 @@ function buildWelcomeMessage(user) {
 }
 
 export default function AiChat({ endpoint, conversationEndpoint, showEndpointTemplate, bootstrap }) {
+    // Dữ liệu bootstrap được truyền từ trang Blade.
     const {
         user,
         conversations: initialConversations = [],
@@ -171,6 +177,7 @@ export default function AiChat({ endpoint, conversationEndpoint, showEndpointTem
 
     const canSend = useMemo(() => draft.trim().length > 0 && !isSending, [draft, isSending]);
 
+    // Cập nhật lạc quan cục bộ giúp khung chat phản hồi nhanh.
     const appendUserMessage = (text) => {
         setMessages((current) => [
             ...current,
@@ -182,6 +189,7 @@ export default function AiChat({ endpoint, conversationEndpoint, showEndpointTem
         ]);
     };
 
+    // Hội thoại mới nhất phải nổi lên đầu danh sách sidebar.
     const updateConversationList = (conversation) => {
         if (!conversation) {
             return;
@@ -201,6 +209,7 @@ export default function AiChat({ endpoint, conversationEndpoint, showEndpointTem
         });
     };
 
+    // Một payload gửi đi có thể đến từ input gõ tay hoặc quick action.
     const sendPayload = async ({ message = '', action = null, previewText = '' }) => {
         if (!message.trim() && !action) {
             return;
@@ -250,6 +259,7 @@ export default function AiChat({ endpoint, conversationEndpoint, showEndpointTem
         await sendPayload({ message: cleaned, previewText: cleaned });
     };
 
+    // Tách riêng việc tạo hội thoại giúp lịch sử chat gọn gàng.
     const createConversation = async () => {
         setError('');
         setIsLoadingConversation(true);
@@ -275,6 +285,7 @@ export default function AiChat({ endpoint, conversationEndpoint, showEndpointTem
         }
     };
 
+    // Tải lại hội thoại đã lưu từ server.
     const loadConversation = async (conversationId) => {
         if (!conversationId || conversationId === activeConversationId) {
             return;

@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+    {{-- Shared layout for all authenticated and guest pages. --}}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -16,6 +17,7 @@
 </head>
 <body class="{{ request()->routeIs('login') ? 'guest-shell' : 'app-shell' }}">
     <div class="shell">
+        {{-- Sidebar is the main navigation container. --}}
         <aside class="sidebar">
             <div>
                 <div class="brand-wrap">
@@ -30,6 +32,7 @@
             </div>
 
             @auth
+                {{-- Navigation is role-aware and changes by user context. --}}
                 @php
                     $navItems = [
                         ['route' => 'dashboard', 'label' => 'Dashboard', 'icon' => 'dashboard'],
@@ -56,6 +59,7 @@
                     @endif
                 </nav>
 
+                {{-- User identity panel helps explain who is currently signed in. --}}
                 <div class="sidebar-panel">
                     <div class="sidebar-panel-label">Signed in as</div>
                     <strong>{{ auth()->user()->name }}</strong>
@@ -71,6 +75,7 @@
             @endauth
         </aside>
 
+        {{-- Main content region for each page. --}}
         <main class="main">
             <header class="topbar">
                 <div class="topbar-search">
@@ -103,6 +108,7 @@
                 @endauth
             </header>
 
+            {{-- Global flash messages appear here after redirects. --}}
             @if (session('status'))
                 <div class="alert success">{{ session('status') }}</div>
             @endif
@@ -118,6 +124,7 @@
                 </div>
             @endif
 
+            {{-- Page-specific content is injected below. --}}
             @yield('content')
         </main>
     </div>

@@ -5,6 +5,7 @@
 ])
 
 @section('content')
+    {{-- Admin-only screen for user search, filter, and management. --}}
     <section class="page-intro">
         <div>
             <div class="kicker-nav">
@@ -21,6 +22,7 @@
         </a>
     </section>
 
+    {{-- Filters help admins locate a user quickly. --}}
     <section class="card filter-card">
         <form action="{{ route('users.index') }}" method="GET" class="filter-grid users-filter-grid">
             <label>
@@ -55,6 +57,7 @@
         </form>
     </section>
 
+    {{-- User table lists role, department, and account metadata. --}}
     <section class="card">
         <div class="section-head">
             <div>

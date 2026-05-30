@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class ActivityLog extends Model
 {
+    // ActivityLog là dấu vết kiểm toán cho toàn bộ luồng xử lý.
     protected $fillable = [
         'user_id',
         'action',
@@ -26,11 +27,13 @@ class ActivityLog extends Model
 
     public function user(): BelongsTo
     {
+        // Người dùng gây ra hoặc kích hoạt hành động.
         return $this->belongsTo(User::class);
     }
 
     public function subject(): MorphTo
     {
+        // Liên kết đa hình tới topic, registration, submission, v.v.
         return $this->morphTo();
     }
 }

@@ -1,3 +1,4 @@
+{{-- Shared user form for create and edit actions. --}}
 <section class="card form-shell">
     <div class="form-shell-copy">
         <span class="eyebrow">Academic Access</span>
@@ -9,6 +10,7 @@
         </p>
     </div>
 
+    {{-- Password is optional on edit and required on create. --}}
     <form action="{{ $action }}" method="POST" class="form">
         @csrf
         @if ($method !== 'POST')

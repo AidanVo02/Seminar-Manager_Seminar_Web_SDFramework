@@ -5,6 +5,7 @@
 ])
 
 @section('content')
+    {{-- Topic detail page aggregates registrations, reports, schedule, and score. --}}
     <section class="page-intro">
         <div>
             <div class="kicker-nav">
@@ -18,7 +19,9 @@
         <span class="badge {{ $topic->status }}">{{ $topic->status }}</span>
     </section>
 
+    {{-- Left side shows the topic metadata and admin actions. --}}
     <div class="grid two">
+        {{-- Right side shows each student registration and workflow state. --}}
         <section class="card">
             <div class="section-head">
                 <div>
@@ -174,6 +177,7 @@
         </section>
     </div>
 
+    {{-- Activity timeline for this specific topic. --}}
     <section class="card spaced-card">
         <div class="section-head">
             <div>

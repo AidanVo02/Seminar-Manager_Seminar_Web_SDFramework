@@ -4,9 +4,11 @@ import { createRoot } from 'react-dom/client';
 import AiChat from './components/AiChat';
 import DashboardAnalytics from './components/DashboardAnalytics';
 
+// React chỉ mount khi trang Blade cung cấp đúng root element.
 const dashboardRoot = document.getElementById('dashboard-analytics-root');
 
 if (dashboardRoot) {
+    // Dashboard nhận dữ liệu analytics đã serialize từ Blade.
     const dashboardData = JSON.parse(dashboardRoot.dataset.dashboard ?? '{}');
     const showLeaderboard = JSON.parse(dashboardRoot.dataset.showLeaderboard ?? 'false');
 
@@ -24,6 +26,7 @@ if (dashboardRoot) {
     );
 }
 
+// AI chat cũng mount theo cách này, nhưng chỉ ở trang chat riêng.
 const aiChatRoot = document.getElementById('ai-chat-root');
 
 if (aiChatRoot) {

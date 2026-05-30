@@ -1,193 +1,129 @@
-# Seminar Manager Presentation for Lecturer
+# Bài Thuyết Trình Laravel Boost
 
-This file is a ready-to-speak outline for presenting the Seminar Manager project to a lecturer.
+File này dành cho buổi thuyết trình với giảng viên.
 
-https://gamma.app/docs/He-thong-quan-ly-Seminar-cho-sinh-vien-rz6i3emmf2jl57a
+**Trọng tâm là Laravel Boost**. `Seminar Manager` chỉ là project demo để minh hoạ Boost trong một mã nguồn Laravel thật.
 
-## 1. Opening
+## 1. Mở bài
 
-Hello teacher, today I will present my project called Seminar Manager.
+> Laravel Boost là công cụ hỗ trợ AI cho Laravel, giúp AI hiểu đúng project thật thay vì đoán theo kiến thức chung. Em dùng project Seminar Manager để minh hoạ Boost hoạt động như thế nào trong thực tế.
 
-Seminar Manager is a Laravel-based web application for managing the full seminar workflow in an academic environment. It brings together topic management, student registration, report submission, presentation scheduling, grading, activity tracking, and AI-assisted support in one system.
+## 2. Boost giải quyết gì?
 
-I chose this project because seminar processes are often handled manually with spreadsheets, messages, and scattered files. That makes the workflow hard to track and easy to confuse. This application solves that by centralizing the process in one structured Laravel system.
+AI bình thường dễ:
 
-## 2. Project Purpose
+- đoán sai route
+- đoán sai schema
+- dùng sai API Laravel
+- trả lời theo version cũ
 
-The main purpose of the project is to create a realistic academic management portal that is easy to demonstrate, easy to maintain, and easy to expand.
+Boost giảm lỗi đó bằng cách cung cấp:
 
-It is designed around three roles:
+- ngữ cảnh của project
+- tài liệu đúng version
+- MCP tools
+- AI guidelines
+- agent skills
 
-- `admin`
-- `lecturer`
-- `student`
+## 3. Boost nằm ở đâu trong repo?
 
-Each role has different permissions and responsibilities, and the system shows those differences clearly.
+Các file quan trọng:
 
-## 3. Main Features
+- `composer.json`
+- `boost.json`
+- `app/Support/SeminarAiChat.php`
+- `app/Support/SeminarKnowledgeBase.php`
+- `app/Http/Controllers/AiChatController.php`
+- `docs/AI_KNOWLEDGE_BASE.md`
 
-### Authentication and roles
+## 4. Cấu trúc code cần nói
 
-Users log in with role-based access control. After login, each user only sees the actions that match their role.
+### Routes
 
-### Topic management
+```php
+Route::middleware('auth')->group(function () {
+    Route::get('/ai-chat', [AiChatController::class, 'index'])->name('ai-chat.index');
+    Route::post('/ai-chat', [AiChatController::class, 'store'])->name('ai-chat.store');
+});
+```
 
-Lecturers can create, edit, and manage seminar topics. Admin users can also assign lecturers to topics and monitor the whole system.
+Ý nghĩa:
 
-### Student registration
+- route là cửa vào của feature
+- AI chat được bảo vệ bởi `auth`
 
-Students can browse open topics and register for them. The system prevents duplicate registration and also respects topic capacity.
+### AI chat service
 
-### Report submission and review
+```php
+if (! $apiKey) {
+    return [
+        'reply' => $this->localReply($user, $message),
+        'response_id' => null,
+        'model' => 'local-demo',
+    ];
+}
+```
 
-Students can upload seminar reports. Lecturers can review the report, leave feedback, request changes, or accept it.
+Ý nghĩa:
 
-If the lecturer requests changes, the student can resubmit a newer revision.
+- không có API key thì vẫn demo được
+- chế độ demo cục bộ là điểm rất hữu ích khi thuyết trình
 
-### Presentation scheduling
+### Knowledge base
 
-Lecturers can schedule the defense date, time, and room for approved registrations.
+```php
+return implode("\n", [
+    'Cơ sở tri thức của dự án:',
+    '- Seminar Manager là ứng dụng Laravel phục vụ quy trình seminar học thuật trong môi trường đại học.',
+    '- Ứng dụng hỗ trợ ba vai trò chính: admin, lecturer và student.',
+]);
+```
 
-### Scoring and feedback
+Ý nghĩa:
 
-Lecturers can publish a final score and comment for each seminar registration.
+- AI không trả lời chung chung
+- AI có cơ sở tri thức nội bộ của dự án
 
-### Activity logs
+## 5. Demo project này dùng để minh hoạ cái gì?
 
-The system records important actions such as topic creation, registration approval, report review, scheduling, and scoring. This helps track what happened in the workflow.
+Project giúp minh hoạ 3 điều:
 
-### Dashboard analytics
+1. Boost cần ngữ cảnh thật để AI trả lời đúng.
+2. Cơ sở tri thức giúp AI hiểu project tốt hơn.
+3. Laravel app có thể gắn AI vào mà vẫn giữ kiến trúc rõ ràng.
 
-The dashboard shows seminar summaries and interactive analytics. The dashboard uses Laravel Blade for the main page, while React is used for the analytics module.
+## 6. Kiến trúc nên nói
 
-### AI chat assistant
+- Laravel chịu trách nhiệm chính cho luồng xử lý
+- Database lưu dữ liệu seminar
+- Support classes gom logic dùng chung
+- AI chat là nơi thể hiện Boost trong thực tế
+- React chỉ dùng ở dashboard/AI chat để tăng tương tác
 
-The application includes a built-in AI chat assistant that can explain the project structure, seminar workflow, and role-specific tasks. It stores conversation history, supports quick actions, and uses rate limiting to prevent spam.
+## 7. Câu hỏi giảng viên hay hỏi
 
-### Admin user management
+### Boost có phải model AI không?
 
-Admins can create, edit, filter, and delete user accounts.
+Không. Boost không phải model AI. Nó là lớp hỗ trợ AI cho Laravel.
 
-### Printable summary
+### Tại sao cần project demo?
 
-The project also includes a printable topic summary page for browser print or PDF export.
+Vì Boost dễ hiểu hơn khi gắn vào một mã nguồn thật có route, model, database và luồng xử lý rõ ràng.
 
-## 4. Data Model
+### Nếu không có khóa OpenAI thì sao?
 
-The most important table in the system is `registrations`.
+Vẫn chạy được bằng chế độ demo cục bộ.
 
-That table connects:
+## 8. Bố cục nói khi thuyết trình
 
-- one student
-- one topic
+1. Nói Boost là gì
+2. Nói Boost giải quyết vấn đề gì
+3. Nói Boost gồm những gì
+4. Chỉ ra file code liên quan
+5. Giải thích demo project minh hoạ Boost ra sao
+6. Cho xem AI chat / cơ sở tri thức
+7. Kết luận
 
-Then other records are attached to that registration:
+## 9. Kết luận ngắn
 
-- `submissions` for the report file
-- `presentations` for the schedule
-- `scores` for the final result
-
-That is why `registrations` is the center of the workflow.
-
-The project also includes richer academic data to make the demo feel realistic:
-
-- users can have department, student code, and cohort
-- topics can have category, semester, capacity, difficulty, and expected outcomes
-- analytics can show department and category distributions
-
-## 5. Technology Stack
-
-- Laravel 13
-- PHP 8.4
-- Blade templates
-- React for interactive analytics and AI chat
-- SQL Server for the current local demo setup
-- PHPUnit feature tests
-
-## 6. Architecture
-
-This project uses a hybrid Laravel architecture.
-
-- Laravel Blade renders the main workflow pages
-- React enhances the dashboard analytics and AI chat
-- Controllers handle the logic
-- Eloquent models manage relationships
-- migrations define the schema
-- seeders provide demo data
-- tests validate the main flows
-
-This is a good seminar project because it shows both classical Laravel structure and modern frontend integration without turning the app into a complicated SPA.
-
-## 7. Suggested Live Demo Flow
-
-If I present the project live, I will follow this flow:
-
-1. Log in as lecturer.
-2. Create or edit a seminar topic.
-3. Log in as student.
-4. Register for a topic.
-5. Upload a report file.
-6. Return as lecturer and review the report.
-7. Request changes or accept it.
-8. Resubmit the report if needed.
-9. Schedule the presentation.
-10. Publish the score and comment.
-11. Open the dashboard and activity logs.
-12. Show the AI chat assistant.
-
-That demo path covers the full seminar lifecycle from start to finish.
-
-## 8. Why This Project Is Strong for Presentation
-
-This project is suitable for presentation because it contains:
-
-- real-world academic workflow
-- multiple user roles
-- relational database design
-- file handling
-- authorization
-- dashboard analytics
-- AI assistant integration
-- test coverage
-
-It is not just a CRUD app. It demonstrates a complete business process.
-
-## 9. Short Explanation of Laravel Boost
-
-If the lecturer asks about Laravel Boost, I can explain it like this:
-
-Laravel Boost is an AI-assisted development tool for Laravel projects. It helps the AI understand the current project structure, routes, database, and framework context better.
-
-In this project, Laravel Boost is relevant because it helps demonstrate how AI can support Laravel development more accurately when it has access to project context.
-
-## 10. Short Answers for Common Questions
-
-### Why did you choose Laravel?
-
-Because Laravel gives me routing, authentication, Eloquent ORM, migrations, Blade templating, and test support in one framework, which is ideal for a structured seminar management system.
-
-### Why did you add React?
-
-I used React only where interactivity matters most, especially for analytics and the AI chat page. That keeps the app simple while still showing modern frontend integration.
-
-### Why is the database centered on registrations?
-
-Because every seminar action depends on the relationship between a student and a topic. Once a registration exists, the submission, presentation, and score all connect to it.
-
-### What makes the project stand out?
-
-The app combines academic workflow, review notes, activity logs, AI chat, modern dashboard analytics, and realistic seeded data that makes the demo feel like a real university system.
-
-## 11. Closing
-
-In conclusion, Seminar Manager is a Laravel-based seminar workflow system that manages topics, registrations, report reviews, scheduling, scoring, and administration in one place.
-
-The project demonstrates Laravel MVC structure, relational database design, role-based authorization, hybrid Blade and React frontend integration, and AI-assisted project support.
-
-Thank you for listening. I am ready for questions.
-
-## 12. Very Short Backup Version
-
-If I need a short closing summary, I can say:
-
-Seminar Manager is a Laravel web application for managing the full academic seminar process. It supports topic management, student registration, report review, resubmission, presentation scheduling, grading, activity logs, dashboard analytics, and AI chat support. The project demonstrates a complete real-world workflow with Laravel, Blade, React, and a relational database design centered on registrations.
+> Laravel Boost giúp AI hiểu đúng project Laravel bằng ngữ cảnh, tài liệu, schema và công cụ hỗ trợ. Seminar Manager chỉ là demo project để minh hoạ cách Boost hoạt động trong thực tế.

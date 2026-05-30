@@ -5,6 +5,7 @@
 ])
 
 @section('content')
+    {{-- Edit user page forwards to the shared form. --}}
     @include('users.form', [
         'action' => route('users.update', $user),
         'method' => 'PUT',

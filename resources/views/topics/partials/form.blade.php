@@ -1,3 +1,4 @@
+{{-- Shared topic form used by create and edit pages. --}}
 <section class="card form-shell">
     <div class="form-shell-copy">
         <span class="eyebrow">Seminar Topic</span>
@@ -9,6 +10,7 @@
         </p>
     </div>
 
+    {{-- The same fields are reused for create and update. --}}
     <form action="{{ $action }}" method="POST" class="form">
         @csrf
         @if ($method !== 'POST')

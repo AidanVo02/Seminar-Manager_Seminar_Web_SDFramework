@@ -6,17 +6,13 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
+    // Dự án này chưa cần binding container tùy biến.
     public function register(): void
     {
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     */
+    // Hàm boot để trống vì dự án ưu tiên các class tường minh ở tầng riêng.
     public function boot(): void
     {
         //

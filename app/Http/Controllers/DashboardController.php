@@ -11,10 +11,13 @@ use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
+    // Dashboard là trang tổng hợp chỉ đọc.
+    // Controller chuẩn bị dữ liệu cho Blade và cho React biểu đồ tương tác.
     public function __invoke(Request $request): View
     {
         $user = $request->user();
 
+        // Bộ đếm tổng quan dùng cho các thẻ thống kê phía trên.
         $stats = [
             'topics' => Topic::count(),
             'students' => User::where('role', 'student')->count(),
@@ -23,6 +26,7 @@ class DashboardController extends Controller
             'open_slots' => max((int) Topic::query()->sum('capacity') - Registration::count(), 0),
         ];
 
+        // Các phép tổng hợp cung cấp dữ liệu cho module phân tích trên dashboard.
         $statusBreakdown = Registration::query()
             ->selectRaw('status, count(*) as aggregate')
             ->groupBy('status')
@@ -46,6 +50,7 @@ class DashboardController extends Controller
             ->orderByDesc('aggregate')
             ->pluck('aggregate', 'category');
 
+        // Bảng xếp hạng giảng viên cho panel leaderboard trên dashboard.
         $topLecturers = User::query()
             ->where('role', 'lecturer')
             ->withCount('topics')
@@ -57,6 +62,7 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
+        // Tóm tắt theo vai trò về các mục liên quan nhất của người dùng.
         $myTopics = Topic::withCount('registrations')
             ->with('lecturer')
             ->when($user->isLecturer(), fn ($query) => $query->where('lecturer_id', $user->id))
@@ -69,6 +75,7 @@ class DashboardController extends Controller
             ->latest()
             ->get();
 
+        // Widget React đọc payload đã được chuẩn hóa này.
         $dashboardAnalytics = [
             'statusBreakdown' => [
                 'pending' => (int) ($statusBreakdown['pending'] ?? 0),
@@ -95,6 +102,7 @@ class DashboardController extends Controller
             ])->values(),
         ];
 
+        // Giảng viên chỉ thấy đăng ký chờ duyệt của chính đề tài mình phụ trách.
         $pendingForReview = Registration::with(['topic', 'student'])
             ->where('status', 'pending')
             ->whereHas('topic', function ($query) use ($user) {
@@ -105,6 +113,7 @@ class DashboardController extends Controller
             ->latest()
             ->get();
 
+        // Hoạt động gần đây được lọc theo vai trò để mỗi người chỉ thấy log liên quan.
         $recentActivities = ActivityLog::query()
             ->with('user')
             ->when(! $user->isAdmin(), function ($query) use ($user) {

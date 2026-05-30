@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Submission extends Model
 {
+    // Submission lưu báo cáo đã upload và vòng đời review của nó.
     protected $fillable = [
         'registration_id',
         'original_name',
@@ -32,16 +33,19 @@ class Submission extends Model
 
     public function registration(): BelongsTo
     {
+        // Registration cha quyết định quyền sở hữu và quyền truy cập.
         return $this->belongsTo(Registration::class);
     }
 
     public function reviewer(): BelongsTo
     {
+        // Giảng viên/admin đã review báo cáo.
         return $this->belongsTo(User::class, 'reviewed_by');
     }
 
     public function activityLogs(): MorphMany
     {
+        // Các mục activity gắn với vòng đời submission.
         return $this->morphMany(ActivityLog::class, 'subject');
     }
 }

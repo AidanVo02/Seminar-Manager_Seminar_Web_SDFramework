@@ -1,66 +1,45 @@
-# API and Route Flow
+# Luồng Route Và Dữ Liệu
 
-This project is primarily a server-rendered Laravel web application, so it does not expose a separate REST API for frontend JavaScript clients. Instead, the main business flow happens through Laravel web routes.
+Tài liệu này trả lời câu hỏi: route nào làm gì, và chạm vào bảng nào.
 
-The current React usage is limited to the dashboard analytics section, and the page receives that data directly from the Laravel view rather than from a dedicated API endpoint.
+## 1. Đây là app web, không phải REST API riêng
 
-This file explains which route performs which action and which database tables are affected.
+Project này chủ yếu là Laravel web app render bằng Blade.
 
-## Route Groups
+React chỉ dùng ở:
 
-### Guest routes
+- dashboard analytics
+- AI chat
 
-Accessible before login:
+Nghĩa là phần lớn luồng đi qua `routes/web.php` và controller Laravel.
+
+## 2. Luồng đăng nhập
+
+### Route
 
 - `GET /login`
 - `POST /login`
 
-Purpose:
-
-- show login page
-- authenticate user
-
-Main controller:
+### Controller
 
 - `AuthController`
 
-Affected tables:
+### Bảng liên quan
 
 - `users`
 - `sessions`
 
-### Authenticated routes
+## 3. Dashboard
 
-Accessible only after login:
-
-- dashboard
-- activity logs
-- ai chat
-- topics
-- registrations
-- submissions
-- presentations
-- scores
-- user management
-
-## Route-by-Route Flow
-
-### Dashboard
-
-Route:
+### Route
 
 - `GET /dashboard`
 
-Controller:
+### Controller
 
 - `DashboardController`
 
-Purpose:
-
-- show overall system statistics and user-specific information
-- provide structured analytics data to the React dashboard module
-
-Reads from:
+### Đọc dữ liệu từ
 
 - `users`
 - `topics`
@@ -70,86 +49,14 @@ Reads from:
 - `scores`
 - `activity_logs`
 
-Writes to:
+### Ghi chú
 
-- none
+- route này trả về Blade view
+- React chỉ mount vào phần analytics
 
-Frontend note:
+## 4. Topics
 
-- this route still returns a Blade page
-- React mounts inside the dashboard page for analytics only
-
-### AI chat
-
-Routes:
-
-- `GET /ai-chat`
-- `POST /ai-chat`
-- `POST /ai-chat/conversations`
-- `GET /ai-chat/conversations/{conversation}`
-
-Controller:
-
-- `AiChatController`
-
-Purpose:
-
-- render the AI chat page
-- create saved conversations
-- send user messages to the AI provider
-- trigger role-aware quick actions
-- reopen previous conversations
-- enforce simple per-user rate limiting
-
-Reads from:
-
-- `users`
-- `topics`
-- `registrations`
-- `presentations`
-- `scores`
-- `ai_chat_conversations`
-- `ai_chat_messages`
-- `activity_logs`
-
-Writes to:
-
-- `ai_chat_conversations`
-- `ai_chat_messages`
-
-Frontend note:
-
-- Blade renders the page shell
-- React manages the chat interface and conversation history
-- AI responses can be rendered as markdown in the frontend
-
-### Activity logs
-
-Route:
-
-- `GET /activity`
-
-Controller:
-
-- `ActivityLogController`
-
-Purpose:
-
-- show recent workflow events across the system
-- help users understand what changed recently
-
-Reads from:
-
-- `activity_logs`
-- `users`
-
-Writes to:
-
-- none
-
-### Topics
-
-Routes:
+### Routes
 
 - `GET /topics`
 - `GET /topics/{topic}`
@@ -159,286 +66,155 @@ Routes:
 - `PUT /topics/{topic}`
 - `DELETE /topics/{topic}`
 
-Controller:
+### Controller
 
 - `TopicController`
 
-Purpose:
-
-- browse topics
-- search and filter topics
-- create and update topic information
-- assign lecturer ownership
-- maintain category, semester, capacity, difficulty, and expected outcomes
-
-Reads from:
+### Bảng liên quan
 
 - `topics`
 - `users`
 - `registrations`
 - `activity_logs`
 
-Writes to:
+### Chức năng
 
-- `topics`
-- `activity_logs`
+- xem danh sách topic
+- lọc topic
+- tạo topic
+- sửa topic
+- xoá topic
+- xem topic detail
 
-### Printable topic summary
+## 5. Đăng ký topic
 
-Route:
-
-- `GET /topics/{topic}/summary`
-
-Controller:
-
-- `ExportController`
-
-Purpose:
-
-- show a print-friendly topic summary page
-
-Reads from:
-
-- `topics`
-- `registrations`
-- `submissions`
-- `presentations`
-- `scores`
-- `users`
-
-Writes to:
-
-- none
-
-### Registrations
-
-Routes:
+### Routes
 
 - `POST /topics/{topic}/register`
 - `PATCH /registrations/{registration}/status`
 
-Controller:
+### Controller
 
 - `RegistrationController`
 
-Purpose:
+### Bảng liên quan
 
-- create a student registration
-- approve or reject a registration
-
-Reads from:
-
+- `registrations`
 - `topics`
 - `users`
-- `registrations`
-
-Writes to:
-
-- `registrations`
 - `activity_logs`
 
-Typical status transitions:
+### Ý nghĩa
 
-- `pending` -> `approved`
-- `pending` -> `rejected`
+- student tạo registration
+- lecturer/admin đổi trạng thái `pending`, `approved`, `rejected`
 
-### Submissions
+## 6. Upload và review báo cáo
 
-Routes:
+### Routes
 
 - `POST /registrations/{registration}/submission`
 - `DELETE /submissions/{submission}`
 - `GET /submissions/{submission}/download`
 - `PATCH /submissions/{submission}/review`
 
-Controller:
+### Controller
 
 - `SubmissionController`
 
-Purpose:
+### Bảng liên quan
 
-- upload seminar report
-- review seminar report and leave feedback
-- delete seminar report
-- download seminar report
-
-Reads from:
-
+- `submissions`
 - `registrations`
-- `submissions`
-
-Writes to:
-
-- `submissions`
+- `users`
 - `activity_logs`
-- file storage
 
-### Presentations
+## 7. Lên lịch bảo vệ
 
-Routes:
+### Routes
 
 - `GET /registrations/{registration}/presentation/create`
 - `POST /registrations/{registration}/presentation`
 - `GET /presentations/{presentation}/edit`
 - `PUT /presentations/{presentation}`
 
-Controller:
+### Controller
 
 - `PresentationController`
 
-Purpose:
+### Bảng liên quan
 
-- create or edit a seminar schedule
-
-Reads from:
-
+- `presentations`
 - `registrations`
-- `presentations`
+- `activity_logs`
 
-Writes to:
+## 8. Chấm điểm
 
-- `presentations`
-
-### Scores
-
-Routes:
+### Routes
 
 - `POST /registrations/{registration}/score`
 - `PUT /scores/{score}`
 
-Controller:
+### Controller
 
 - `ScoreController`
 
-Purpose:
-
-- create or update final seminar score and comment
-
-Reads from:
-
-- `registrations`
-- `scores`
-
-Writes to:
+### Bảng liên quan
 
 - `scores`
-
-### User management
-
-Routes:
-
-- `GET /users`
-- `GET /users/create`
-- `POST /users`
-- `GET /users/{user}/edit`
-- `PUT /users/{user}`
-- `DELETE /users/{user}`
-
-Controller:
-
-- `UserManagementController`
-
-Purpose:
-
-- admin-only user management
-- maintain academic profile fields such as department, student code, and cohort
-
-Reads from:
-
-- `users`
-
-Writes to:
-
-- `users`
-
-## Flow Mapping by Use Case
-
-### Student journey
-
-1. `GET /login`
-2. `POST /login`
-3. `GET /topics`
-4. `GET /topics/{topic}`
-5. `POST /topics/{topic}/register`
-6. `POST /registrations/{registration}/submission`
-7. `PATCH /submissions/{submission}/review`
-7. `GET /dashboard`
-
-Tables touched:
-
-- `users`
-- `sessions`
-- `topics`
 - `registrations`
-- `submissions`
 - `activity_logs`
 
-### Lecturer journey
+## 9. Activity logs
 
-1. `POST /login`
-2. `GET /topics/create`
-3. `POST /topics`
-4. `PATCH /registrations/{registration}/status`
-5. `PATCH /submissions/{submission}/review`
-6. `POST /registrations/{registration}/presentation`
-7. `POST /registrations/{registration}/score`
-8. `GET /topics/{topic}/summary`
+### Route
 
-Tables touched:
+- `GET /activity`
 
+### Controller
+
+- `ActivityLogController`
+
+### Bảng liên quan
+
+- `activity_logs`
 - `users`
-- `sessions`
+
+## 10. AI chat
+
+### Routes
+
+- `GET /ai-chat`
+- `POST /ai-chat`
+- `POST /ai-chat/conversations`
+- `GET /ai-chat/conversations/{conversation}`
+
+### Controller
+
+- `AiChatController`
+
+### Bảng liên quan
+
+- `ai_chat_conversations`
+- `ai_chat_messages`
+- `users`
 - `topics`
 - `registrations`
 - `presentations`
 - `scores`
 - `activity_logs`
 
-### Admin journey
+## 11. Tóm tắt để nhớ
 
-1. `POST /login`
-2. `GET /dashboard`
-3. `GET /users`
-4. `POST /users`
-5. `PUT /users/{user}`
-6. `DELETE /users/{user}`
+| Nhóm route | Controller | Bảng chính |
+|---|---|---|
+| Login | `AuthController` | `users`, `sessions` |
+| Dashboard | `DashboardController` | nhiều bảng |
+| Topics | `TopicController` | `topics` |
+| Registrations | `RegistrationController` | `registrations` |
+| Submissions | `SubmissionController` | `submissions` |
+| Presentations | `PresentationController` | `presentations` |
+| Scores | `ScoreController` | `scores` |
+| Activity | `ActivityLogController` | `activity_logs` |
+| AI chat | `AiChatController` | `ai_chat_*` |
 
-Tables touched:
-
-- `users`
-- `sessions`
-- dashboard read queries across seminar tables
-
-## Route Security Summary
-
-### Public
-
-- login only
-
-### Student-only actions
-
-- register for a topic
-- upload a submission
-- read your own activity log entries
-
-### Lecturer and admin actions
-
-- create and edit topics
-- approve registrations
-- review report submissions
-- schedule presentations
-- assign scores
-- open printable summary
-- view activity timeline
-
-### Admin-only actions
-
-- manage users
-
-## Simple Request Lifecycle
-
-```text
-Browser -> web route -> middleware -> controller -> model/database -> redirect/view
-```
-
-This is the main request pattern across the project.

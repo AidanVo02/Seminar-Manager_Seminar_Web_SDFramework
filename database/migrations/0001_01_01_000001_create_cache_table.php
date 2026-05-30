@@ -1,5 +1,7 @@
 <?php
 
+// Standard Laravel cache table used when cache is stored in the database.
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

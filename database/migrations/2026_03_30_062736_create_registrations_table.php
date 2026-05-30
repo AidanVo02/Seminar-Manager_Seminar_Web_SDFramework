@@ -1,5 +1,7 @@
 <?php
 
+// Registration table is the hub of the seminar workflow.
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

@@ -1,5 +1,7 @@
 <?php
 
+// Base Laravel user table plus role and academic metadata used by the demo.
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

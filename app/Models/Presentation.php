@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Presentation extends Model
 {
+    // Presentation lưu ngày bảo vệ và phòng bảo vệ.
     protected $fillable = [
         'registration_id',
         'scheduled_at',
@@ -22,6 +23,7 @@ class Presentation extends Model
 
     public function registration(): BelongsTo
     {
+        // Presentation thuộc về một registration đã được duyệt.
         return $this->belongsTo(Registration::class);
     }
 }

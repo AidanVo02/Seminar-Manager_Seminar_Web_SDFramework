@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EnsureUserHasRole
 {
+    // Bộ chặn vai trò đơn giản dùng cho route middleware.
     public function handle(Request $request, Closure $next, string ...$roles): Response
     {
         $user = $request->user();

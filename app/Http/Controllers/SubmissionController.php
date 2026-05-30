@@ -13,23 +13,28 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class SubmissionController extends Controller
 {
+    // Mỗi đăng ký chỉ có một báo cáo; các bản nộp lại được theo dõi bằng revision.
     public function store(Request $request, Registration $registration): RedirectResponse
     {
         $this->authorizeStudent($request, $registration);
 
+        // Validate file cơ bản để demo ổn định và an toàn.
         $data = $request->validate([
             'report' => ['required', 'file', 'mimes:pdf,doc,docx', 'max:10240'],
             'note' => ['nullable', 'string', 'max:1000'],
         ]);
 
+        // Xóa file cũ nếu đây là lần nộp thay thế.
         if ($registration->submission) {
             Storage::disk('local')->delete($registration->submission->file_path);
         }
 
+        // Số revision giúp lần nộp lại hiển thị rõ trên giao diện.
         $file = $data['report'];
         $path = $file->store('seminar-reports', 'local');
         $nextRevision = ($registration->submission?->revision_number ?? 0) + 1;
 
+        // updateOrCreate giữ submission luôn gắn với registration.
         $submission = $registration->submission()->updateOrCreate([], [
             'original_name' => $file->getClientOriginalName(),
             'file_path' => $path,
@@ -59,6 +64,7 @@ class SubmissionController extends Controller
         return back()->with('status', 'Report uploaded successfully.');
     }
 
+    // Tải xuống được phép cho sinh viên sở hữu, giảng viên hoặc admin.
     public function download(Request $request, Submission $submission): StreamedResponse
     {
         $registration = $submission->registration;
@@ -74,6 +80,7 @@ class SubmissionController extends Controller
         return Storage::disk('local')->download($submission->file_path, $submission->original_name);
     }
 
+    // Sinh viên có thể xóa báo cáo của chính mình; admin cũng quản lý được.
     public function destroy(Request $request, Submission $submission): RedirectResponse
     {
         $registration = $submission->registration;
@@ -105,6 +112,7 @@ class SubmissionController extends Controller
         return back()->with('status', 'Report deleted successfully.');
     }
 
+    // Luồng review của giảng viên/admin cập nhật trạng thái và ghi chú.
     public function review(Request $request, Submission $submission): RedirectResponse
     {
         $registration = $submission->registration()->with(['topic', 'student'])->firstOrFail();
@@ -143,6 +151,7 @@ class SubmissionController extends Controller
         return back()->with('status', 'Submission review saved successfully.');
     }
 
+    // Kiểm tra sinh viên giúp tránh ghi nhầm sang tài khoản khác.
     protected function authorizeStudent(Request $request, Registration $registration): void
     {
         $user = $request->user();
@@ -155,6 +164,7 @@ class SubmissionController extends Controller
         );
     }
 
+    // Metadata này được tái sử dụng cho log hoạt động.
     protected function activityContext(Registration $registration, array $extra = []): array
     {
         return array_merge([

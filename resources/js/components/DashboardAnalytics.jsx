@@ -29,6 +29,7 @@ function SummaryRow({ label, value, percent, color }) {
 }
 
 function SegmentCard({ title, eyebrow, description, items, colorMap, metricMode }) {
+    // Mỗi card là một panel analytics riêng trên dashboard.
     const total = useMemo(() => items.reduce((sum, item) => sum + item.value, 0), [items]);
 
     return (
@@ -63,6 +64,7 @@ function SegmentCard({ title, eyebrow, description, items, colorMap, metricMode 
 }
 
 function Leaderboard({ lecturers }) {
+    // Leaderboard giảng viên chỉ hiện khi dashboard đã có đủ dữ liệu.
     return (
         <section className="card spaced-card">
             <div className="section-head">
@@ -92,6 +94,7 @@ function Leaderboard({ lecturers }) {
 }
 
 function buildPalette(items, fallback) {
+    // Helper nhỏ để tạo màu category ổn định.
     return items.reduce((map, item, index) => {
         map[item.key] = fallback[index % fallback.length];
         return map;
@@ -99,6 +102,7 @@ function buildPalette(items, fallback) {
 }
 
 export default function DashboardAnalytics({ statusBreakdown, roleBreakdown, departmentBreakdown = [], categoryBreakdown = [], topLecturers, showLeaderboard }) {
+    // Người dùng có thể chuyển giữa chế độ đếm và phần trăm.
     const [metricMode, setMetricMode] = useState('count');
 
     const statusItems = [
@@ -113,6 +117,7 @@ export default function DashboardAnalytics({ statusBreakdown, roleBreakdown, dep
         { key: 'student', label: 'Student', value: roleBreakdown.student ?? 0 },
     ];
 
+    // Chuẩn hóa mảng từ Blade về đúng cấu trúc mà component cần.
     const departmentItems = departmentBreakdown.map((item) => ({
         key: item.label,
         label: item.label,

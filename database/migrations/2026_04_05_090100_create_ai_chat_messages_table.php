@@ -1,5 +1,7 @@
 <?php
 
+// AI chat messages store both user prompts and assistant replies.
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

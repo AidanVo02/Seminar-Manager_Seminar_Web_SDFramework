@@ -16,9 +16,11 @@ use RuntimeException;
 
 class AiChatController extends Controller
 {
+    // AI chat là tính năng hỗ trợ, không phải luồng nghiệp vụ chính.
     public function index(Request $request): View
     {
         $user = $request->user();
+        // Hội thoại gần đây giúp cảm giác chat được lưu lại giữa các phiên.
         $conversations = $user->aiChatConversations()->latest()->take(12)->get();
         $activeConversation = $conversations->first();
 
@@ -55,6 +57,7 @@ class AiChatController extends Controller
         ]);
     }
 
+    // store() xử lý cả request JSON lẫn submit form thông thường.
     public function store(Request $request, SeminarAiChat $chat): JsonResponse|RedirectResponse
     {
         $validated = $request->validate([
@@ -66,6 +69,7 @@ class AiChatController extends Controller
         $message = trim((string) ($validated['message'] ?? ''));
         $action = $validated['action'] ?? null;
 
+        // Từ chối input trống trước khi gọi AI.
         if ($message === '' && ! $action) {
             if ($request->expectsJson()) {
                 return response()->json([
@@ -78,6 +82,7 @@ class AiChatController extends Controller
 
         $rateLimitKey = 'ai-chat:' . $request->user()->id;
 
+        // Giới hạn tần suất giúp demo ổn định và tránh spam API.
         if (RateLimiter::tooManyAttempts($rateLimitKey, 12)) {
             return response()->json([
                 'message' => 'AI chat is receiving requests too quickly. Please wait a moment and try again.',
@@ -87,6 +92,7 @@ class AiChatController extends Controller
         try {
             $user = $request->user();
             $effectiveMessage = $this->resolveMessage($user, $message, $action);
+            // Tạo hội thoại tự động nếu người dùng chưa chọn hội thoại nào.
             $conversation = $user->aiChatConversations()->find($validated['conversation_id'] ?? 0);
 
             if (! $conversation) {
@@ -103,6 +109,7 @@ class AiChatController extends Controller
                 ],
             ]);
 
+            // SeminarAiChat chịu trách nhiệm sinh phản hồi thực tế.
             $result = $chat->reply(
                 $user,
                 $effectiveMessage,
@@ -176,6 +183,7 @@ class AiChatController extends Controller
         }
     }
 
+    // Tạo một luồng hội thoại trống cho frontend.
     public function createConversation(Request $request): JsonResponse
     {
         $conversation = $request->user()->aiChatConversations()->create([
@@ -199,6 +207,7 @@ class AiChatController extends Controller
         ], 201);
     }
 
+    // Trả về các tin nhắn đã lưu của một hội thoại.
     public function showConversation(Request $request, AiChatConversation $conversation): JsonResponse
     {
         abort_unless($conversation->user_id === $request->user()->id, 403);
@@ -217,6 +226,7 @@ class AiChatController extends Controller
         ]);
     }
 
+    // Quick action là lối tắt riêng theo vai trò để phục vụ demo.
     protected function quickActions($user): array
     {
         return collect($this->quickActionMap($user))
@@ -229,6 +239,7 @@ class AiChatController extends Controller
             ->all();
     }
 
+    // Ánh xạ shortcut theo vai trò để UI giữ phần hiển thị mỏng.
     protected function quickActionMap($user): array
     {
         $common = [
@@ -287,6 +298,7 @@ class AiChatController extends Controller
         return $common + $roleSpecific;
     }
 
+    // Nếu chọn quick action, nó sẽ được ghép vào prompt.
     protected function resolveMessage($user, string $message, ?string $action): string
     {
         if (! $action) {

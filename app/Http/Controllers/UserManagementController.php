@@ -12,6 +12,7 @@ use Illuminate\View\View;
 
 class UserManagementController extends Controller
 {
+    // Controller chỉ dành cho admin để quản trị người dùng.
     public function index(Request $request): View
     {
         $filters = $request->validate([
@@ -42,11 +43,13 @@ class UserManagementController extends Controller
         return view('users.index', compact('users', 'filters', 'departments'));
     }
 
+    // Tách riêng form create và edit để giao diện đơn giản hơn.
     public function create(): View
     {
         return view('users.create');
     }
 
+    // Store tạo tài khoản mới và ghi log thao tác.
     public function store(Request $request): RedirectResponse
     {
         $data = $this->validatedData($request, null, true);
@@ -77,6 +80,7 @@ class UserManagementController extends Controller
         return view('users.edit', compact('user'));
     }
 
+    // Update cho phép bỏ trống mật khẩu khi admin chỉ muốn sửa thông tin khác.
     public function update(Request $request, User $user): RedirectResponse
     {
         $data = $this->validatedData($request, $user, false);
@@ -102,6 +106,7 @@ class UserManagementController extends Controller
         return redirect()->route('users.index')->with('status', 'User updated successfully.');
     }
 
+    // Không cho xóa chính tài khoản đang đăng nhập để tránh khóa phiên.
     public function destroy(Request $request, User $user): RedirectResponse
     {
         abort_if($request->user()->is($user), 422, 'You cannot delete the currently signed-in account.');
@@ -126,6 +131,7 @@ class UserManagementController extends Controller
         return redirect()->route('users.index')->with('status', 'User deleted successfully.');
     }
 
+    // Bộ luật validation được chia sẻ cho create và update.
     protected function validatedData(Request $request, ?User $user, bool $requirePassword): array
     {
         $passwordRules = $requirePassword

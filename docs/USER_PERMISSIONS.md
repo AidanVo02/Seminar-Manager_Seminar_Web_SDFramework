@@ -1,162 +1,106 @@
-# User Permissions Guide
+# Quyền Người Dùng
 
-This document explains what each user role can do and what it cannot do in Seminar Manager.
+Tài liệu này giúp bạn hiểu từng vai trò được làm gì và không được làm gì trong hệ thống.
 
-## 1. Roles in the System
+## 1. Guest
 
-The application uses three main roles:
+Guest là người chưa đăng nhập.
 
-- `admin`
-- `lecturer`
-- `student`
+### Có thể làm
 
-These roles are enforced both in the UI and in the route middleware.
+- xem trang login
 
-## 2. Admin
+### Không thể làm
 
-### What Admin Can Do
+- mở dashboard
+- xem topic
+- đăng ký topic
+- upload báo cáo
+- dùng AI chat
+- quản lý user
 
-- log in and access the dashboard
-- view system-wide seminar statistics
-- manage all users
-- create, edit, and delete users
-- create seminar topics
-- edit seminar topics
-- delete seminar topics
-- assign a lecturer to a topic
-- approve or reject registrations
-- review report submissions
-- download any report for moderation or review
-- delete seminar reports as an admin maintenance action
-- request changes on submissions
-- schedule presentations
-- assign or update scores
-- view activity logs
-- open printable topic summaries
-- use AI chat
+## 2. Student
 
-### What Admin Cannot Do
+Student là người tham gia seminar.
 
-- register as a student for a topic
-- upload seminar reports as a student
-- act as the owner of a student submission workflow
-  - student-only upload and resubmission routes are protected by middleware
+### Có thể làm
 
-### Typical UI Access
+- xem danh sách topic
+- tìm kiếm và lọc topic
+- đăng ký topic mở
+- upload báo cáo
+- xem review note
+- nộp lại báo cáo
+- tải báo cáo của mình
+- xoá báo cáo của mình
+- xem lịch bảo vệ
+- xem điểm
+- dùng AI chat
 
-- dashboard
-- topics
-- user management
-- activity logs
-- AI chat
+### Không thể làm
+
+- tạo topic
+- duyệt đăng ký của người khác
+- lên lịch bảo vệ
+- chấm điểm
+- quản lý user
 
 ## 3. Lecturer
 
-### What Lecturer Can Do
+Lecturer là người hướng dẫn seminar.
 
-- log in and access the dashboard
-- create seminar topics
-- edit seminar topics
-- delete seminar topics
-- view the topics they supervise
-- approve or reject student registrations for their topics
-- review seminar reports
-- download reports for topics they supervise
-- request changes on a report
-- accept a report
-- schedule presentations
-- assign or update scores
-- open printable topic summaries
-- view activity logs for related workflow actions
-- use AI chat
+### Có thể làm
 
-### What Lecturer Cannot Do
+- tạo topic
+- chỉnh sửa topic mình phụ trách
+- xem topic detail
+- duyệt hoặc từ chối registration
+- review báo cáo
+- yêu cầu sửa
+- chấp nhận báo cáo
+- lên lịch bảo vệ
+- chấm điểm
+- xem activity logs liên quan
+- dùng AI chat
 
-- create or manage user accounts
-- act as a student registration owner
-- upload seminar reports as a student
-- access admin-only user management pages
+### Không thể làm
 
-### Typical UI Access
+- quản lý toàn bộ user
+- chỉnh sửa topic của lecturer khác
+- xoá dữ liệu ngoài phạm vi được phép
 
-- dashboard
-- topics
-- topic details
-- presentation forms
-- score forms
-- activity logs
-- AI chat
+## 4. Admin
 
-## 4. Student
+Admin là vai trò có quyền rộng nhất.
 
-### What Student Can Do
+### Có thể làm
 
-- log in and access the dashboard
-- browse topics
-- search and filter topics
-- view topic details
-- register for an open topic
-- upload a seminar report
-- replace or delete their own report
-- download their own report
-- resubmit after feedback
-- see review notes
-- see presentation schedule
-- see score and comment
-- use AI chat
+- quản lý user
+- tạo/sửa/xoá topic
+- duyệt đăng ký
+- review báo cáo
+- lên lịch bảo vệ
+- chấm điểm
+- xem toàn bộ dashboard
+- xem activity logs
+- dùng AI chat
 
-### What Student Cannot Do
+### Không thể làm
 
-- create or edit seminar topics
-- delete seminar topics
-- assign lecturers
-- approve or reject registrations
-- review other students' reports
-- schedule presentations
-- assign scores
-- manage users
-- access admin-only pages
+- bỏ qua đăng nhập
+- sửa code từ giao diện
 
-### Typical UI Access
+## 5. Tóm tắt ngắn
 
-- dashboard
-- topic list
-- topic detail
-- AI chat
+| Vai trò | Làm được | Không làm được |
+|---|---|---|
+| Guest | xem login | vào hệ thống |
+| Student | đăng ký, upload, xem kết quả | duyệt/chấm điểm |
+| Lecturer | quản lý seminar của mình | quản lý user toàn hệ thống |
+| Admin | làm hầu hết tác vụ | bỏ qua xác thực |
 
-## 5. Guest / Not Logged In
+## 6. Điểm cần nhớ khi thuyết trình
 
-### What a Guest Can Do
-
-- open the login page
-- submit login credentials
-
-### What a Guest Cannot Do
-
-- access the dashboard
-- open topics
-- use AI chat
-- manage topics or users
-- submit reports
-
-## 6. Route Protection Summary
-
-The project uses route-level protection so actions are not only hidden in the UI, but also blocked on the server.
-
-Examples:
-
-- `role:admin`
-- `role:lecturer,admin`
-- `role:student`
-
-This means the UI and backend both enforce the same business rules.
-
-## 7. Why This Matters
-
-This role design keeps the seminar workflow clear:
-
-- students only do student work
-- lecturers only do academic supervision work
-- admins oversee the whole system
-
-That makes the project easier to explain in class and safer in real use.
+- Quyền được kiểm soát bằng middleware và controller authorization.
+- Không phải mọi user đều thấy mọi action.
+- `registrations` là trung tâm của luồng xử lý, nên quyền thường xoay quanh registration.

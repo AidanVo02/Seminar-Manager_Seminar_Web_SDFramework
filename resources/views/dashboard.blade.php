@@ -5,6 +5,7 @@
 ])
 
 @section('content')
+    {{-- Dashboard intro area explains what the page is for. --}}
     <section class="page-intro">
         <div>
             <div class="kicker-nav">
@@ -23,6 +24,7 @@
         @endif
     </section>
 
+    {{-- Top stat cards summarize the current seminar state. --}}
     <section class="stat-grid">
         <article class="stat-card"><span>Topics</span><strong>{{ $stats['topics'] }}</strong></article>
         <article class="stat-card"><span>Students</span><strong>{{ $stats['students'] }}</strong></article>
@@ -31,6 +33,7 @@
         <article class="stat-card"><span>Open Slots</span><strong>{{ $stats['open_slots'] }}</strong></article>
     </section>
 
+    {{-- React analytics mounts here using Blade-passed JSON. --}}
     <div class="grid two">
         <div
             id="dashboard-analytics-root"
@@ -50,6 +53,7 @@
         </div>
     </div>
 
+    {{-- Lecturer leaderboard is hidden from students. --}}
     @if (! auth()->user()->isStudent())
         <section class="card spaced-card">
             <div class="section-head">
@@ -75,6 +79,7 @@
         </section>
     @endif
 
+    {{-- Recent topics and role-specific panels follow below. --}}
     <div class="grid two">
         <section class="card">
             <div class="section-head">
@@ -100,6 +105,7 @@
             </div>
         </section>
 
+        {{-- Student sees their own registrations and report actions. --}}
         @if (auth()->user()->isStudent())
             <section class="card">
                 <div class="section-head">
@@ -171,6 +177,7 @@
                 </div>
             </section>
         @else
+            {{-- Lecturer/admin sees pending approvals instead of student cards. --}}
             <section class="card">
                 <div class="section-head">
                     <div>
@@ -201,6 +208,7 @@
         @endif
     </div>
 
+    {{-- Activity log gives a timeline of important actions. --}}
     <section class="card spaced-card">
         <div class="section-head">
             <div>

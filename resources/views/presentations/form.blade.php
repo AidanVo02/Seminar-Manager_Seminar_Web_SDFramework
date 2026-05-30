@@ -5,6 +5,7 @@
 ])
 
 @section('content')
+    {{-- Presentation form only appears for approved registrations. --}}
     <section class="page-intro">
         <div>
             <div class="kicker-nav">
@@ -18,10 +19,11 @@
         <span class="badge approved">Approved registration</span>
     </section>
 
+    {{-- Reused schedule form for create and edit. --}}
     <section class="card form-shell">
         <div class="form-shell-copy">
             <span class="eyebrow">Presentation Planning</span>
-            <h2>{{ $registration->student->name }} · {{ $registration->topic->title }}</h2>
+            <h2>{{ $registration->student->name }} - {{ $registration->topic->title }}</h2>
             <p class="muted">Use this schedule card to prepare the presentation slot and keep the topic detail page aligned with the final seminar calendar.</p>
         </div>
 

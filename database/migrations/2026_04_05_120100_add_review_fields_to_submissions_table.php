@@ -1,5 +1,7 @@
 <?php
 
+// Adds lecturer review state and revision tracking to submissions.
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

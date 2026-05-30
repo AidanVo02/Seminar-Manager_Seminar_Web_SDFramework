@@ -1,260 +1,141 @@
-# Architecture Guide
+# Kiến Trúc Dự Án
 
-## High-Level Structure
+Tài liệu này giúp bạn hiểu các nhóm file code hoạt động như thế nào.
 
-The project follows a standard Laravel MVC structure:
+## 1. Kiến trúc tổng thể
 
-- `Models` represent the database entities
-- `Controllers` handle request logic
-- `Views` render the user interface with Blade templates
-- `Routes` map URLs to controller actions
-- `Migrations` define the database schema
-- `Seeders` provide demo data
+Dự án dùng kiến trúc Laravel truyền thống:
 
-On top of that Laravel structure, the dashboard includes a focused React module for interactive analytics.
+- `routes` -> định tuyến URL
+- `controllers` -> xử lý request
+- `models` -> mô tả quan hệ dữ liệu
+- `views` -> giao diện Blade
+- `support` -> các hàm/lớp dùng chung
+- `migrations` -> cấu trúc database
+- `seeders` -> dữ liệu demo
 
-## Application Layers
+Ngoài ra, dashboard và AI chat có phần React để tăng tính tương tác.
 
-### Presentation Layer
+## 2. Nhóm file quan trọng
 
-Main location:
-
-- `resources/views`
-- `resources/js`
-
-Purpose:
-
-- render login pages
-- render dashboards
-- render topic, user, and scheduling forms
-- show topic details, report status, and grading information
-
-Frontend strategy:
-
-- Blade handles the main page layout and most user interface screens
-- React mounts only into the dashboard analytics section
-- Vite bundles the JavaScript entry point when frontend assets are running
-
-Main layout:
-
-- `resources/views/layouts/app.blade.php`
-
-Main React files:
-
-- `resources/js/app.jsx`
-- `resources/js/components/DashboardAnalytics.jsx`
-
-### Routing Layer
-
-Main location:
+### Routes
 
 - `routes/web.php`
 
-Purpose:
+Nhiệm vụ:
 
-- define all web routes
-- apply authentication middleware
-- apply role-based middleware
-- connect routes to controllers
+- khai báo đường dẫn
+- gắn middleware
+- trỏ request tới controller
 
-Examples:
+### Controllers
 
-- topic CRUD routes
-- registration routes
-- submission routes
-- presentation routes
-- score routes
-- user management routes
-
-### Controller Layer
-
-Main location:
+Thư mục:
 
 - `app/Http/Controllers`
 
-Responsibilities:
+Nhiệm vụ:
 
+- nhận request
 - validate input
-- authorize actions
-- fetch related models
-- update records
-- redirect back with messages
+- kiểm tra quyền
+- đọc/ghi dữ liệu
+- trả view hoặc redirect
 
-Main controllers:
+### Models
 
-- `AuthController`
-- `AiChatController`
-- `DashboardController`
-- `TopicController`
-- `RegistrationController`
-- `SubmissionController`
-- `PresentationController`
-- `ScoreController`
-- `UserManagementController`
-- `ExportController`
-
-### Domain Layer
-
-Main location:
+Thư mục:
 
 - `app/Models`
 
-Purpose:
+Nhiệm vụ:
 
-- define entity relationships
-- expose Eloquent model behavior
-- support query loading in controllers and views
+- định nghĩa bảng dữ liệu
+- định nghĩa quan hệ
+- giúp query dễ hơn
 
-Main models:
+### Support classes
 
-- `AiChatConversation`
-- `AiChatMessage`
-- `User`
-- `Topic`
-- `Registration`
-- `Submission`
-- `Presentation`
-- `Score`
-
-### Support Layer
-
-Main location:
+Thư mục:
 
 - `app/Support`
 
-Current support class:
+Nhiệm vụ:
 
-- `SeminarNotifier`
-- `SeminarAiChat`
+- gom logic dùng chung
+- gửi mail
+- ghi log
+- xử lý AI chat
+- chứa cơ sở tri thức
 
-Purpose:
+### Views
 
-- centralize lightweight notification behavior
-- keep controller code cleaner
-- integrate seminar-aware AI responses through an external provider
+Thư mục:
 
-### Persistence Layer
+- `resources/views`
 
-Main location:
+Nhiệm vụ:
 
-- `database/migrations`
-- `database/seeders`
+- render UI
+- hiển thị form
+- hiển thị dashboard
+- hiển thị topic detail
+- hiển thị AI chat
 
-Purpose:
+### React
 
-- define schema
-- define foreign keys and unique constraints
-- seed demo accounts and sample data
+Thư mục:
 
-## Request Flow Example
+- `resources/js`
 
-### Student registration flow
+Nhiệm vụ:
 
-1. The user opens a topic page.
-2. A POST request is sent to the registration route.
-3. `RegistrationController@store` validates the action.
-4. A `registrations` record is created.
-5. The user is redirected with a status message.
+- dashboard analytics
+- giao diện AI chat
 
-### Report submission flow
+## 3. Luồng request
 
-1. A student uploads a file from the dashboard or topic page.
-2. The request reaches `SubmissionController@store`.
-3. The file is validated and stored.
-4. The `submissions` table is updated.
-5. A notification hook may run.
-6. The page redirects back with updated status.
+Ví dụ một user đăng ký topic:
 
-### Scoring flow
+1. Browser gửi request đến route.
+2. Route gọi controller.
+3. Controller validate và kiểm tra quyền.
+4. Controller đọc/ghi model.
+5. Model thao tác với database.
+6. Controller trả về view hoặc redirect.
 
-1. A lecturer submits a score form.
-2. The request reaches `ScoreController`.
-3. The controller validates score and comment.
-4. The `scores` table is created or updated.
-5. The student can then see the result in the UI.
+Đây là cách Laravel MVC hoạt động trong dự án này.
 
-### AI chat flow
+## 4. Vì sao registrations là trung tâm
 
-1. A user opens the AI chat page.
-2. React loads recent conversations from Blade bootstrap data.
-3. The user sends a message.
-4. `AiChatController@store` saves the user message.
-5. `SeminarAiChat` builds project and seminar context, then calls the AI provider.
-6. The assistant reply is saved to the same conversation.
-7. The user can reopen the conversation later.
+Trong hệ thống seminar, một registration kết nối:
 
-## Authorization Model
+- 1 student
+- 1 topic
 
-The project uses role-based access control.
+Sau đó mọi thứ khác bám vào registration:
 
-Role examples:
+- submission
+- presentation
+- score
 
-- `admin` can manage users and system-wide data
-- `lecturer` can manage topics and academic decisions
-- `student` can register and submit reports
+Nên `registrations` là điểm trung tâm của luồng xử lý.
 
-Middleware:
+## 5. Cách AI chat được gắn vào kiến trúc
 
-- authentication middleware protects private routes
-- custom role middleware limits actions to allowed roles
+AI chat không nằm ngoài hệ thống.
 
-Main middleware file:
+Nó đi theo cùng kiến trúc:
 
-- `app/Http/Middleware/EnsureUserHasRole.php`
+- `AiChatController` nhận request
+- `SeminarAiChat` tạo câu trả lời
+- `SeminarKnowledgeBase` cấp tri thức cục bộ
+- `AiChatConversation` và `AiChatMessage` lưu lịch sử
 
-## Data Design Principle
+Như vậy AI chat vẫn là một phần của Laravel app, không phải một hệ thống tách rời.
 
-The architecture treats `registrations` as the process center of the app.
+## 6. Ghi nhớ nhanh
 
-Why:
+Nếu bạn cần nói nhanh với giảng viên:
 
-- it links a student to a topic
-- it stores approval state
-- it connects submission, presentation, and score records
-
-Because of that, most academic process actions are built around one registration record.
-
-## UI Design Principle
-
-The UI is built for simple demonstration and classroom use:
-
-- straightforward navigation
-- role-aware actions
-- dashboard summaries
-- readable forms and tables
-
-This is not a complex design-system-heavy frontend. It is intentionally practical and easy to present.
-
-The React integration is intentionally small and purposeful:
-
-- it improves dashboard interactivity
-- it keeps the rest of the project easy to follow
-- it shows that Laravel can work with React without becoming a full SPA
-
-## Testing Strategy
-
-Current test coverage focuses on feature behavior instead of low-level unit logic.
-
-Included areas:
-
-- page access
-- AI chat behavior and access control
-- topic creation and filtering
-- submission workflow
-- user management behavior
-
-This is appropriate for a CRUD-heavy Laravel project where user flows matter more than isolated utility functions.
-
-## Suggested Reading Order
-
-If someone wants to understand the project quickly, this is the best order:
-
-1. `../README.md`
-2. `DATABASE.md`
-3. `routes/web.php`
-4. `app/Models`
-5. `app/Http/Controllers`
-6. `resources/views`
-7. `resources/js`
-
-That order moves from high-level overview to implementation detail.
+> Dự án dùng Laravel MVC truyền thống, trong đó routes điều hướng request, controllers xử lý nghiệp vụ, models làm việc với database, support classes gom logic dùng chung, còn React chỉ dùng ở các phần tương tác cao như dashboard và AI chat.

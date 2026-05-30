@@ -6,118 +6,119 @@ use Illuminate\Support\Str;
 
 class SeminarKnowledgeBase
 {
+    // contextBlock() được chèn vào prompt AI như một bộ thông tin dự án ổn định.
     public static function contextBlock(): string
     {
         return implode("\n", [
-            'Project knowledge base:',
-            '- Seminar Manager is a Laravel-based academic workflow app for university seminars.',
-            '- The frontend is a hybrid of Blade and React, with React used mainly for dashboard analytics and AI chat.',
-            '- The app supports three main roles: admin, lecturer, and student.',
-            '- The core entity is `registrations`, which links students to topics and drives submissions, presentations, and scores.',
-            '- The system includes topic management, registration approvals, report review, presentation scheduling, scoring, activity logs, and AI chat.',
-            '- The chatbot should answer in practical terms and avoid inventing records that are not in the database.',
+            'Cơ sở tri thức của dự án:',
+            '- Seminar Manager là ứng dụng Laravel phục vụ quy trình seminar học thuật trong môi trường đại học.',
+            '- Frontend dùng mô hình lai giữa Blade và React, trong đó React chủ yếu dùng cho dashboard analytics và AI chat.',
+            '- Ứng dụng hỗ trợ ba vai trò chính: admin, lecturer và student.',
+            '- Thực thể trung tâm là `registrations`, dùng để nối sinh viên với topic và kéo theo các phần submission, presentation và score.',
+            '- Hệ thống bao gồm quản lý topic, duyệt đăng ký, review báo cáo, lập lịch bảo vệ, chấm điểm, nhật ký hoạt động và AI chat.',
+            '- Chatbot phải trả lời theo hướng thực tế, không được bịa ra bản ghi không có trong database.',
         ]);
     }
 
+    // answerFor() ánh xạ từ khóa sang câu trả lời ngắn, dễ trình bày trên lớp.
     public static function answerFor(string $message, string $role): ?array
     {
         $lower = Str::of($message)->lower();
 
         $topics = [
             [
-                'keywords' => ['overview', 'project', 'seminar manager', 'what is this'],
-                'title' => 'Project overview',
+                'keywords' => ['overview', 'project', 'seminar manager', 'what is this', 'tổng quan', 'dự án', 'giới thiệu'],
+                'title' => 'Tổng quan dự án',
                 'bullets' => [
-                    '- Seminar Manager is a Laravel-based academic workflow app for university seminars.',
-                    '- It helps universities organize seminar topics, registrations, report submissions, presentations, and scores.',
-                    '- React is used mainly for dashboard analytics and AI chat.',
-                    '- It is built with Laravel and enhanced with React for interactive dashboard analytics and AI chat.',
-                    '- The app is designed to be easy to demo in class and realistic enough to explain an academic workflow.',
+                    '- Seminar Manager là ứng dụng Laravel dùng để mô phỏng quy trình seminar trong trường đại học.',
+                    '- Ứng dụng giúp quản lý topic, đăng ký, nộp báo cáo, bảo vệ và chấm điểm.',
+                    '- React được dùng chủ yếu cho dashboard analytics và AI chat để tăng tính tương tác.',
+                    '- Dự án được thiết kế để dễ demo trên lớp nhưng vẫn đủ thật để giải thích quy trình học thuật.',
                 ],
-                'closing' => 'If you want, I can also explain the database or the role permissions.',
+                'closing' => 'Nếu muốn, tôi có thể giải thích tiếp về database hoặc phân quyền người dùng.',
             ],
             [
-                'keywords' => ['database', 'schema', 'table', 'erd'],
-                'title' => 'Database knowledge',
+                'keywords' => ['database', 'schema', 'table', 'erd', 'cơ sở dữ liệu', 'bảng', 'sơ đồ'],
+                'title' => 'Kiến thức cơ sở dữ liệu',
                 'bullets' => [
-                    '- `users` stores admins, lecturers, and students.',
-                    '- `topics` stores seminar topics, including capacity, semester, category, and difficulty.',
-                    '- `registrations` is the central table that connects a student to a topic.',
-                    '- `submissions`, `presentations`, `scores`, and `activity_logs` all hang off the registration flow.',
+                    '- `users` lưu admin, lecturer và student.',
+                    '- `topics` lưu đề tài seminar, gồm capacity, semester, category và difficulty.',
+                    '- `registrations` là bảng trung tâm nối sinh viên với topic.',
+                    '- `submissions`, `presentations`, `scores` và `activity_logs` đều bám theo luồng registration.',
                 ],
-                'closing' => 'I can also walk through the table relationships in a simple step-by-step way.',
+                'closing' => 'Tôi cũng có thể giải thích quan hệ giữa các bảng theo từng bước thật ngắn gọn.',
             ],
             [
-                'keywords' => ['role', 'admin', 'lecturer', 'student', 'permissions'],
-                'title' => 'Role permissions',
+                'keywords' => ['role', 'admin', 'lecturer', 'student', 'permissions', 'quyền', 'phân quyền'],
+                'title' => 'Phân quyền người dùng',
                 'bullets' => [
-                    '- Admin manages users, topics, and overall system visibility.',
-                    '- Lecturer manages seminar topics, approves registrations, reviews reports, schedules presentations, and publishes scores.',
-                    '- Student registers for topics, uploads reports, follows feedback, and checks results.',
+                    '- Admin quản lý user, topic và có quyền nhìn toàn hệ thống.',
+                    '- Lecturer quản lý topic seminar, duyệt đăng ký, review báo cáo, lập lịch bảo vệ và công bố điểm.',
+                    '- Student đăng ký topic, upload báo cáo, theo dõi phản hồi và xem kết quả.',
                 ],
-                'closing' => 'The permissions are intentionally simple so the seminar demo stays clear.',
+                'closing' => 'Phân quyền được giữ đơn giản để bài seminar dễ hiểu và dễ demo.',
             ],
             [
-                'keywords' => ['registration', 'register', 'topic signup'],
-                'title' => 'Registration flow',
+                'keywords' => ['registration', 'register', 'topic signup', 'đăng ký'],
+                'title' => 'Luồng đăng ký',
                 'bullets' => [
-                    '- Student opens a topic detail page.',
-                    '- Student clicks register if the topic is open and has capacity.',
-                    '- Lecturer reviews the request and approves or rejects it.',
-                    '- Once approved, the registration becomes part of the seminar workflow.',
+                    '- Student mở trang chi tiết của topic.',
+                    '- Student bấm đăng ký nếu topic đang mở và còn chỗ.',
+                    '- Lecturer xem yêu cầu và duyệt hoặc từ chối.',
+                    '- Khi đã duyệt, registration trở thành một phần của workflow seminar.',
                 ],
-                'closing' => 'This is the main workflow the demo follows from start to finish.',
+                'closing' => 'Đây là luồng chính mà demo đi từ đầu đến cuối.',
             ],
             [
-                'keywords' => ['report', 'submission', 'review', 'resubmit', 'revision'],
-                'title' => 'Report review flow',
+                'keywords' => ['report', 'submission', 'review', 'resubmit', 'revision', 'báo cáo', 'nộp lại', 'phản hồi'],
+                'title' => 'Luồng review báo cáo',
                 'bullets' => [
-                    '- Student uploads a PDF, DOC, or DOCX report.',
-                    '- Lecturer can accept the submission or request changes with a review note.',
-                    '- If changes are requested, the student can resubmit a newer revision.',
-                    '- Each revision is tracked so the history is easy to follow.',
+                    '- Student upload báo cáo PDF, DOC hoặc DOCX.',
+                    '- Lecturer có thể chấp nhận submission hoặc yêu cầu chỉnh sửa kèm ghi chú.',
+                    '- Nếu bị yêu cầu chỉnh sửa, student có thể nộp lại bản mới.',
+                    '- Mỗi revision đều được theo dõi để lịch sử rõ ràng.',
                 ],
-                'closing' => 'That gives the project a more realistic academic feedback loop.',
+                'closing' => 'Nhờ vậy project có vòng phản hồi học thuật giống quy trình thật.',
             ],
             [
-                'keywords' => ['score', 'grading', 'grade', 'marks'],
-                'title' => 'Scoring flow',
+                'keywords' => ['score', 'grading', 'grade', 'marks', 'điểm', 'chấm điểm'],
+                'title' => 'Luồng chấm điểm',
                 'bullets' => [
-                    '- Lecturer enters a score from 0 to 10.',
-                    '- A comment can be stored with the score.',
-                    '- The result is visible to the student from the dashboard and topic detail page.',
+                    '- Lecturer nhập điểm từ 0 đến 10.',
+                    '- Có thể ghi thêm nhận xét kèm điểm.',
+                    '- Kết quả hiển thị lại cho student ở dashboard và topic detail.',
                 ],
-                'closing' => 'The score is tied to the registration, so it stays connected to the student workflow.',
+                'closing' => 'Điểm được gắn với registration nên luôn đi cùng workflow của sinh viên.',
             ],
             [
-                'keywords' => ['dashboard', 'analytics', 'chart', 'stats'],
-                'title' => 'Dashboard analytics',
+                'keywords' => ['dashboard', 'analytics', 'chart', 'stats', 'bảng điều khiển', 'biểu đồ', 'thống kê'],
+                'title' => 'Phân tích dashboard',
                 'bullets' => [
-                    '- Laravel renders the main app shell and data.',
-                    '- React renders the interactive analytics panel.',
-                    '- The dashboard can show registration status, role distribution, department breakdown, and topic category insights.',
+                    '- Laravel render khung app và dữ liệu chính.',
+                    '- React render panel analytics tương tác.',
+                    '- Dashboard có thể hiển thị trạng thái đăng ký, phân bố vai trò, phân bố khoa/phòng và phân bố category đề tài.',
                 ],
-                'closing' => 'This is the best place to show the Laravel plus React hybrid design.',
+                'closing' => 'Đây là phần phù hợp nhất để minh họa kiến trúc Laravel + React lai.',
             ],
             [
-                'keywords' => ['ai chat', 'chatbot', 'assistant', 'openai', 'gpt'],
-                'title' => 'AI chat assistant',
+                'keywords' => ['ai chat', 'chatbot', 'assistant', 'openai', 'gpt', 'trợ lý', 'hỏi đáp'],
+                'title' => 'Trợ lý AI',
                 'bullets' => [
-                    '- The AI chat can run in OpenAI mode when an API key is configured.',
-                    '- It also has a local demo mode so the app still works without external access.',
-                    '- Saved conversations belong to each user, so the assistant can keep context.',
+                    '- AI chat có thể chạy ở chế độ OpenAI nếu cấu hình API key.',
+                    '- Nó cũng có chế độ demo cục bộ nên app vẫn hoạt động khi không có kết nối ngoài.',
+                    '- Các conversation đã lưu thuộc về từng người dùng nên trợ lý có thể giữ ngữ cảnh.',
                 ],
-                'closing' => 'This makes the demo stable for class presentations and offline testing.',
+                'closing' => 'Điều này giúp demo ổn định ngay cả khi thuyết trình trong lớp hoặc test offline.',
             ],
             [
-                'keywords' => ['deployment', 'run', 'install', 'setup'],
-                'title' => 'Run and deploy',
+                'keywords' => ['deployment', 'run', 'install', 'setup', 'chạy', 'cài đặt', 'triển khai'],
+                'title' => 'Chạy và triển khai',
                 'bullets' => [
-                    '- Install Composer dependencies and NPM dependencies.',
-                    '- Run migrations and seed the demo data.',
-                    '- Start Laravel and Vite for the hybrid UI.',
+                    '- Cài Composer dependencies và NPM dependencies.',
+                    '- Chạy migration và seed dữ liệu demo.',
+                    '- Khởi động Laravel và Vite cho giao diện lai.',
                 ],
-                'closing' => 'I can also give you a quick demo checklist if you need it.',
+                'closing' => 'Tôi cũng có thể đưa checklist demo nhanh nếu bạn cần.',
             ],
         ];
 
@@ -135,28 +136,28 @@ class SeminarKnowledgeBase
 
         $roleTopic = match ($role) {
             'student' => [
-                'title' => 'Student guidance',
+                'title' => 'Hướng dẫn cho student',
                 'bullets' => [
-                    '- You can ask about registration, reports, feedback, presentations, and scores.',
-                    '- The assistant can summarize your current workflow in simple terms.',
+                    '- Bạn có thể hỏi về đăng ký, báo cáo, phản hồi, lịch bảo vệ và điểm.',
+                    '- Trợ lý có thể tóm tắt workflow hiện tại của bạn bằng ngôn ngữ đơn giản.',
                 ],
-                'closing' => 'Try asking: "What should I do after I register for a topic?"',
+                'closing' => 'Hãy thử hỏi: "Sau khi đăng ký topic thì tôi cần làm gì tiếp theo?"',
             ],
             'lecturer' => [
-                'title' => 'Lecturer guidance',
+                'title' => 'Hướng dẫn cho lecturer',
                 'bullets' => [
-                    '- You can ask about approvals, report review, presentation planning, and grading.',
-                    '- The assistant can explain how lecturer actions affect the workflow.',
+                    '- Bạn có thể hỏi về duyệt đăng ký, review báo cáo, lên lịch và chấm điểm.',
+                    '- Trợ lý có thể giải thích cách hành động của lecturer ảnh hưởng đến workflow.',
                 ],
-                'closing' => 'Try asking: "Show me the lecturer workflow for seminar approval."',
+                'closing' => 'Hãy thử hỏi: "Cho tôi xem workflow của lecturer trong seminar."',
             ],
             'admin' => [
-                'title' => 'Admin guidance',
+                'title' => 'Hướng dẫn cho admin',
                 'bullets' => [
-                    '- You can ask about users, analytics, topic management, and system overview.',
-                    '- The assistant can explain how the admin role supports the full system.',
+                    '- Bạn có thể hỏi về user, analytics, quản lý topic và tổng quan hệ thống.',
+                    '- Trợ lý có thể giải thích cách vai trò admin hỗ trợ toàn bộ hệ thống.',
                 ],
-                'closing' => 'Try asking: "Summarize the whole project structure for me."',
+                'closing' => 'Hãy thử hỏi: "Tóm tắt cấu trúc toàn bộ dự án cho tôi."',
             ],
             default => null,
         };

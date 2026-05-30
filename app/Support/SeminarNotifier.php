@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 
 class SeminarNotifier
 {
+    // Mail helpers keep workflow notifications in one place.
     public static function registrationSubmitted(Registration $registration): void
     {
         $topic = $registration->topic;

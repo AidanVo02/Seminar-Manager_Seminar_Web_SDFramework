@@ -1,5 +1,7 @@
 <?php
 
+// Submission table stores uploaded reports and the review lifecycle.
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

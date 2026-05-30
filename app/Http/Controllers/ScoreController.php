@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 
 class ScoreController extends Controller
 {
+    // Chấm điểm cuối cùng phải gắn với một registration đã được duyệt.
     public function store(Request $request, Registration $registration): RedirectResponse
     {
         $this->authorizeAccess($request, $registration);
@@ -40,6 +41,7 @@ class ScoreController extends Controller
         return redirect()->route('topics.show', $registration->topic)->with('status', 'Seminar score saved successfully.');
     }
 
+    // Update cho phép giảng viên/admin sửa lại điểm cuối cùng.
     public function update(Request $request, Score $score): RedirectResponse
     {
         $this->authorizeAccess($request, $score->registration);
@@ -69,6 +71,7 @@ class ScoreController extends Controller
         return redirect()->route('topics.show', $score->registration->topic)->with('status', 'Seminar score updated successfully.');
     }
 
+    // Chỉ admin hoặc giảng viên phụ trách topic mới được công bố điểm.
     protected function authorizeAccess(Request $request, Registration $registration): void
     {
         $user = $request->user();

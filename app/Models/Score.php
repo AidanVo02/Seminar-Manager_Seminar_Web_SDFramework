@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Score extends Model
 {
+    // Score lưu kết quả đánh giá cuối cùng của một registration.
     protected $fillable = [
         'registration_id',
         'score',
@@ -15,6 +16,7 @@ class Score extends Model
 
     public function registration(): BelongsTo
     {
+        // Score thuộc về registration seminar.
         return $this->belongsTo(Registration::class);
     }
 }

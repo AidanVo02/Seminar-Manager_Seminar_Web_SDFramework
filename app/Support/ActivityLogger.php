@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ActivityLogger
 {
+    // Helper audit dùng chung để controller ghi log đồng nhất.
     public static function log(?User $user, string $action, string $description, ?Model $subject = null, array $metadata = []): ActivityLog
     {
         return ActivityLog::create([

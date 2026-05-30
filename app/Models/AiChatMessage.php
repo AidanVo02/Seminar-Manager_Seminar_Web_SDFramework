@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class AiChatMessage extends Model
 {
+    // Message lưu một lượt trao đổi của người dùng hoặc trợ lý.
     protected $fillable = [
         'conversation_id',
         'role',
@@ -24,6 +25,7 @@ class AiChatMessage extends Model
 
     public function conversation(): BelongsTo
     {
+        // Hội thoại cha sở hữu tin nhắn này.
         return $this->belongsTo(AiChatConversation::class, 'conversation_id');
     }
 }

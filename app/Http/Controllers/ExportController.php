@@ -8,6 +8,7 @@ use Illuminate\View\View;
 
 class ExportController extends Controller
 {
+    // Bản tóm tắt in ra là tiện ích cho giảng viên/admin.
     public function topicSummary(Request $request, Topic $topic): View
     {
         $user = $request->user();

@@ -1,266 +1,101 @@
-﻿# Seminar Manager
+# Seminar Manager
 
-A Laravel-based student seminar management system built for classroom seminar/demo use. The project showcases a complete seminar workflow with topic management, student registration, report submission, presentation scheduling, grading, analytics, and admin user management.
+Seminar Manager là một Laravel demo project cho quy trình seminar trong môi trường học thuật.
 
-## Documentation
+Project này được dùng để:
 
-Detailed project documentation is available in these files:
+- minh hoạ cách tổ chức một workflow seminar
+- làm bối cảnh thực tế để tìm hiểu Laravel Boost
+- trình diễn cấu trúc Laravel, database, phân quyền và AI chat
 
-- `docs/DOCUMENTATION_INDEX.md` - entry point for the full documentation pack
-- `docs/SEMINAR_PROJECT_PACK.md` - compact but detailed project summary for seminar use
-- `docs/PROJECT_DEEP_DIVE.md` - one-file deep dive for the whole project
-- `docs/USER_PERMISSIONS.md` - what each user role can and cannot do
-- `docs/PROJECT_OVERVIEW.md` - business context, goals, roles, and use cases
-- `docs/DATABASE.md` - database explanation, relationships, and ERD
-- `docs/ARCHITECTURE.md` - Laravel structure and application layers
-- `docs/LARAVEL_BOOST_ARCHITECTURE.md` - architecture guide focused on Laravel Boost and AI context
-- `docs/LARAVEL_BOOST_SEMINAR_GUIDE.md` - presentation-ready Laravel Boost guide
-- `docs/API_FLOW.md` - route flow and database impact by feature
-- `docs/SEMINAR_SCRIPT.md` - ready-to-use seminar presentation script
-- `docs/LECTURER_PRESENTATION.md` - presentation outline for the lecturer
-- `docs/DEPLOYMENT.md` - setup and deployment guide
-- `docs/AI_KNOWLEDGE_BASE.md` - curated knowledge base used by the AI chat assistant
-- `docs/README-DEMO.md` - quick demo guide
+## Tài liệu
 
-## Features
+Điểm bắt đầu tốt nhất:
 
-- Role-based authentication for `admin`, `lecturer`, and `student`
-- Seminar topic CRUD
-- Topic search and filtering
-- Academic metadata for users and topics
-- Lecturer assignment for topics
-- Student topic registration
-- Report upload, review, resubmission, download, replacement, and deletion
-- Registration approval and rejection workflow
-- Presentation scheduling
-- Scoring and feedback
-- Activity logs for key seminar actions
-- Dashboard analytics
-- Department and category breakdown analytics
-- AI chat assistant for seminar and project guidance with quick actions, markdown replies, and rate limiting
-- AI chat assistant grounded by a curated project knowledge base
-- Admin user management
-- Printable topic summary page for browser PDF export
-- Notification hooks using Laravel mail
+- `docs/DOCUMENTATION_INDEX.md`
 
-## Tech Stack
+Các file quan trọng nhất:
+
+- `docs/README-DEMO.md` - cách chạy demo
+- `docs/PROJECT_OVERVIEW.md` - tổng quan dự án
+- `docs/ARCHITECTURE.md` - kiến trúc code
+- `docs/DATABASE.md` - cấu trúc dữ liệu
+- `docs/USER_PERMISSIONS.md` - quyền user
+- `docs/API_FLOW.md` - luồng route và dữ liệu
+- `docs/BOOST_CODE_TOUR.md` - hướng dẫn đọc code về Laravel Boost
+- `docs/LARAVEL_BOOST_SEMINAR_GUIDE.md` - hướng dẫn thuyết trình Laravel Boost
+- `docs/LECTURER_PRESENTATION.md` - bài nói cho giảng viên
+- `docs/AI_KNOWLEDGE_BASE.md` - knowledge base cho AI chat
+- `docs/DEPLOYMENT.md` - chạy và triển khai
+
+## Chức năng chính
+
+- đăng nhập theo role `admin`, `lecturer`, `student`
+- quản lý topic seminar
+- student đăng ký topic
+- upload và review báo cáo
+- lên lịch bảo vệ
+- chấm điểm
+- activity logs
+- dashboard analytics
+- AI chat
+- admin user management
+- trang tóm tắt topic để in
+
+## Tech stack
 
 - Laravel 13
 - PHP 8.4
-- Blade templates
-- React for interactive dashboard analytics
-- SQL Server for the current local/demo setup
+- Blade
+- React cho dashboard analytics và AI chat
+- SQL Server cho môi trường local hiện tại
 - PHPUnit feature tests
 
-## Project Structure
+## Cấu trúc code
 
-- `app/Http/Controllers` - application controllers
-- `app/Models` - Eloquent models
-- `app/Support/SeminarNotifier.php` - lightweight notification service
-- `app/Support/SeminarAiChat.php` - AI chat integration service
-- `app/Support/SeminarKnowledgeBase.php` - curated facts used by the AI assistant
-- `resources/views` - Blade UI
-- `resources/js` - React-enhanced frontend modules
-- `database/migrations` - schema definition
-- `database/seeders` - demo data setup
-- `tests/Feature` - project behavior tests
-- `docs/PROJECT_OVERVIEW.md` - project description and business context
-- `docs/PROJECT_DEEP_DIVE.md` - one-file deep dive for the whole system
-- `docs/DATABASE.md` - database explanation and relationship guide
-- `docs/ARCHITECTURE.md` - system architecture notes
-- `docs/API_FLOW.md` - route and request flow guide
-- `docs/LARAVEL_BOOST_SEMINAR_GUIDE.md` - seminar-ready Laravel Boost notes
-- `docs/SEMINAR_SCRIPT.md` - presentation speaking script
-- `docs/LECTURER_PRESENTATION.md` - lecturer-facing presentation outline
-- `docs/DEPLOYMENT.md` - deployment and production checklist
-- `docs/AI_KNOWLEDGE_BASE.md` - chatbot knowledge base reference
+- `app/Http/Controllers` - xử lý request
+- `app/Models` - quan hệ dữ liệu
+- `app/Support` - logic dùng chung
+- `resources/views` - giao diện Blade
+- `resources/js` - phần React
+- `database/migrations` - schema
+- `database/seeders` - dữ liệu demo
 
-## Core Workflow
+## Workflow ngắn
 
-The main seminar flow in the system is:
+1. Lecturer tạo topic.
+2. Student đăng ký topic.
+3. Lecturer duyệt hoặc từ chối.
+4. Student upload báo cáo.
+5. Lecturer review báo cáo.
+6. Student nộp lại nếu cần.
+7. Lecturer lên lịch bảo vệ.
+8. Lecturer chấm điểm.
 
-1. Lecturer creates a topic.
-2. Student registers for the topic.
-3. Lecturer approves or rejects the registration.
-4. Student uploads the seminar report.
-5. Lecturer reviews the report, accepts it, or requests changes.
-6. Student resubmits if needed.
-7. Lecturer schedules the presentation.
-8. Lecturer publishes the score and comment.
-
-The newer showcase data model also helps the app feel more like a real university portal:
-
-- users can include department, student code, and cohort
-- topics can include category, semester, capacity, difficulty, and expected outcomes
-- dashboard analytics now surface department and category distribution
-
-The central database table in this workflow is `registrations`, because it connects the student, topic, submission, presentation, and score records.
-
-## Role Permissions
-
-### Admin
-
-- manage users
-- access full dashboard data
-- manage seminar records across the system
-
-### Lecturer
-
-- create and manage topics
-- review registrations
-- review report submissions and request changes
-- schedule presentations
-- assign scores and comments
-
-### Student
-
-- browse topics
-- register for topics
-- upload reports and resubmit after feedback
-- review schedule and grading results
-- read lecturer review notes
-
-## Demo Accounts
-
-Use these seeded accounts after running migrations and seeders:
+## Demo account
 
 - Admin: `admin@seminar.test` / `password`
 - Lecturer: `lecturer@seminar.test` / `password`
-- Lecturer 2: `lecturer2@seminar.test` / `password`
-- Lecturer 3: `lecturer3@seminar.test` / `password`
 - Student 1: `student1@seminar.test` / `password`
 - Student 2: `student2@seminar.test` / `password`
-- Student 3: `student3@seminar.test` / `password`
-- Student 4: `student4@seminar.test` / `password`
-- Student 5: `student5@seminar.test` / `password`
 
-## Local Setup
-
-### 1. Install dependencies
+## Chạy project nhanh
 
 ```bash
 composer install
-```
-
-### 2. Prepare environment
-
-```bash
-copy .env.example .env
-php artisan key:generate
-```
-
-Add your AI credentials if you want to use the built-in assistant:
-
-```bash
-OPENAI_API_KEY=your_key_here
-OPENAI_MODEL=gpt-4.1-mini
-```
-
-### 3. Run database setup
-
-```bash
-php artisan migrate:fresh --seed
-```
-
-If you are using the SQL Server setup from this repository, make sure your `.env` points to:
-
-- `DB_CONNECTION=sqlsrv`
-- `DB_HOST=localhost`
-- `DB_DATABASE=seminar_manager`
-- `DB_USERNAME=` for Windows Authentication
-- `DB_PASSWORD=` for Windows Authentication
-
-### 4. Start the development server
-
-```bash
 npm install
+php artisan migrate:fresh --seed
 npm run dev
 php artisan serve
 ```
 
-Open:
+Mở:
 
 - `http://127.0.0.1:8000`
 
-## Windows Notes
+## Ghi chú
 
-This project is configured to work around Windows path issues on this machine:
+- Nếu không có `OPENAI_API_KEY`, AI chat vẫn chạy ở local demo mode.
+- Nếu frontend React chưa chạy, Laravel vẫn hoạt động.
+- Nếu cần reset dữ liệu, chạy lại `php artisan migrate:fresh --seed`.
 
-- SQL Server is the current local database
-- Compiled Blade views are stored in a temp folder
-- Frontend assets are optional at runtime, so the app still works in tests or before a Vite build finishes
-- On some Windows setups, Vite/Tailwind native binaries may be sensitive to special characters in the folder path
-
-If you move the project to another machine, review your `.env` settings for:
-
-- `DB_DATABASE`
-- `VIEW_COMPILED_PATH`
-
-## Testing
-
-Run the test suite with:
-
-```bash
-php artisan test
-```
-
-Current coverage includes:
-
-- login page access
-- dashboard access
-- AI chat page and endpoint
-- report upload/review/resubmission flow
-- AI quick actions and rate limiting
-- topic creation and filtering
-- printable summary access
-- admin user management access
-
-## GitHub Preparation
-
-This project is ready to be uploaded to GitHub with the current `.gitignore`.
-
-Ignored by default:
-
-- `.env`
-- `vendor/`
-- `node_modules/`
-- `public/build`
-- runtime storage files
-
-Recommended GitHub workflow:
-
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-```
-
-Then create a new repository on GitHub and connect it:
-
-```bash
-git remote add origin <your-repo-url>
-git branch -M main
-git push -u origin main
-```
-
-## Seminar Use Case
-
-This project is suitable for:
-
-- Laravel seminar presentations
-- live feature demos
-- coursework submission
-- demonstrating how Laravel Boost can support real project development
-
-## Suggested Repository Improvements
-
-If you continue polishing the GitHub repository later, good next additions would be:
-
-- screenshots or GIF previews
-- deployment instructions
-- future improvement roadmap
-- contributor guide
-
-## License
-
-This project is open-sourced under the MIT license. See `LICENSE`.

@@ -1,44 +1,58 @@
-# AI Knowledge Base
+# Cơ Sở Tri Thức Cho AI Chat
 
-This file documents the curated knowledge base used by the Seminar Manager AI assistant.
+File này mô tả dữ liệu tri thức nội bộ mà AI chat sử dụng trong dự án.
 
-## Purpose
+## Mục đích
 
-The project does not fine-tune a model locally. Instead, it uses a curated knowledge base to ground the chatbot in the real structure of the application.
+Project không huấn luyện model mới.
 
-This makes the AI assistant:
+Thay vào đó, nó dùng một cơ sở tri thức nhỏ, được chọn lọc, để AI:
 
-- more accurate for seminar-related questions
-- safer in local demo mode
-- easier to maintain and expand
+- hiểu đúng ngữ cảnh seminar
+- trả lời bám dự án
+- hoạt động được ngay cả khi không có khóa OpenAI
 
-## Core Facts
+## AI chat biết những gì?
 
-- Seminar Manager is a Laravel-based academic workflow app.
-- The frontend uses a hybrid of Blade and React.
-- React is used mainly for dashboard analytics and the AI chat interface.
-- The system has three roles: `admin`, `lecturer`, and `student`.
-- The central table is `registrations`.
-- Related workflow tables include `submissions`, `presentations`, `scores`, and `activity_logs`.
+- Seminar Manager là ứng dụng Laravel cho luồng seminar
+- giao diện là mô hình lai Blade + React
+- React dùng chủ yếu cho dashboard analytics và AI chat
+- hệ thống có 3 role chính: admin, lecturer, student
+- bảng trung tâm là `registrations`
+- các bảng liên quan là `submissions`, `presentations`, `scores`, `activity_logs`
 
-## Main Questions the AI Can Answer
+## AI chat có thể trả lời gì?
 
-- What is the project about?
-- How does the registration flow work?
-- How are reports reviewed?
-- How are scores published?
-- What does each role do?
-- How does the dashboard use React?
-- What does the database look like?
+- dự án này làm gì
+- đăng ký seminar hoạt động ra sao
+- báo cáo được review thế nào
+- điểm số được công bố thế nào
+- mỗi role làm gì
+- dashboard dùng React ở đâu
+- database trông như thế nào
 
-## Local Demo Behavior
+## Khi không có khóa OpenAI
 
-When `OPENAI_API_KEY` is not configured, the assistant uses the local knowledge base and returns markdown replies based on the project facts.
+AI chat sẽ dùng cơ sở tri thức cục bộ.
 
-When `OPENAI_API_KEY` is configured, the same project knowledge block is added to the OpenAI prompt so the assistant stays grounded in the actual app.
+Kết quả:
 
-## Notes
+- vẫn trả lời được
+- không phụ thuộc internet
+- dễ demo trong lớp
 
-This knowledge base is intentionally small and curated.
-It is not a machine learning training pipeline.
-It is a practical project context layer for a university seminar app.
+## Khi có khóa OpenAI
+
+Prompt sẽ được bơm thêm khối tri thức của dự án.
+
+Kết quả:
+
+- câu trả lời vẫn bám project thật
+- AI ít bịa hơn
+- ngữ cảnh ổn định hơn
+
+## Kết luận
+
+Đây không phải pipeline học máy.
+
+Đây là lớp tri thức dự án giúp AI chat hiểu đúng Seminar Manager.

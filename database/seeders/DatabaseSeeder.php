@@ -15,8 +15,10 @@ class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
+    // Seed data is intentionally realistic so the seminar demo is not empty.
     public function run(): void
     {
+        // Users cover the full role matrix used by the app.
         $admin = User::factory()->create([
             'name' => 'Seminar Admin',
             'email' => 'admin@seminar.test',
@@ -26,6 +28,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
+        // Lecturer accounts.
         $lecturerA = User::factory()->create([
             'name' => 'James Nguyen',
             'email' => 'lecturer@seminar.test',
@@ -53,6 +56,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
+        // Student accounts.
         $studentA = User::factory()->create([
             'name' => 'Minh Tran',
             'email' => 'student1@seminar.test',
@@ -103,6 +107,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
+        // Topic catalog with mixed categories and states.
         $topicA = Topic::create([
             'title' => 'Using Laravel Boost in seminar management',
             'description' => 'Build a seminar management system and demonstrate how Laravel Boost helps AI with code generation, debugging, and testing.',
@@ -163,6 +168,7 @@ class DatabaseSeeder extends Seeder
             'status' => 'closed',
         ]);
 
+        // Registrations cover approved, pending, and rejected states.
         $approvedA = Registration::create([
             'topic_id' => $topicA->id,
             'student_id' => $studentA->id,
@@ -199,6 +205,7 @@ class DatabaseSeeder extends Seeder
             'status' => 'approved',
         ]);
 
+        // Seeded files make report download/review work immediately.
         Storage::disk('local')->put(
             'seeded/boost-seminar-report.pdf',
             "Laravel Boost Seminar Report\n\nThis is a demo report file created by the database seeder."
@@ -209,6 +216,7 @@ class DatabaseSeeder extends Seeder
             "Seminar Analytics Dashboard Report\n\nDemo data for analytics and reporting flow."
         );
 
+        // Submissions demonstrate review states and revision handling.
         $approvedA->submission()->create([
             'original_name' => 'boost-seminar-report.pdf',
             'file_path' => 'seeded/boost-seminar-report.pdf',
@@ -245,6 +253,7 @@ class DatabaseSeeder extends Seeder
             'revision_number' => 2,
         ]);
 
+        // Presentations and scores complete the lifecycle for demo data.
         $approvedA->presentation()->create([
             'scheduled_at' => now()->addWeek(),
             'room' => 'Room A203',

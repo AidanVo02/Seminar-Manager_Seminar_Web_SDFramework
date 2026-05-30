@@ -12,9 +12,11 @@ use Illuminate\View\View;
 
 class TopicController extends Controller
 {
+    // Danh sách topic là màn hình duyệt chính của luồng seminar.
     public function index(Request $request): View
     {
         $user = $request->user();
+        // Lọc dữ liệu được validate trước để query rõ ràng và an toàn.
         $filters = $request->validate([
             'q' => ['nullable', 'string', 'max:255'],
             'status' => ['nullable', 'in:open,closed'],
@@ -23,6 +25,7 @@ class TopicController extends Controller
             'difficulty' => ['nullable', 'in:beginner,intermediate,advanced'],
         ]);
 
+        // Query index nạp đủ quan hệ mà UI cần.
         $topics = Topic::with([
                 'lecturer',
                 'registrations.student',
@@ -45,11 +48,13 @@ class TopicController extends Controller
             ->latest()
             ->get();
 
+        // Danh sách giảng viên phục vụ dropdown cho admin và bộ lọc theo giảng viên.
         $lecturers = User::query()
             ->where('role', 'lecturer')
             ->orderBy('name')
             ->get(['id', 'name']);
 
+        // Danh mục được lấy động để bộ lọc khớp với dữ liệu seed.
         $categories = Topic::query()
             ->select('category')
             ->distinct()
@@ -59,6 +64,7 @@ class TopicController extends Controller
         return view('topics.index', compact('topics', 'filters', 'lecturers', 'categories'));
     }
 
+    // Form tạo mới chỉ cần danh sách giảng viên, không cần toàn bộ dataset topic.
     public function create(Request $request): View
     {
         return view('topics.create', [
@@ -66,12 +72,14 @@ class TopicController extends Controller
         ]);
     }
 
+    // Store tạo bản ghi topic seminar thực sự.
     public function store(Request $request): RedirectResponse
     {
         $data = $this->validatedData($request);
         $data['lecturer_id'] = $this->resolveLecturerId($request, $data['lecturer_id'] ?? null);
 
         $topic = Topic::create($data);
+        // Log thao tác quan trọng giúp giải thích luồng xử lý khi thuyết trình.
         ActivityLogger::log(
             $request->user(),
             'topic.created',
@@ -86,6 +94,7 @@ class TopicController extends Controller
         return redirect()->route('topics.index')->with('status', 'Topic created successfully.');
     }
 
+    // Trang chi tiết nạp toàn bộ trạng thái lồng nhau của một topic.
     public function show(Topic $topic): View
     {
         $topic->load([
@@ -106,6 +115,7 @@ class TopicController extends Controller
         return view('topics.show', compact('topic', 'activities'));
     }
 
+    // Chỉnh sửa chỉ dành cho giảng viên sở hữu hoặc admin.
     public function edit(Request $request, Topic $topic): View
     {
         $this->authorizeTopicAccess($request->user(), $topic);
@@ -116,6 +126,7 @@ class TopicController extends Controller
         ]);
     }
 
+    // Update dùng cùng quy tắc truy cập với edit.
     public function update(Request $request, Topic $topic): RedirectResponse
     {
         $this->authorizeTopicAccess($request->user(), $topic);
@@ -138,6 +149,7 @@ class TopicController extends Controller
         return redirect()->route('topics.show', $topic)->with('status', 'Topic updated successfully.');
     }
 
+    // Xóa chỉ được phép theo quyền quản trị hoặc quyền sở hữu.
     public function destroy(Request $request, Topic $topic): RedirectResponse
     {
         $this->authorizeTopicAccess($request->user(), $topic);
@@ -159,6 +171,7 @@ class TopicController extends Controller
         return redirect()->route('topics.index')->with('status', 'Topic deleted successfully.');
     }
 
+    // Admin truy cập được mọi topic; giảng viên chỉ truy cập topic của mình.
     protected function authorizeTopicAccess(User $user, Topic $topic): void
     {
         if ($user->isAdmin()) {
@@ -168,6 +181,7 @@ class TopicController extends Controller
         abort_unless($user->isLecturer() && $topic->lecturer_id === $user->id, 403);
     }
 
+    // Gom validation ở một chỗ để create/update dùng cùng bộ luật.
     protected function validatedData(Request $request): array
     {
         return $request->validate([
@@ -183,6 +197,7 @@ class TopicController extends Controller
         ]);
     }
 
+    // Admin có thể chọn giảng viên; giảng viên bị ràng buộc vào chính mình.
     protected function resolveLecturerId(Request $request, ?int $lecturerId): int
     {
         if ($request->user()->isAdmin()) {
@@ -192,6 +207,7 @@ class TopicController extends Controller
         return $request->user()->id;
     }
 
+    // Helper form giữ bộ chọn giảng viên đơn giản.
     protected function lecturersForForm(User $user)
     {
         if ($user->isAdmin()) {

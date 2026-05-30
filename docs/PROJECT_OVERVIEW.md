@@ -1,205 +1,79 @@
-# Project Overview
+# Tổng Quan Dự Án
 
-## Introduction
+Seminar Manager là một ứng dụng Laravel dùng để mô phỏng quy trình seminar trong môi trường học thuật.
 
-Seminar Manager is a Laravel-based web application for managing the full seminar lifecycle in an academic environment. It was built as a classroom seminar project and is suitable for live demos, coursework submission, and discussion of Laravel development practices.
+## Mục tiêu
 
-The system supports three main user roles:
+Mục tiêu của dự án là cho thấy một hệ thống seminar thực tế có thể được tổ chức như thế nào bằng Laravel:
 
-- `admin`
-- `lecturer`
-- `student`
+- quản lý topic
+- student đăng ký topic
+- lecturer duyệt đăng ký
+- upload và review báo cáo
+- lên lịch bảo vệ
+- chấm điểm
+- xem log hoạt động
+- dùng AI chat hỗ trợ giải thích dự án
 
-Each role interacts with the system differently, but all of them participate in one connected business workflow.
+## Vấn đề dự án giải quyết
 
-## Problem Statement
+Quy trình seminar ngoài thực tế thường bị tách ra nhiều nơi:
 
-In many classroom seminar settings, the workflow is managed manually through spreadsheets, chat messages, and separate files. That creates several problems:
+- topic nằm ở file hoặc nhóm chat
+- student đăng ký bằng cách thủ công
+- báo cáo gửi rời rạc
+- phản hồi của lecturer không được lưu tập trung
+- lịch bảo vệ và điểm số khó theo dõi
 
-- topic information is scattered
-- student registrations are hard to track
-- approval decisions are not centralized
-- report files are difficult to manage
-- presentation schedules can be missed
-- grading data may be inconsistent
+Dự án này gom toàn bộ quy trình đó vào một hệ thống duy nhất.
 
-Seminar Manager solves this by keeping the entire seminar process in one Laravel application.
-
-## Project Goal
-
-The goal of the project is to provide a clear and realistic seminar management workflow that demonstrates:
-
-- role-based access control
-- relational database design
-- Laravel CRUD patterns
-- file upload handling
-- approval workflow design
-- scheduling and grading flows
-- dashboard analytics
-- testable application structure
-
-## Target Users
+## Vai trò người dùng
 
 ### Admin
 
-Admin users oversee the entire system.
-
-Responsibilities:
-
-- manage users
-- access all seminar data
-- support lecturers and students
-- review overall dashboard metrics
+- quản lý user
+- xem toàn hệ thống
+- theo dõi dashboard
 
 ### Lecturer
 
-Lecturers are responsible for seminar supervision.
-
-Responsibilities:
-
-- create and update seminar topics
-- review student registrations
-- approve or reject requests
-- schedule presentations
-- assign scores and comments
+- tạo và chỉnh sửa topic
+- duyệt đăng ký
+- review báo cáo
+- lên lịch bảo vệ
+- chấm điểm
 
 ### Student
 
-Students participate in seminar topics.
+- xem topic
+- đăng ký topic
+- upload báo cáo
+- xem review
+- xem lịch bảo vệ
+- xem điểm
 
-Responsibilities:
+## Phạm vi demo
 
-- browse available topics
-- register for a topic
-- upload a report file
-- track approval status
-- check presentation schedule
-- view score and feedback
+Đây là project demo để:
 
-## Core Features
+- hiểu cách Laravel tổ chức code
+- hiểu cách thiết kế luồng xử lý
+- hiểu quan hệ database
+- hiểu cách gắn Laravel Boost vào ngữ cảnh thực tế
 
-### Authentication and Authorization
+Nó không nhằm mục tiêu trở thành một sản phẩm sản xuất hoàn chỉnh.
 
-- login system for all users
-- role-based access control for pages and actions
+## Điểm nổi bật
 
-### Topic Management
+- có phân quyền rõ ràng
+- có luồng xử lý học thuật rõ ràng
+- có database quan hệ
+- có AI chat hỗ trợ
+- có dashboard analytics
+- có tài liệu để thuyết trình
 
-- create seminar topics
-- edit seminar topics
-- delete seminar topics
-- filter and search topics
-- assign a lecturer to a topic
+## Tóm tắt ngắn
 
-### Registration Management
+Nếu phải nói 1 câu:
 
-- students register for available topics
-- duplicate topic registration is prevented per student
-- lecturers approve or reject registrations
-
-### Report Submission
-
-- students upload seminar reports
-- supported file lifecycle includes upload, download, and deletion
-- each registration has at most one active submission
-
-### Presentation Scheduling
-
-- lecturers schedule a presentation for a registration
-- room and date/time are stored
-
-### Scoring and Feedback
-
-- lecturers enter a final score
-- optional text feedback can be stored with the score
-
-### Dashboard and Analytics
-
-- summary cards and reporting information
-- role breakdown
-- registration status breakdown
-- lecturer activity summaries
-
-### AI Chat Assistant
-
-- authenticated users can open a built-in AI chat page
-- chat history is stored per user
-- users can reopen previous conversations
-- responses are guided by seminar workflow and role-aware context
-
-### Admin User Management
-
-- admins create users
-- admins edit user information
-- admins manage user roles
-
-### Export Support
-
-- printable topic summary for browser print or PDF export
-
-## End-to-End Workflow
-
-1. Lecturer creates a topic.
-2. Student browses open topics.
-3. Student registers for a topic.
-4. Registration is stored as `pending`.
-5. Lecturer reviews the registration.
-6. Lecturer changes status to `approved` or `rejected`.
-7. Student uploads a seminar report.
-8. Lecturer schedules the presentation.
-9. Lecturer publishes score and feedback.
-10. Users can ask the AI assistant for help about workflow, structure, and seminar usage.
-11. Admin can monitor the whole process through the dashboard and user management pages.
-
-## Technical Summary
-
-- Framework: Laravel 13
-- Language: PHP 8.4
-- Frontend approach: Laravel Blade with a React-powered analytics module
-- Database: SQL Server for the current local/demo setup
-- Test framework: PHPUnit feature tests
-
-## Frontend Strategy
-
-The project uses a hybrid frontend approach instead of a full React SPA.
-
-Current design:
-
-- Laravel Blade renders the main pages, forms, and workflow screens
-- React enhances the dashboard analytics area with more interactive behavior
-- Vite is used to build frontend assets when JavaScript is enabled
-
-Why this is a good fit:
-
-- it keeps the Laravel workflow easy to explain in a seminar
-- it avoids rewriting the whole system into a separate frontend
-- it still demonstrates that the project can integrate React in a practical way
-- it provides a realistic example of progressive enhancement
-
-## Why This Project Works Well for a Seminar
-
-This project is a strong seminar/demo project because it contains:
-
-- clear real-world entities
-- many relational database examples
-- multiple user roles
-- a visible business workflow
-- common Laravel features in one system
-
-It is also small enough to explain in a presentation, but complete enough to show meaningful functionality.
-
-## Suggested Demo Story
-
-If you want to present the system in class, this is the simplest story:
-
-1. Log in as lecturer and create a topic.
-2. Log in as student and register for that topic.
-3. Upload a report file.
-4. Log in as lecturer and approve the registration.
-5. Schedule the presentation.
-6. Add a score and comment.
-7. Show the dashboard and printable summary.
-
-That flow demonstrates nearly every important table and feature in the project.
-
-If you want to specifically mention React during the demo, open the dashboard and explain that the analytics module is rendered with React while the rest of the system remains server-rendered with Laravel.
+> Seminar Manager là một demo Laravel cho quy trình seminar từ tạo topic đến chấm điểm, đồng thời là bối cảnh thực tế để tìm hiểu Laravel Boost.

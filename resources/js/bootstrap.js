@@ -1,8 +1,10 @@
 import axios from 'axios';
 window.axios = axios;
 
+// Mặc định mọi request được xem như AJAX request.
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+// CSRF token được lấy từ layout Blade chính.
 const csrfToken = document.head.querySelector('meta[name="csrf-token"]');
 
 if (csrfToken) {

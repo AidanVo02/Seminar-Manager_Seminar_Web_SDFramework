@@ -1,150 +1,124 @@
-# Seminar Manager Documentation Index
+# Mục Lục Tài Liệu Seminar Manager
 
-This file is the entry point for the full documentation pack of the Seminar Manager project.
+Đây là điểm vào duy nhất để bạn đọc tài liệu theo đúng thứ tự.
 
-## How to Read the Docs
+## Cách đọc nhanh
 
-If you are a lecturer, reviewer, or classmate and want the fastest overview, follow this order:
+Nếu mục tiêu là hiểu cấu trúc dự án và cách demo, hãy đọc theo thứ tự này:
 
 1. [README.md](../README.md)
-2. [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md)
-3. [PROJECT_DEEP_DIVE.md](PROJECT_DEEP_DIVE.md)
-4. [USER_PERMISSIONS.md](USER_PERMISSIONS.md)
+2. [README-DEMO.md](README-DEMO.md)
+3. [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md)
+4. [ARCHITECTURE.md](ARCHITECTURE.md)
 5. [DATABASE.md](DATABASE.md)
-6. [ARCHITECTURE.md](ARCHITECTURE.md)
-7. [LARAVEL_BOOST_ARCHITECTURE.md](LARAVEL_BOOST_ARCHITECTURE.md)
-8. [LARAVEL_BOOST_SEMINAR_GUIDE.md](LARAVEL_BOOST_SEMINAR_GUIDE.md)
-9. [API_FLOW.md](API_FLOW.md)
-10. [SEMINAR_SCRIPT.md](SEMINAR_SCRIPT.md)
-11. [LECTURER_PRESENTATION.md](LECTURER_PRESENTATION.md)
-12. [README-DEMO.md](README-DEMO.md)
-13. [DEPLOYMENT.md](DEPLOYMENT.md)
-14. [AI_KNOWLEDGE_BASE.md](AI_KNOWLEDGE_BASE.md)
+6. [USER_PERMISSIONS.md](USER_PERMISSIONS.md)
+7. [API_FLOW.md](API_FLOW.md)
+8. [BOOST_CODE_TOUR.md](BOOST_CODE_TOUR.md)
+9. [LARAVEL_BOOST_SEMINAR_GUIDE.md](LARAVEL_BOOST_SEMINAR_GUIDE.md)
+10. [LECTURER_PRESENTATION.md](LECTURER_PRESENTATION.md)
+11. [AI_KNOWLEDGE_BASE.md](AI_KNOWLEDGE_BASE.md)
+12. [DEPLOYMENT.md](DEPLOYMENT.md)
 
-## File Map
+## Nhóm file và công dụng
 
-### Project story
+### 1. Tổng quan dự án
 
 - `PROJECT_OVERVIEW.md`
-- `PROJECT_DEEP_DIVE.md`
-- `../README.md`
+- `README.md`
 
-Use these files to explain:
+Mục đích:
 
-- what the project is
-- why it exists
-- who uses it
-- what problem it solves
+- dự án làm gì
+- ai dùng
+- bài toán nào được giải quyết
+- demo này dùng để minh họa cho gì
 
-### Database design
+### 2. Cách chạy demo
 
-- `DATABASE.md`
+- `README-DEMO.md`
+- `DEPLOYMENT.md`
 
-Use this file to explain:
+Mục đích:
 
-- table structure
-- relationships
-- ERD
-- why `registrations` is the center of the workflow
+- cách cài
+- cách chạy local
+- tài khoản demo
+- lưu ý môi trường
 
-### Architecture and code structure
+### 3. Kiến trúc và code
 
 - `ARCHITECTURE.md`
-- `LARAVEL_BOOST_ARCHITECTURE.md`
-- `LARAVEL_BOOST_SEMINAR_GUIDE.md`
-
-Use this file to explain:
-
-- Laravel MVC layers
-- support classes
-- hybrid Blade + React frontend design
-- request and rendering flow
-- how Laravel Boost fits into the app
-
-### Route and request flow
-
+- `BOOST_CODE_TOUR.md`
 - `API_FLOW.md`
 
-Use this file to explain:
+Mục đích:
 
-- which route triggers which action
-- which tables are read or written
-- how each role moves through the system
+- route đi đâu
+- controller làm gì
+- model liên kết ra sao
+- support class dùng để làm gì
+- luồng request hoạt động thế nào
 
-### Seminar speaking materials
+### 4. Database và dữ liệu
+
+- `DATABASE.md`
+- `AI_KNOWLEDGE_BASE.md`
+
+Mục đích:
+
+- bảng nào là chính
+- quan hệ giữa các bảng
+- dữ liệu demo hoạt động ra sao
+- Trợ lý AI biết gì về dự án
+
+### 5. Quyền người dùng
+
+- `USER_PERMISSIONS.md`
+
+Mục đích:
+
+- admin làm được gì
+- lecturer làm được gì
+- student làm được gì
+- guest không được làm gì
+
+### 6. Laravel Boost
 
 - `LARAVEL_BOOST_SEMINAR_GUIDE.md`
-- `SEMINAR_SCRIPT.md`
 - `LECTURER_PRESENTATION.md`
+- `BOOST_CODE_TOUR.md`
 
-Use these files to present:
+Mục đích:
 
-- a student-style seminar script
-- a lecturer-facing presentation outline
-- quick answers for common questions
+- giải thích Laravel Boost là gì
+- Boost giải quyết vấn đề gì
+- demo project này minh họa Boost như thế nào
+- đọc code theo đúng trọng tâm seminar
 
-### Demo and verification
+## Bộ tài liệu tối thiểu để học nhanh
 
-- `README-DEMO.md`
-- `MANUAL_SMOKE_CHECKLIST.md`
+Nếu bạn chỉ cần phần cốt lõi, đọc 5 file này:
 
-Use these files to:
+1. `../README.md`
+2. `README-DEMO.md`
+3. `PROJECT_OVERVIEW.md`
+4. `ARCHITECTURE.md`
+5. `LARAVEL_BOOST_SEMINAR_GUIDE.md`
 
-- run the app locally
-- check the major user flows
-- verify the project before presenting
+## Bộ tài liệu để thuyết trình
 
-### Deployment
+Nếu bạn cần thuyết trình cho giảng viên, dùng:
 
-- `DEPLOYMENT.md`
+1. `../README.md`
+2. `LARAVEL_BOOST_SEMINAR_GUIDE.md`
+3. `LECTURER_PRESENTATION.md`
+4. `BOOST_CODE_TOUR.md`
+5. `DATABASE.md`
+6. `ARCHITECTURE.md`
+7. `README-DEMO.md`
 
-Use this file to explain:
+## Ghi chú
 
-- local setup
-- production checklist
-- AI environment variables
-- common deployment issues
-
-### AI assistant knowledge
-
-- `AI_KNOWLEDGE_BASE.md`
-
-Use this file to explain:
-
-- how the chatbot is grounded in project data
-- what the assistant knows
-- why local demo mode still works without an OpenAI key
-
-## Recommended Presentation Bundle
-
-If you only need the minimum set for class, use these files:
-
-- `../README.md`
-- `PROJECT_OVERVIEW.md`
-- `PROJECT_DEEP_DIVE.md`
-- `LARAVEL_BOOST_SEMINAR_GUIDE.md`
-- `DATABASE.md`
-- `SEMINAR_SCRIPT.md`
-- `README-DEMO.md`
-
-If the lecturer wants more technical depth, also open:
-
-- `ARCHITECTURE.md`
-- `API_FLOW.md`
-- `DEPLOYMENT.md`
-- `AI_KNOWLEDGE_BASE.md`
-
-## Project Status Summary
-
-- Auth and role-based access are implemented
-- Topic CRUD is implemented
-- Registration, submissions, review, scheduling, and scoring are implemented
-- Activity logs are implemented
-- Dashboard analytics are implemented
-- AI chat has saved conversations and knowledge-based replies
-- Admin user management is implemented
-- Tests cover the major flows
-
-## One-Sentence Summary
-
-Seminar Manager is a Laravel academic workflow app that manages seminar topics, registrations, reports, schedules, scores, analytics, and AI-assisted support in one place.
+- Các file đã bị xóa là tài liệu trùng lặp hoặc phiên bản cũ.
+- Một số file còn lại giữ lại vì chúng giúp bạn hiểu rõ hơn theo từng nhóm.
+- Root `README.md` vẫn giữ ở thư mục gốc để GitHub hiển thị trang chính.

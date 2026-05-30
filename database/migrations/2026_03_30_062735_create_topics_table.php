@@ -1,5 +1,7 @@
 <?php
 
+// Topic table stores the seminar subject and lecturer ownership.
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

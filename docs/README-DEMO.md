@@ -1,70 +1,90 @@
-﻿# Seminar Manager Demo
+# Hướng Dẫn Chạy Demo
 
-## Implemented features
-- Role-based login for admin, lecturer, and student
-- Dashboard overview with React-powered analytics and lecturer leaderboard
-- AI chat assistant for project and seminar guidance
-- Seminar topic CRUD
-- Topic search and filtering
-- Admin lecturer assignment for topics
-- Student topic registration
-- Student report upload, replacement, download, and deletion
-- Lecturer approval and rejection workflow
-- Presentation scheduling for approved registrations
-- Scoring and feedback
-- Admin user management
-- Printable topic summary page for browser PDF export
-- Email notifications via the configured Laravel mail driver
+Tài liệu này chỉ tập trung vào một việc: làm sao mở project lên và xem được luồng hoạt động chính.
 
-## Demo accounts
+## Tính năng đã có trong demo
+
+- Đăng nhập theo vai trò `admin`, `lecturer`, `student`
+- Dashboard tổng quan
+- Quản lý topic seminar
+- Tìm kiếm và lọc topic
+- Student đăng ký topic
+- Upload báo cáo
+- Lecturer review báo cáo
+- Gửi yêu cầu chỉnh sửa hoặc chấp nhận báo cáo
+- Lên lịch bảo vệ
+- Chấm điểm và ghi chú
+- Activity logs
+- AI chat hỗ trợ seminar
+- Admin quản lý user
+- Trang in tóm tắt topic
+
+## Tài khoản demo
+
 - Admin: `admin@seminar.test` / `password`
 - Lecturer: `lecturer@seminar.test` / `password`
+- Lecturer 2: `lecturer2@seminar.test` / `password`
+- Lecturer 3: `lecturer3@seminar.test` / `password`
 - Student 1: `student1@seminar.test` / `password`
 - Student 2: `student2@seminar.test` / `password`
+- Student 3: `student3@seminar.test` / `password`
+- Student 4: `student4@seminar.test` / `password`
+- Student 5: `student5@seminar.test` / `password`
 
-## Run the project
+## Cách chạy nhanh
+
 ```bash
-cd seminar-manager
+composer install
 npm install
+php artisan migrate:fresh --seed
 npm run dev
 php artisan serve
 ```
 
-Open your browser at:
+Mở:
+
 - `http://127.0.0.1:8000`
 
-## Environment note for this machine
-This project currently uses:
-- SQL Server 2022 Express on `localhost`
-- Windows Authentication for the local database connection
-- Blade compiled views in the temp folder to avoid view compilation issues
-- Blade for the main UI and React for the dashboard analytics module
-- The default Laravel `log` mail driver, so outgoing mail is written to logs rather than sent externally
+## Luồng demo ngắn
 
-If the frontend assets are not running yet, the application still works because React is used as an enhancement layer instead of a hard requirement for the full UI.
+1. Đăng nhập bằng lecturer.
+2. Tạo topic mới.
+3. Đăng nhập bằng student.
+4. Đăng ký topic.
+5. Upload báo cáo.
+6. Quay lại lecturer.
+7. Review báo cáo.
+8. Lên lịch bảo vệ.
+9. Chấm điểm.
+10. Mở dashboard và AI chat.
 
-To use the cloud AI assistant, add `OPENAI_API_KEY` in your `.env` file.
-If you do not set it, the chat still works in local demo mode with a curated project knowledge base.
+## Nếu AI chat không dùng OpenAI
 
-The knowledge base is documented in:
-- `AI_KNOWLEDGE_BASE.md`
+Project vẫn chạy được ở chế độ demo cục bộ.
 
-If you need to reset the demo data:
-```bash
-php artisan migrate:fresh --seed
+Điều này là bình thường nếu chưa cấu hình:
+
+```env
+OPENAI_API_KEY=...
 ```
 
-## Current verification status
-- `php artisan test` passes
-- `php artisan migrate:fresh --seed` passes
+Khi không có khóa OpenAI, chatbot sẽ dùng cơ sở tri thức nội bộ để trả lời.
 
-## Manual smoke checklist
+## Lưu ý khi chạy trên máy này
 
-If you want a step-by-step demo verification list, open:
+- Nếu giao diện React chưa chạy, phần Laravel vẫn hoạt động bình thường.
+- Nếu dữ liệu demo chưa đúng, chạy lại `php artisan migrate:fresh --seed`.
+- Nếu cần reset hẳn, chạy lại toàn bộ lệnh cài và seed ở trên.
 
-- `MANUAL_SMOKE_CHECKLIST.md`
+## Kiểm tra nhanh
 
-For the full documentation hub, open:
+- `php artisan test` phải pass
+- `php artisan migrate:fresh --seed` phải pass
+
+## Tài liệu liên quan
 
 - `DOCUMENTATION_INDEX.md`
-- `SEMINAR_PROJECT_PACK.md`
+- `PROJECT_OVERVIEW.md`
+- `ARCHITECTURE.md`
+- `DATABASE.md`
+- `BOOST_CODE_TOUR.md`

@@ -1,3 +1,4 @@
+{{-- Trang chào mặc định của Laravel, giữ lại như một trang dự phòng. --}}
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>

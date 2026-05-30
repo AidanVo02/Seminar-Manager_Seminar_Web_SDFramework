@@ -15,20 +15,26 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/dashboard');
 
+// Guest routes are only for login and are intentionally kept separate.
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'create'])->name('login');
     Route::post('/login', [AuthController::class, 'store'])->name('login.store');
 });
 
+// Authenticated routes contain the whole seminar workflow.
 Route::middleware('auth')->group(function () {
+    // Dashboard and audit log views are available after login.
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::get('/activity', [ActivityLogController::class, 'index'])->name('activity.index');
     Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');
+
+    // AI chat is a project helper, not a business workflow feature.
     Route::get('/ai-chat', [AiChatController::class, 'index'])->name('ai-chat.index');
     Route::post('/ai-chat', [AiChatController::class, 'store'])->name('ai-chat.store');
     Route::post('/ai-chat/conversations', [AiChatController::class, 'createConversation'])->name('ai-chat.conversations.store');
     Route::get('/ai-chat/conversations/{conversation}', [AiChatController::class, 'showConversation'])->name('ai-chat.conversations.show');
 
+    // Topic management is lecturer/admin scope.
     Route::get('/topics/create', [TopicController::class, 'create'])
         ->middleware('role:lecturer,admin')
         ->name('topics.create');
@@ -45,23 +51,28 @@ Route::middleware('auth')->group(function () {
         ->middleware('role:lecturer,admin')
         ->name('topics.destroy');
 
+    // Resource routes keep the read-only topic pages simple.
     Route::resource('topics', TopicController::class)->only(['index', 'show']);
     Route::get('/topics/{topic}/summary', [ExportController::class, 'topicSummary'])
         ->middleware('role:lecturer,admin')
         ->name('topics.summary');
 
+    // Admin-only user management.
     Route::resource('users', UserManagementController::class)
         ->except(['show'])
         ->middleware('role:admin');
 
+    // Student registration is the workflow entry point.
     Route::post('/topics/{topic}/register', [RegistrationController::class, 'store'])
         ->middleware('role:student')
         ->name('registrations.store');
 
+    // Lecturer/admin handle registration status changes.
     Route::patch('/registrations/{registration}/status', [RegistrationController::class, 'updateStatus'])
         ->middleware('role:lecturer,admin')
         ->name('registrations.update-status');
 
+    // Report submission lifecycle.
     Route::post('/registrations/{registration}/submission', [SubmissionController::class, 'store'])
         ->middleware('role:student')
         ->name('submissions.store');
@@ -73,6 +84,7 @@ Route::middleware('auth')->group(function () {
         ->middleware('role:lecturer,admin')
         ->name('submissions.review');
 
+    // Presentation scheduling is only allowed after approval.
     Route::get('/registrations/{registration}/presentation/create', [PresentationController::class, 'create'])
         ->middleware('role:lecturer,admin')
         ->name('presentations.create');
@@ -86,6 +98,7 @@ Route::middleware('auth')->group(function () {
         ->middleware('role:lecturer,admin')
         ->name('presentations.update');
 
+    // Final scoring is also lecturer/admin scope.
     Route::post('/registrations/{registration}/score', [ScoreController::class, 'store'])
         ->middleware('role:lecturer,admin')
         ->name('scores.store');

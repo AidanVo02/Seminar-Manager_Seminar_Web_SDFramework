@@ -5,6 +5,7 @@
 ])
 
 @section('content')
+    {{-- AI chat page explains the assistant and exposes the conversation area. --}}
     <section class="page-intro">
         <div>
             <div class="kicker-nav">
@@ -18,6 +19,7 @@
         <span class="badge role">{{ auth()->user()->role }}</span>
     </section>
 
+    {{-- Root element for the React chat app. --}}
     <section
         id="ai-chat-root"
         class="ai-chat-shell"
@@ -26,7 +28,9 @@
         data-show-endpoint-template="{{ url('/ai-chat/conversations/__CONVERSATION__') }}"
         data-bootstrap='@json($chatBootstrap)'
     >
+        {{-- Fallback HTML is shown if JavaScript is not available. --}}
         <section class="grid single ai-chat-grid ai-chat-fallback">
+            {{-- Conversation history lives in the left column. --}}
             <section class="card">
                 <div class="section-head">
                     <div>
@@ -46,6 +50,7 @@
                 </div>
             </section>
 
+            {{-- Main message composer and transcript live in the center. --}}
             <section class="card">
                 <div class="section-head">
                     <div>
@@ -104,6 +109,7 @@
                 </form>
             </section>
 
+            {{-- Quick actions explain what the assistant can answer. --}}
             <section class="card">
                 <div class="section-head">
                     <div>

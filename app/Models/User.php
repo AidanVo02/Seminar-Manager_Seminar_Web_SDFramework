@@ -15,6 +15,7 @@ use Illuminate\Notifications\Notifiable;
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
+    // User là model định danh gốc. Mọi kiểm tra vai trò đều dựa trên bản ghi này.
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
@@ -28,21 +29,25 @@ class User extends Authenticatable
 
     public function topics(): HasMany
     {
+        // Topic do giảng viên sở hữu.
         return $this->hasMany(Topic::class, 'lecturer_id');
     }
 
     public function registrations(): HasMany
     {
+        // Registration do sinh viên sở hữu.
         return $this->hasMany(Registration::class, 'student_id');
     }
 
     public function aiChatConversations(): HasMany
     {
+        // Lịch sử chat AI theo từng người dùng.
         return $this->hasMany(AiChatConversation::class);
     }
 
     public function activityLogs(): HasMany
     {
+        // Các bản ghi audit do hoặc gắn với user này.
         return $this->hasMany(ActivityLog::class);
     }
 

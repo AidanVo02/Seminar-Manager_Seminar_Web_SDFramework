@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Topic extends Model
 {
+    // Topic là thực thể seminar mà sinh viên đăng ký tham gia.
     protected $fillable = [
         'title',
         'description',
@@ -22,11 +23,13 @@ class Topic extends Model
 
     public function lecturer(): BelongsTo
     {
+        // Giảng viên phụ trách topic này.
         return $this->belongsTo(User::class, 'lecturer_id');
     }
 
     public function registrations(): HasMany
     {
+        // Toàn bộ registration của sinh viên gắn với topic này.
         return $this->hasMany(Registration::class);
     }
 }

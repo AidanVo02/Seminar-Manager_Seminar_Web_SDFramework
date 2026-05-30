@@ -12,6 +12,7 @@ use Illuminate\View\View;
 
 class PresentationController extends Controller
 {
+    // Chỉ được lên lịch bảo vệ sau khi đăng ký đã được duyệt.
     public function create(Registration $registration): View
     {
         $this->authorizeAccess(request(), $registration);
@@ -19,6 +20,7 @@ class PresentationController extends Controller
         return view('presentations.form', compact('registration'));
     }
 
+    // Store ghi lần lập lịch đầu tiên cho một registration.
     public function store(Request $request, Registration $registration): RedirectResponse
     {
         $this->authorizeAccess($request, $registration);
@@ -47,11 +49,13 @@ class PresentationController extends Controller
         return redirect()->route('topics.show', $registration->topic)->with('status', 'Presentation schedule updated successfully.');
     }
 
+    // Các action show/destroy được cố ý không triển khai ở đây.
     public function show(string $id)
     {
         abort(404);
     }
 
+    // Edit dùng lại cùng form với create nhưng có dữ liệu sẵn.
     public function edit(Presentation $presentation): View
     {
         $this->authorizeAccess(request(), $presentation->registration);
@@ -60,6 +64,7 @@ class PresentationController extends Controller
         return view('presentations.form', compact('registration', 'presentation'));
     }
 
+    // Update làm mới lịch và giữ nguyên dấu vết audit.
     public function update(Request $request, Presentation $presentation): RedirectResponse
     {
         $this->authorizeAccess($request, $presentation->registration);
@@ -93,6 +98,7 @@ class PresentationController extends Controller
         abort(404);
     }
 
+    // Chỉ admin hoặc giảng viên sở hữu mới được lên lịch cho registration đã duyệt.
     protected function authorizeAccess(Request $request, Registration $registration): void
     {
         $user = $request->user();

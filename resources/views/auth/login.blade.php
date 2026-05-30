@@ -5,6 +5,7 @@
 ])
 
 @section('content')
+    {{-- Login page is the entry point for all roles. --}}
     <section class="login-shell">
         <div class="login-visual">
             <div class="login-overlay"></div>
@@ -27,6 +28,7 @@
                 <p class="muted">Use one of the seeded accounts below to explore the full Seminar Manager workflow.</p>
             </div>
 
+            {{-- Demo credentials are shown below the form for classroom use. --}}
             <form action="{{ route('login.store') }}" method="POST" class="form login-form">
                 @csrf
                 <label>
@@ -50,6 +52,7 @@
                 </button>
             </form>
 
+            {{-- Seeded accounts are documented so the demo can start quickly. --}}
             <section class="login-accounts">
                 <div class="section-head">
                     <div>

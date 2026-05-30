@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    {{-- Activity feed shows the audit trail of the seminar workflow. --}}
     <section class="page-intro">
         <div>
             <div class="kicker-nav">
@@ -14,6 +15,7 @@
         <span class="badge">{{ $activities->total() }} events</span>
     </section>
 
+    {{-- Paginated log list. --}}
     <section class="card">
         <div class="section-head">
             <div>

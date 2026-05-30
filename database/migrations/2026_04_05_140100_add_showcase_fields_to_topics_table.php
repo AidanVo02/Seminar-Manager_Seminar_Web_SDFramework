@@ -1,5 +1,7 @@
 <?php
 
+// Adds showcase metadata so the topic catalog feels like a real academic portal.
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

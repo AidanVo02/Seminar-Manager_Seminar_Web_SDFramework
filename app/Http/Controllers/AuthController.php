@@ -9,6 +9,7 @@ use Illuminate\View\View;
 
 class AuthController extends Controller
 {
+    // Controller xác thực được giữ nhỏ gọn: login, authenticate, logout.
     public function create(): View
     {
         return view('auth.login');
