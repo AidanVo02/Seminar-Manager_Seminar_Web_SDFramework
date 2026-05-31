@@ -311,6 +311,20 @@ Thứ tự gợi ý:
 5. Hỏi AI các câu trong phần danh sách bên dưới
 6. Nếu cần, mở `topics`, `topic detail` hoặc `activity` để chỉ file code tương ứng
 
+## Chọn kiểu demo
+
+Nếu bạn cần chọn thời lượng và cách trình bày, xem thêm:
+
+- [HOC_THUOC_NHANH.md](HOC_THUOC_NHANH.md)
+- [DEMO_MODES.md](DEMO_MODES.md)
+
+Gợi ý nhanh:
+
+- **3 phút**: nói nhanh Boost là gì và chỉ file cấu hình
+- **5 phút**: thêm AI chat local demo mode
+- **10 phút**: thêm code tour và câu hỏi mẫu
+- **Wow**: chỉ dùng nếu bạn đã test live agent/debug trước trên máy
+
 ## AI chat mặc định chạy ở local demo mode
 
 Project **không cần OpenAI key** để demo.
