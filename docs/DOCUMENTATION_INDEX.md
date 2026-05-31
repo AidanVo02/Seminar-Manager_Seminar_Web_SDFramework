@@ -26,6 +26,7 @@ Nếu mục tiêu là hiểu cấu trúc dự án và cách demo, hãy đọc th
 12. [DEPLOYMENT.md](DEPLOYMENT.md)
 13. [HOC_THUOC_NHANH.md](HOC_THUOC_NHANH.md)
 14. [DEMO_MODES.md](DEMO_MODES.md)
+15. [BOOST_TERMINAL_COMMANDS.md](BOOST_TERMINAL_COMMANDS.md)
 
 ## Nhóm file và công dụng
 
@@ -120,6 +121,7 @@ Nếu bạn chỉ cần phần cốt lõi, đọc 5 file này:
 5. `LARAVEL_BOOST_SEMINAR_GUIDE.md`
 6. `HOC_THUOC_NHANH.md`
 7. `DEMO_MODES.md`
+8. `BOOST_TERMINAL_COMMANDS.md`
 
 ## Bộ tài liệu để thuyết trình
 

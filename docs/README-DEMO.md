@@ -317,6 +317,7 @@ Nếu bạn cần chọn thời lượng và cách trình bày, xem thêm:
 
 - [HOC_THUOC_NHANH.md](HOC_THUOC_NHANH.md)
 - [DEMO_MODES.md](DEMO_MODES.md)
+- [BOOST_TERMINAL_COMMANDS.md](BOOST_TERMINAL_COMMANDS.md)
 
 Gợi ý nhanh:
 
