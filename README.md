@@ -48,7 +48,7 @@ Các file quan trọng nhất:
 - PHP 8.4
 - Blade
 - React cho dashboard analytics và AI chat
-- SQL Server cho môi trường local hiện tại
+- SQLite cho môi trường local demo
 - PHPUnit feature tests
 
 ## Cấu trúc code
@@ -98,4 +98,3 @@ Mở:
 - Nếu không có `OPENAI_API_KEY`, AI chat vẫn chạy ở local demo mode.
 - Nếu frontend React chưa chạy, Laravel vẫn hoạt động.
 - Nếu cần reset dữ liệu, chạy lại `php artisan migrate:fresh --seed`.
-

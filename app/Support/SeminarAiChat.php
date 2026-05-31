@@ -7,52 +7,16 @@ use App\Models\Registration;
 use App\Models\Submission;
 use App\Models\Topic;
 use App\Models\User;
-use Illuminate\Http\Client\RequestException;
-use Illuminate\Support\Facades\Http;
-use RuntimeException;
 
 class SeminarAiChat
 {
-    // reply() là điểm vào duy nhất cho phản hồi từ OpenAI hoặc chế độ demo cục bộ.
+    // reply() là điểm vào duy nhất cho phản hồi của trợ lý trong demo này.
     public function reply(User $user, string $message, ?string $previousResponseId = null): array
     {
-        $apiKey = config('services.openai.api_key');
-
-        // Chế độ demo cục bộ giúp app vẫn chạy được khi chưa có API key.
-        if (! $apiKey) {
-            return [
-                'reply' => $this->localReply($user, $message),
-                'response_id' => null,
-                'model' => 'local-demo',
-            ];
-        }
-
-        $payload = array_filter([
-            'model' => config('services.openai.model'),
-            'instructions' => $this->instructions($user),
-            'input' => trim($message),
-            'previous_response_id' => $previousResponseId,
-        ]);
-
-        try {
-            $response = Http::baseUrl((string) config('services.openai.base_url'))
-                ->withToken($apiKey)
-                ->acceptJson()
-                ->timeout(30)
-                ->post('/responses', $payload)
-                ->throw();
-        } catch (RequestException $exception) {
-            $apiMessage = data_get($exception->response?->json(), 'error.message');
-
-            throw new RuntimeException($apiMessage ?: 'The AI provider could not process this request.');
-        }
-
-        $data = $response->json();
-
         return [
-            'reply' => $this->extractReplyText($data),
-            'response_id' => data_get($data, 'id'),
-            'model' => data_get($data, 'model', config('services.openai.model')),
+            'reply' => $this->localReply($user, $message),
+            'response_id' => null,
+            'model' => 'local-demo',
         ];
     }
 
@@ -86,7 +50,7 @@ class SeminarAiChat
             "Tên hiện tại của user: {$user->name}.",
             "Số topic seminar đang mở trong hệ thống: {$openTopics}.",
             "Số registration đang chờ trong hệ thống: {$pendingRegistrations}.",
-            'Các topic gần đây trong hệ thống: ' . ($recentTopics !== '' ? $recentTopics : 'Hiện chưa có topic nào.'),
+            'Các topic gần đây trong hệ thống: '.($recentTopics !== '' ? $recentTopics : 'Hiện chưa có topic nào.'),
             $roleContext,
         ]);
     }
@@ -102,11 +66,11 @@ class SeminarAiChat
             ->get()
             ->map(function (Registration $registration) {
                 $presentation = $registration->presentation
-                    ? $registration->presentation->scheduled_at->format('d/m/Y H:i') . ' tại ' . $registration->presentation->room
+                    ? $registration->presentation->scheduled_at->format('d/m/Y H:i').' tại '.$registration->presentation->room
                     : 'chưa xếp lịch';
 
                 $score = $registration->score
-                    ? number_format((float) $registration->score->score, 2) . '/10'
+                    ? number_format((float) $registration->score->score, 2).'/10'
                     : 'chưa chấm điểm';
 
                 $submission = $registration->submission
@@ -117,7 +81,7 @@ class SeminarAiChat
             })
             ->implode('; ');
 
-        return 'Ngữ cảnh của student: ' . ($registrations !== '' ? $registrations : 'Student hiện chưa có đăng ký seminar nào.');
+        return 'Ngữ cảnh của student: '.($registrations !== '' ? $registrations : 'Student hiện chưa có đăng ký seminar nào.');
     }
 
     // Ngữ cảnh giảng viên tóm tắt khối lượng hướng dẫn và review.
@@ -141,9 +105,9 @@ class SeminarAiChat
             ->count();
 
         return 'Ngữ cảnh của lecturer: '
-            . 'Các topic đang phụ trách: ' . ($topicTitles !== '' ? $topicTitles : 'chưa có') . '. '
-            . "Số đăng ký đang chờ duyệt: {$pendingReviews}. "
-            . "Số submission cần lecturer xử lý: {$submissionReviews}.";
+            .'Các topic đang phụ trách: '.($topicTitles !== '' ? $topicTitles : 'chưa có').'. '
+            ."Số đăng ký đang chờ duyệt: {$pendingReviews}. "
+            ."Số submission cần lecturer xử lý: {$submissionReviews}.";
     }
 
     // Ngữ cảnh admin bao quát toàn hệ thống và tóm tắt tình trạng luồng xử lý.
@@ -184,14 +148,14 @@ class SeminarAiChat
         return $reply !== '' ? $reply : 'Trợ lý AI trả về phản hồi rỗng.';
     }
 
-    // localReply() được dùng khi thiếu API key.
+    // localReply() là chế độ chạy mặc định cho seminar demo.
     protected function localReply(User $user, string $message): string
     {
         $knowledge = SeminarKnowledgeBase::answerFor($message, $user->role);
 
         if ($knowledge) {
             return $this->localMarkdown(
-                '## ' . $knowledge['title'],
+                '## '.$knowledge['title'],
                 $knowledge['bullets'],
                 $knowledge['closing']
             );
@@ -203,9 +167,9 @@ class SeminarAiChat
                 '- Đây là trợ lý demo cục bộ.',
                 '- Nó có thể giải thích cấu trúc dự án, workflow, cơ sở dữ liệu và các vai trò.',
                 '- Nó dùng một bộ tri thức được chọn lọc để câu trả lời bám sát dự án thật.',
-                '- Nếu bạn thêm `OPENAI_API_KEY`, nó sẽ chuyển sang trợ lý dùng OpenAI.',
+                '- Nó không phụ thuộc vào OpenAI key để chạy demo seminar.',
             ],
-            'Hãy thử hỏi về đăng ký, review báo cáo, chấm điểm, phân tích dashboard hoặc thiết kế cơ sở dữ liệu.'
+            'Hãy thử hỏi về Boost, AGENTS.md, skills, MCP, knowledge base, hoặc vì sao demo project này minh hoạ Laravel Boost.'
         );
     }
 

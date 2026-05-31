@@ -22,7 +22,13 @@ class AiChatController extends Controller
         $user = $request->user();
         // Hội thoại gần đây giúp cảm giác chat được lưu lại giữa các phiên.
         $conversations = $user->aiChatConversations()->latest()->take(12)->get();
-        $activeConversation = $conversations->first();
+        $activeConversation = $request->filled('conversation')
+            ? $user->aiChatConversations()->whereKey($request->integer('conversation'))->first()
+            : null;
+
+        if (! $activeConversation) {
+            $activeConversation = $conversations->first();
+        }
 
         return view('ai-chat', [
             'title' => 'AI Chat',
@@ -161,7 +167,9 @@ class AiChatController extends Controller
                 ]);
             }
 
-            return back()->with('status', 'AI reply saved to the conversation.');
+            return redirect()
+                ->route('ai-chat.index', ['conversation' => $conversation->id])
+                ->with('status', 'AI reply saved to the conversation.');
         } catch (RuntimeException $exception) {
             if ($request->expectsJson()) {
                 return response()->json([

@@ -4,6 +4,8 @@
 
 Demo project chỉ là project minh hoạ để Laravel Boost có ngữ cảnh thật.
 
+Với buổi seminar, nên ưu tiên **local demo mode** của AI chat để bài chạy ổn định. OpenAI key là tùy chọn, không phải điều kiện bắt buộc.
+
 ## 1. Laravel Boost là gì?
 
 Laravel Boost là công cụ hỗ trợ AI cho dự án Laravel.
@@ -129,6 +131,11 @@ AI chat sẽ dùng chế độ demo cục bộ:
 - vẫn trả lời được theo cơ sở tri thức
 
 Đây là điểm rất hay để demo trong lớp.
+
+Tức là:
+
+- không có key vẫn demo được
+- có key thì chỉ là chế độ phụ trợ thêm, không phải điều kiện chính để hiểu Boost
 
 ## 9. Nói với giảng viên thế nào?
 

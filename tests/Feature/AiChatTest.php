@@ -147,7 +147,7 @@ class AiChatTest extends TestCase
     public function test_ai_chat_is_rate_limited(): void
     {
         $user = User::factory()->create();
-        $rateLimitKey = 'ai-chat:' . $user->id;
+        $rateLimitKey = 'ai-chat:'.$user->id;
 
         RateLimiter::clear($rateLimitKey);
 
@@ -177,7 +177,32 @@ class AiChatTest extends TestCase
 
         $response->assertOk();
         $response->assertJsonPath('model', 'local-demo');
-        $this->assertStringContainsString('Registration flow', (string) $response->json('reply'));
+        $this->assertStringContainsString('Luồng đăng ký', (string) $response->json('reply'));
+    }
+
+    public function test_html_form_submission_redirects_back_to_the_saved_conversation(): void
+    {
+        config()->set('services.openai.api_key', null);
+
+        $user = User::factory()->create([
+            'role' => 'student',
+        ]);
+
+        $response = $this->actingAs($user)->post(route('ai-chat.store'), [
+            'message' => 'Explain the registration flow.',
+        ]);
+
+        $response->assertRedirect();
+        $response->assertRedirectContains('/ai-chat?conversation=');
+
+        $followUp = $this->actingAs($user)->followingRedirects()->post(route('ai-chat.store'), [
+            'message' => 'Explain the registration flow.',
+        ]);
+
+        $followUp->assertOk();
+        $followUp->assertSee('AI reply saved to the conversation.');
+        $followUp->assertSee('SeminarBoost AI');
+        $followUp->assertSee('Luồng đăng ký');
     }
 
     public function test_local_demo_mode_uses_the_project_knowledge_base(): void
@@ -191,7 +216,22 @@ class AiChatTest extends TestCase
         $result = app(SeminarAiChat::class)->reply($user, 'Can you explain the project overview?');
 
         $this->assertSame('local-demo', $result['model']);
-        $this->assertStringContainsString('Seminar Manager is a Laravel-based academic workflow app', $result['reply']);
-        $this->assertStringContainsString('React is used mainly for dashboard analytics and AI chat', $result['reply']);
+        $this->assertStringContainsString('Demo project là ứng dụng Laravel dùng để mô phỏng quy trình seminar trong trường đại học.', $result['reply']);
+        $this->assertStringContainsString('React được dùng chủ yếu cho dashboard analytics và AI chat', $result['reply']);
+    }
+
+    public function test_local_demo_mode_answers_boost_specific_questions(): void
+    {
+        config()->set('services.openai.api_key', null);
+
+        $user = User::factory()->create([
+            'role' => 'lecturer',
+        ]);
+
+        $result = app(SeminarAiChat::class)->reply($user, 'Laravel Boost là gì và nó giúp gì cho lập trình viên Laravel?');
+
+        $this->assertSame('local-demo', $result['model']);
+        $this->assertStringContainsString('Laravel Boost là lớp hỗ trợ AI dành cho Laravel', $result['reply']);
+        $this->assertStringContainsString('AGENTS.md', $result['reply']);
     }
 }

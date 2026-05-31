@@ -113,7 +113,7 @@ class TopicManagementTest extends TestCase
         $response = $this->actingAs($lecturer)->get(route('topics.summary', $topic));
 
         $response->assertOk();
-        $response->assertSee('Print / Save as PDF');
+        $response->assertSee('In / Lưu PDF');
         $response->assertSee('Printable summary topic');
     }
 

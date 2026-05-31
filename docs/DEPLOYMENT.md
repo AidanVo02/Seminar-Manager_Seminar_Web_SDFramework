@@ -40,30 +40,37 @@ Mở:
 
 - `http://127.0.0.1:8000`
 
-## 6. Nếu dùng SQL Server
+Nếu `php` trên máy của bạn trỏ nhầm sang bản cũ, dùng PHP 8.4 trực tiếp:
 
-Project có thể chạy với SQL Server.
+```powershell
+& "C:\Users\Voduybinhv\AppData\Local\Microsoft\WinGet\Packages\PHP.PHP.8.4_Microsoft.Winget.Source_8wekyb3d8bbwe\php.exe" artisan serve --host=127.0.0.1 --port=8002
+```
 
-Trong `.env` thường dùng:
+Mở thay thế:
+
+- `http://127.0.0.1:8002`
+
+## 6. Cấu hình database cho demo
+
+Với buổi seminar, nên ưu tiên **SQLite** để chạy nhanh và ít lỗi môi trường.
+
+Trong `.env` dùng:
 
 ```env
-DB_CONNECTION=sqlsrv
-DB_HOST=127.0.0.1
-DB_PORT=1433
-DB_DATABASE=seminar_manager
-DB_USERNAME=sa
-DB_PASSWORD=your_password
-DB_ENCRYPT=false
-DB_TRUST_SERVER_CERTIFICATE=true
+DB_CONNECTION=sqlite
+DB_DATABASE=database/database.sqlite
 SESSION_DRIVER=file
 CACHE_STORE=file
 ```
 
 Điều cần nhớ:
 
-- phải cài `sqlsrv` và `pdo_sqlsrv`
-- SQL Server service phải đang chạy
-- database `seminar_manager` phải tồn tại
+- file `database/database.sqlite` đã có sẵn trong project
+- không cần cài driver SQL Server cho chế độ demo local
+- nếu muốn đổi sang SQL Server sau này thì mới cần cấu hình thêm `sqlsrv`
+
+Ghi chú cho Windows:
+- nếu file SQLite trong thư mục project bị lỗi I/O, có thể chuyển `DB_DATABASE` sang một file trong `C:/Users/<you>/AppData/Local/Temp/`
 
 ## 7. OpenAI cho AI chat
 
@@ -75,7 +82,7 @@ OPENAI_MODEL=gpt-4.1-mini
 OPENAI_BASE_URL=https://api.openai.com/v1
 ```
 
-Nếu không có key, chatbot vẫn chạy ở chế độ demo cục bộ.
+Nếu không có key, chatbot vẫn chạy ở chế độ demo cục bộ. Với seminar, đây là chế độ khuyến nghị vì ổn định hơn và không phụ thuộc billing/quota.
 
 ## 8. Checklist deploy cơ bản
 
@@ -94,7 +101,7 @@ Trước khi đưa lên môi trường thật:
 
 - kiểm tra database đã migrate chưa
 - kiểm tra session driver
-- kiểm tra SQL Server hoặc database đang chạy
+- kiểm tra file SQLite `database/database.sqlite` còn tồn tại
 
 ### AI chat lỗi
 
@@ -114,4 +121,5 @@ Với seminar, bạn chỉ cần:
 2. cấu hình `.env`
 3. migrate + seed
 4. chạy Laravel
-5. mở dashboard và demo luồng seminar
+5. mở dashboard và `AI Chat`
+6. ưu tiên local demo mode nếu muốn demo AI ổn định
