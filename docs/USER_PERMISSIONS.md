@@ -104,3 +104,4 @@ Admin là vai trò có quyền rộng nhất.
 - Quyền được kiểm soát bằng middleware và controller authorization.
 - Không phải mọi user đều thấy mọi action.
 - `registrations` là trung tâm của luồng xử lý, nên quyền thường xoay quanh registration.
+

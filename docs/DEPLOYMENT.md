@@ -16,24 +16,30 @@ composer install
 npm install
 ```
 
+Nếu terminal của bạn đang trỏ `php` 8.3, tạo alias tạm `php84` trước khi chạy các lệnh `artisan`:
+
+```powershell
+function php84 { & "C:\Users\Voduybinhv\AppData\Local\Microsoft\WinGet\Packages\PHP.PHP.8.4_Microsoft.Winget.Source_8wekyb3d8bbwe\php.exe" @args }
+```
+
 ## 3. Tạo file môi trường
 
 ```bash
 copy .env.example .env
-php artisan key:generate
+php84 artisan key:generate
 ```
 
 ## 4. Chạy database demo
 
 ```bash
-php artisan migrate:fresh --seed
+php84 artisan migrate:fresh --seed
 ```
 
 ## 5. Chạy giao diện và backend
 
 ```bash
 npm run dev
-php artisan serve
+php84 artisan serve
 ```
 
 Mở:
@@ -43,7 +49,7 @@ Mở:
 Nếu `php` trên máy của bạn trỏ nhầm sang bản cũ, dùng PHP 8.4 trực tiếp:
 
 ```powershell
-& "C:\Users\Voduybinhv\AppData\Local\Microsoft\WinGet\Packages\PHP.PHP.8.4_Microsoft.Winget.Source_8wekyb3d8bbwe\php.exe" artisan serve --host=127.0.0.1 --port=8002
+php84 artisan serve --host=127.0.0.1 --port=8002
 ```
 
 Mở thay thế:
@@ -90,7 +96,7 @@ Trước khi đưa lên môi trường thật:
 
 - đặt `APP_ENV=production`
 - đặt `APP_DEBUG=false`
-- chạy `php artisan migrate --force`
+- chạy `php84 artisan migrate --force`
 - build giao diện bằng `npm run build`
 - tạo storage link nếu cần file upload
 - cấu hình mail driver nếu muốn gửi email thật
@@ -123,3 +129,6 @@ Với seminar, bạn chỉ cần:
 4. chạy Laravel
 5. mở dashboard và `AI Chat`
 6. ưu tiên local demo mode nếu muốn demo AI ổn định
+
+
+

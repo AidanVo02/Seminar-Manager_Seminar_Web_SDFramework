@@ -81,20 +81,34 @@ Các file quan trọng nhất:
 
 ## Chạy project nhanh
 
+Nếu muốn gõ ngắn trong PowerShell, tạo alias tạm `php84` trước:
+
+```powershell
+function php84 { & "C:\Users\Voduybinhv\AppData\Local\Microsoft\WinGet\Packages\PHP.PHP.8.4_Microsoft.Winget.Source_8wekyb3d8bbwe\php.exe" @args }
+```
+
 ```bash
 composer install
 npm install
-php artisan migrate:fresh --seed
+php84 artisan migrate:fresh --seed
 npm run dev
-php artisan serve
+php84 artisan serve
 ```
 
 Mở:
 
 - `http://127.0.0.1:8000`
 
+Lưu ý:
+
+- Nếu terminal của bạn đang trỏ `php` 8.3, hãy tạo alias `php84` hoặc chạy các lệnh `artisan` bằng PHP 8.4 đầy đủ như trong `docs/README-DEMO.md`.
+- AI chat local demo mode là mặc định nên không cần OpenAI key để chạy demo.
+- Nếu muốn demo đúng kiểu Boost hơn, hãy mở `docs/BOOST_OFFICIAL_STYLE_DEMO.md` trước khi thuyết trình.
+
 ## Ghi chú
 
 - Nếu không có `OPENAI_API_KEY`, AI chat vẫn chạy ở local demo mode.
 - Nếu frontend React chưa chạy, Laravel vẫn hoạt động.
-- Nếu cần reset dữ liệu, chạy lại `php artisan migrate:fresh --seed`.
+- Nếu cần reset dữ liệu, chạy lại `php84 artisan migrate:fresh --seed`.
+
+

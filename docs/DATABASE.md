@@ -169,3 +169,4 @@ Nhờ vậy chạy demo lên là có dữ liệu ngay.
 ## Ghi nhớ nhanh
 
 > `users` là người dùng, `topics` là đề tài, `registrations` là trung tâm của luồng xử lý, `submissions` là báo cáo, `presentations` là lịch bảo vệ, `scores` là kết quả cuối cùng.
+

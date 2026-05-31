@@ -139,3 +139,4 @@ Như vậy AI chat vẫn là một phần của Laravel app, không phải một
 Nếu bạn cần nói nhanh với giảng viên:
 
 > Dự án dùng Laravel MVC truyền thống, trong đó routes điều hướng request, controllers xử lý nghiệp vụ, models làm việc với database, support classes gom logic dùng chung, còn React chỉ dùng ở các phần tương tác cao như dashboard và AI chat.
+

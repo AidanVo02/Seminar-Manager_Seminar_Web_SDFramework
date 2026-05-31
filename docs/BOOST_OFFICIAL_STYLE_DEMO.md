@@ -131,17 +131,40 @@ Khi thuyết trình, bạn không cần liệt kê hết, nhưng nên nói:
 
 Các lệnh chuẩn:
 
+Nếu muốn gõ ngắn trong PowerShell, tạo alias tạm:
+
+```powershell
+function php84 { & "C:\Users\Voduybinhv\AppData\Local\Microsoft\WinGet\Packages\PHP.PHP.8.4_Microsoft.Winget.Source_8wekyb3d8bbwe\php.exe" @args }
+```
+
 ```bash
 composer require laravel/boost --dev
-php artisan boost:install
-php artisan boost:update
-php artisan boost:mcp
+php84 artisan boost:install
+php84 artisan boost:update
+php84 artisan boost:mcp
 ```
 
 ### Khi demo, nên nói thêm
 
 > `boost:install` là lệnh sinh file agent / skill / MCP phù hợp với project.
 > `boost:update` dùng khi cần đồng bộ lại resources Boost sau khi cập nhật package.
+> `boost:mcp` là lệnh khởi động MCP server để AI agent đọc ngữ cảnh thật của project.
+
+### Trình tự chạy demo khuyên dùng
+
+1. `php84 artisan boost:mcp`
+2. `php84 artisan optimize:clear`
+3. `php84 artisan migrate:fresh --seed`
+4. `npm run dev`
+5. `php84 artisan serve --host=127.0.0.1 --port=8002`
+
+Nếu muốn dùng PHP 8.4 trực tiếp trên máy này, chạy từng lệnh bằng đường dẫn PHP 8.4 thay cho `php`.
+
+Lưu ý:
+
+- đừng copy dấu ``` vào PowerShell
+- nếu `php` hiện 8.3, dùng `php.exe` 8.4 đầy đủ
+- `boost:mcp` nên chạy ở terminal riêng và giữ chạy nền
 
 ## 8. Demo project của bạn nên được dùng như thế nào?
 
@@ -168,9 +191,9 @@ Nó chỉ là:
 - `AGENTS.md`
 - `.github/skills/*`
 - `.vscode/mcp.json`
-- `php artisan boost:install`
-- `php artisan boost:update`
-- `php artisan boost:mcp`
+- `php84 artisan boost:install`
+- `php84 artisan boost:update`
+- `php84 artisan boost:mcp`
 
 ### Minh hoạ trong project
 
@@ -193,4 +216,6 @@ Bạn nên trình bày theo flow:
 ## 11. Chốt lại cho đúng trọng tâm
 
 > Laravel Boost là công cụ MCP server + guidelines + skills + docs API giúp AI agent hiểu và hỗ trợ phát triển Laravel tốt hơn. Demo project chỉ là ngữ cảnh minh hoạ để thấy Boost hoạt động trên một codebase thật.
+
+
 

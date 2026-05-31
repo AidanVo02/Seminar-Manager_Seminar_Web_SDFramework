@@ -66,16 +66,16 @@ Chạy các lệnh:
 ```bash
 composer install
 npm install
-php artisan migrate:fresh --seed
+php84 artisan migrate:fresh --seed
 npm run dev
-php artisan serve
+php84 artisan serve
 ```
 
 Nếu môi trường của bạn đã cài xong từ trước thì thường chỉ cần:
 
 ```bash
 npm run dev
-php artisan serve
+php84 artisan serve
 ```
 
 Mở URL Laravel mà terminal in ra, thường là:
@@ -192,9 +192,9 @@ Kết luận bằng 1 câu:
 ```bash
 composer install
 npm install
-php artisan migrate:fresh --seed
+php84 artisan migrate:fresh --seed
 npm run dev
-php artisan serve
+php84 artisan serve
 ```
 
 Mở:
@@ -357,18 +357,34 @@ Nếu có key hợp lệ, app mới thử gọi OpenAI. Nhưng với seminar, ch
 
 Mở PowerShell tại thư mục `seminar-manager`, sau đó chạy:
 
+Nếu muốn gõ ngắn, tạo alias tạm `php84` trước:
+
+```powershell
+function php84 { & "C:\Users\Voduybinhv\AppData\Local\Microsoft\WinGet\Packages\PHP.PHP.8.4_Microsoft.Winget.Source_8wekyb3d8bbwe\php.exe" @args }
+```
+
 ```powershell
 cd "D:\HSU\2533Semester 3(2025-2026)\Phát triển Web sd Framework\Seminar\seminar-manager"
-& "C:\Users\Voduybinhv\AppData\Local\Microsoft\WinGet\Packages\PHP.PHP.8.4_Microsoft.Winget.Source_8wekyb3d8bbwe\php.exe" artisan optimize:clear
-& "C:\Users\Voduybinhv\AppData\Local\Microsoft\WinGet\Packages\PHP.PHP.8.4_Microsoft.Winget.Source_8wekyb3d8bbwe\php.exe" artisan migrate:fresh --seed
-& "C:\Users\Voduybinhv\AppData\Local\Microsoft\WinGet\Packages\PHP.PHP.8.4_Microsoft.Winget.Source_8wekyb3d8bbwe\php.exe" artisan serve --host=127.0.0.1 --port=8002
+php84 artisan boost:mcp
+php84 artisan optimize:clear
+php84 artisan migrate:fresh --seed
+php84 artisan serve --host=127.0.0.1 --port=8002
 ```
+
+Lưu ý:
+
+- chạy từng lệnh một, không dán cả khối code kèm dấu ```
+- `boost:mcp` nên mở ở terminal riêng và để chạy nền
+- `npm run dev` nên chạy ở terminal riêng khác
+- nếu đã tạo alias `php84` ở trên, có thể thay đường dẫn dài bằng `php84`
 
 Mở terminal khác và chạy:
 
 ```powershell
 npm run dev
 ```
+
+Nếu terminal Boost MCP đã chạy ở trên rồi thì ở terminal này chỉ cần `npm run dev`.
 
 Sau đó mở:
 
@@ -406,14 +422,14 @@ Với seminar, không nên phụ thuộc vào key. Dùng local demo mode sẽ an
 ## Lưu ý khi chạy trên máy này
 
 - Nếu giao diện React chưa chạy, phần Laravel vẫn hoạt động bình thường.
-- Nếu dữ liệu demo chưa đúng, chạy lại `php artisan migrate:fresh --seed`.
+- Nếu dữ liệu demo chưa đúng, chạy lại `php84 artisan migrate:fresh --seed`.
 - Nếu SQLite báo lỗi I/O trên Windows, đổi `DB_DATABASE` sang file `.sqlite` trong `C:/Users/<you>/AppData/Local/Temp/` rồi chạy lại migrate.
 - Nếu cần reset hẳn, chạy lại toàn bộ lệnh cài và seed ở trên.
 
 ## Kiểm tra nhanh
 
-- `php artisan test` phải pass
-- `php artisan migrate:fresh --seed` phải pass
+- `php84 artisan test` phải pass
+- `php84 artisan migrate:fresh --seed` phải pass
 
 ## Tài liệu liên quan
 
@@ -422,3 +438,6 @@ Với seminar, không nên phụ thuộc vào key. Dùng local demo mode sẽ an
 - `ARCHITECTURE.md`
 - `DATABASE.md`
 - `BOOST_CODE_TOUR.md`
+
+
+

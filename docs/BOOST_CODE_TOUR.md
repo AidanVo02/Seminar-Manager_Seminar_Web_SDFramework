@@ -194,3 +194,4 @@ Hai file còn lại chỉ là lớp giao diện và mô tả:
 
 - `AiChatController.php`
 - `AI_KNOWLEDGE_BASE.md`
+

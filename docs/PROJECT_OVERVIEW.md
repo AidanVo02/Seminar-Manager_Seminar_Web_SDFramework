@@ -79,3 +79,4 @@ Nó không nhằm mục tiêu trở thành một sản phẩm sản xuất hoàn
 Nếu phải nói 1 câu:
 
 > Demo project là một demo Laravel cho quy trình seminar từ tạo topic đến chấm điểm, đồng thời là bối cảnh thực tế để tìm hiểu Laravel Boost.
+

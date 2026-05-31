@@ -218,3 +218,4 @@ Nghĩa là phần lớn luồng đi qua `routes/web.php` và controller Laravel.
 | Activity | `ActivityLogController` | `activity_logs` |
 | AI chat | `AiChatController` | `ai_chat_*` |
 
+

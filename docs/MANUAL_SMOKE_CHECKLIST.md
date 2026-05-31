@@ -4,8 +4,8 @@ Dùng checklist này trước khi demo hoặc nộp bài.
 
 ## 1. Môi trường
 
-- `php artisan migrate:fresh --seed` chạy thành công
-- `php artisan serve` đang chạy
+- `php84 artisan migrate:fresh --seed` chạy thành công
+- `php84 artisan serve` đang chạy
 - `npm run dev` đang chạy nếu muốn xem React
 - mở được `http://127.0.0.1:8000/login`
 
@@ -109,3 +109,5 @@ Dùng checklist này trước khi demo hoặc nộp bài.
 - test tự động pass
 - các luồng chính nhìn thấy được trên UI
 - project đủ để demo seminar
+
+

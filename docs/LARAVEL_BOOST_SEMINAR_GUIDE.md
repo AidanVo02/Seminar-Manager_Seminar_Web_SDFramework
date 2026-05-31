@@ -157,3 +157,5 @@ Trọng tâm là:
 ## 11. Câu chốt ngắn
 
 > Laravel Boost giúp AI hiểu đúng project Laravel bằng ngữ cảnh, tài liệu, schema và công cụ hỗ trợ. Demo project chỉ là bối cảnh để minh hoạ cách Boost hoạt động trong thực tế.
+
+

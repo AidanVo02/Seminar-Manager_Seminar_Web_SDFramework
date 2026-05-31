@@ -85,7 +85,7 @@ Khi trình bày, cần nói:
 
 ### 3.3 `AGENTS.md` và `.github/skills/*`
 
-Khi chạy `php artisan boost:install` với agent GitHub Copilot, Boost sinh ra:
+Khi chạy `php84 artisan boost:install` với agent GitHub Copilot, Boost sinh ra:
 
 - `AGENTS.md`
 - thư mục `.github/skills/`
@@ -621,3 +621,5 @@ Khi nhìn vào code, hãy trả lời 4 câu:
 2. AI lấy ngữ cảnh từ đâu?
 3. Trợ lý AI trả lời bằng logic nào?
 4. Project demo này chỉ đang minh hoạ điều gì?
+
+
