@@ -1,23 +1,31 @@
-# Hướng Dẫn Chạy Demo
+# Hướng Dẫn Chạy Demo Laravel Boost
 
-Tài liệu này chỉ tập trung vào một việc: làm sao mở project lên và xem được luồng hoạt động chính.
+Tài liệu này chỉ nhằm giúp bạn mở project demo để quan sát Laravel Boost trong bối cảnh một codebase thật. Đây **không phải** tài liệu hướng dẫn xây dựng toàn bộ hệ thống seminar từ đầu.
 
-## Tính năng đã có trong demo
+Khi học hoặc thuyết trình, hãy xem đây là:
 
-- Đăng nhập theo vai trò `admin`, `lecturer`, `student`
-- Dashboard tổng quan
-- Quản lý topic seminar
-- Tìm kiếm và lọc topic
-- Student đăng ký topic
-- Upload báo cáo
-- Lecturer review báo cáo
-- Gửi yêu cầu chỉnh sửa hoặc chấp nhận báo cáo
-- Lên lịch bảo vệ
-- Chấm điểm và ghi chú
-- Activity logs
-- AI chat hỗ trợ seminar
-- Admin quản lý user
-- Trang in tóm tắt topic
+- hướng dẫn mở demo
+- hướng dẫn kiểm tra luồng code
+- hướng dẫn xem Boost được minh hoạ như thế nào trong một repo thật
+
+## Các phần trong demo và ý nghĩa của chúng
+
+Các màn hình dưới đây **không phải trọng tâm seminar**. Chúng chỉ là dữ liệu và luồng minh hoạ để Laravel Boost có ngữ cảnh thật:
+
+- Đăng nhập theo vai trò `admin`, `lecturer`, `student` -> minh hoạ phân quyền và ngữ cảnh người dùng
+- Dashboard tổng quan -> minh hoạ dữ liệu đầu vào cho AI và code analytics
+- Quản lý topic seminar -> minh hoạ route, controller, model và dữ liệu quan hệ
+- Tìm kiếm và lọc topic -> minh hoạ query và luồng request
+- Student đăng ký topic -> minh hoạ validation và workflow
+- Upload báo cáo -> minh hoạ file handling và review flow
+- Lecturer review báo cáo -> minh hoạ luồng xử lý nghiệp vụ
+- Gửi yêu cầu chỉnh sửa hoặc chấp nhận báo cáo -> minh hoạ trạng thái dữ liệu
+- Lên lịch bảo vệ -> minh hoạ dữ liệu liên kết giữa các bảng
+- Chấm điểm và ghi chú -> minh hoạ cập nhật dữ liệu cuối luồng
+- Activity logs -> minh hoạ logging và quan sát hệ thống
+- AI chat hỗ trợ demo -> minh hoạ chỗ Boost và knowledge base phát huy tác dụng
+- Admin quản lý user -> minh hoạ phân quyền quản trị
+- Trang in tóm tắt topic -> minh hoạ xuất báo cáo / preview
 
 ## Tài khoản demo
 
@@ -47,16 +55,14 @@ Mở:
 
 ## Luồng demo ngắn
 
-1. Đăng nhập bằng lecturer.
-2. Tạo topic mới.
-3. Đăng nhập bằng student.
-4. Đăng ký topic.
-5. Upload báo cáo.
-6. Quay lại lecturer.
-7. Review báo cáo.
-8. Lên lịch bảo vệ.
-9. Chấm điểm.
-10. Mở dashboard và AI chat.
+1. Đăng nhập bằng `lecturer` để xem cách code bảo vệ màn hình theo role.
+2. Mở topic list hoặc tạo topic để thấy route, controller và form hoạt động.
+3. Đăng nhập bằng `student` để xem dữ liệu thay đổi theo quyền.
+4. Đăng ký topic để quan sát validation và trạng thái dữ liệu.
+5. Upload báo cáo để xem file handling và review flow.
+6. Quay lại `lecturer` để review báo cáo và xem vòng phản hồi.
+7. Lên lịch bảo vệ và chấm điểm để thấy luồng dữ liệu cuối.
+8. Mở dashboard và AI chat để thấy chỗ Laravel Boost được minh hoạ rõ nhất.
 
 ## Nếu AI chat không dùng OpenAI
 
@@ -69,6 +75,8 @@ OPENAI_API_KEY=...
 ```
 
 Khi không có khóa OpenAI, chatbot sẽ dùng cơ sở tri thức nội bộ để trả lời.
+
+Trong cả hai trường hợp, mục tiêu vẫn là minh hoạ Laravel Boost, không phải chứng minh một sản phẩm AI thương mại.
 
 ## Lưu ý khi chạy trên máy này
 

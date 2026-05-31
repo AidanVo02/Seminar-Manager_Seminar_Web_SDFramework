@@ -1,6 +1,8 @@
 # Tổng Quan Dự Án
 
-Seminar Manager là một ứng dụng Laravel dùng để mô phỏng quy trình seminar trong môi trường học thuật.
+Tài liệu này dùng để đặt bối cảnh demo cho Laravel Boost. Mục tiêu không phải giới thiệu một sản phẩm seminar hoàn chỉnh, mà là cho bạn hiểu code demo này đang minh hoạ điều gì cho bài thuyết trình.
+
+Demo project là một ứng dụng Laravel dùng để mô phỏng quy trình seminar trong môi trường học thuật.
 
 ## Mục tiêu
 
@@ -54,7 +56,7 @@ Dự án này gom toàn bộ quy trình đó vào một hệ thống duy nhất.
 
 ## Phạm vi demo
 
-Đây là project demo để:
+Đây là demo project để:
 
 - hiểu cách Laravel tổ chức code
 - hiểu cách thiết kế luồng xử lý
@@ -76,4 +78,4 @@ Nó không nhằm mục tiêu trở thành một sản phẩm sản xuất hoàn
 
 Nếu phải nói 1 câu:
 
-> Seminar Manager là một demo Laravel cho quy trình seminar từ tạo topic đến chấm điểm, đồng thời là bối cảnh thực tế để tìm hiểu Laravel Boost.
+> Demo project là một demo Laravel cho quy trình seminar từ tạo topic đến chấm điểm, đồng thời là bối cảnh thực tế để tìm hiểu Laravel Boost.

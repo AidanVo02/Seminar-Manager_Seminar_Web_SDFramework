@@ -3,7 +3,13 @@
         "copilot"
     ],
     "cloud": false,
+    "enforce_tests": false,
+    "guidelines": true,
     "mcp": true,
     "nightwatch": false,
-    "sail": false
+    "sail": false,
+    "skills": [
+        "laravel-best-practices",
+        "tailwindcss-development"
+    ]
 }

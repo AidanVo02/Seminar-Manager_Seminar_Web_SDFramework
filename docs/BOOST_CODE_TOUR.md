@@ -1,6 +1,8 @@
 # Hướng Dẫn Đọc Code Về Laravel Boost
 
-File này giúp bạn đi đúng trọng tâm khi đọc source để hiểu Laravel Boost.
+File này giúp bạn đọc source đúng trọng tâm để hiểu Laravel Boost.
+
+Mục tiêu của file này là hiểu Boost hoạt động như thế nào trong một demo project thật, không phải học cách xây một hệ thống seminar mới.
 
 ## Nên đọc theo thứ tự này
 
@@ -9,10 +11,14 @@ File này giúp bạn đi đúng trọng tâm khi đọc source để hiểu Lar
 3. `LECTURER_PRESENTATION.md`
 4. `../composer.json`
 5. `../boost.json`
-6. `../app/Support/SeminarKnowledgeBase.php`
-7. `../app/Support/SeminarAiChat.php`
-8. `../app/Http/Controllers/AiChatController.php`
-9. `AI_KNOWLEDGE_BASE.md`
+6. `../AGENTS.md`
+7. `../.github/skills/laravel-best-practices/SKILL.md`
+8. `../.github/skills/tailwindcss-development/SKILL.md`
+9. `../.vscode/mcp.json`
+10. `../app/Support/SeminarKnowledgeBase.php`
+11. `../app/Support/SeminarAiChat.php`
+12. `../app/Http/Controllers/AiChatController.php`
+13. `AI_KNOWLEDGE_BASE.md`
 
 ## 1. composer.json
 
@@ -38,8 +44,48 @@ Nội dung hiện tại chủ yếu cho biết:
 - bật MCP
 - dùng agent nào
 - môi trường cloud hay local
+- có bật `enforce_tests` hay không
 
-## 3. SeminarKnowledgeBase
+## 3. AGENTS.md
+
+Đây là file hướng dẫn agent chính trong repo khi Boost cài theo Copilot.
+
+Điểm cần nhớ:
+
+- file này chứa guideline do Boost sinh ra
+- agent đọc file này trước khi làm việc
+- đây là bằng chứng rõ rằng Boost đã được cài vào repo
+
+## 4. `.github/skills/*`
+
+Boost sinh skills theo domain trong thư mục này.
+
+Trong repo hiện tại có:
+
+- `laravel-best-practices`
+- `tailwindcss-development`
+
+Ý nghĩa:
+
+- AI có hướng dẫn chuyên biệt theo domain
+- không cần nhồi toàn bộ kiến thức vào một prompt dài
+- Boost tách phần hướng dẫn theo kỹ năng để agent nạp đúng lúc
+
+## 5. `.vscode/mcp.json`
+
+Đây là nơi khai báo MCP server cho editor/agent.
+
+Trong repo này có:
+
+- `stitch`
+- `laravel-boost`
+
+Ý nghĩa:
+
+- agent có thể đọc project qua MCP
+- Boost không chỉ là prompt text, nó còn có lớp công cụ thực thi thật
+
+## 6. SeminarKnowledgeBase
 
 File:
 
@@ -55,7 +101,7 @@ Bạn nên nhớ:
 - đây không phải huấn luyện model
 - đây là cơ sở tri thức thủ công để AI bớt đoán mò
 
-## 4. SeminarAiChat
+## 7. SeminarAiChat
 
 File:
 
@@ -85,7 +131,7 @@ if (! $apiKey) {
 }
 ```
 
-## 5. AiChatController
+## 8. AiChatController
 
 File:
 
@@ -103,7 +149,7 @@ Nói ngắn gọn:
 
 > Controller lo request, service lo logic trả lời, model lo lưu dữ liệu.
 
-## 6. AI_KNOWLEDGE_BASE.md
+## 9. AI_KNOWLEDGE_BASE.md
 
 File này mô tả:
 
@@ -120,27 +166,28 @@ Câu trả lời đúng là:
 - từ ngữ cảnh của dự án
 - từ cơ sở tri thức nội bộ
 - từ hướng dẫn trong prompt
+- từ file agent/skill/MCP do Boost sinh ra
 - và khi có API key thì từ OpenAI nữa
 
-## 7. Boost trong seminar này dùng để nói gì?
+## 10. Boost trong seminar này dùng để nói gì?
 
 Điểm chính cần nói:
 
 - Boost giúp AI hiểu project Laravel thật
 - Boost giảm việc AI đoán sai route, schema, version
-- Boost hợp với dự án có luồng xử lý rõ ràng như Seminar Manager
+- Boost hợp với một demo project có luồng xử lý rõ ràng
 
-## 8. Câu nói ngắn để thuyết trình
+## 11. Câu nói ngắn để thuyết trình
 
-> Laravel Boost là lớp hỗ trợ AI cho Laravel. Trong project này, em không huấn luyện model mới mà dùng cơ sở tri thức, AI chat và ngữ cảnh của dự án để minh hoạ cách Boost giúp AI hiểu đúng mã nguồn.
+> Laravel Boost là lớp hỗ trợ AI cho Laravel. Trong demo project này, em không huấn luyện model mới mà dùng cơ sở tri thức, AI chat, file agent/skill/MCP và ngữ cảnh của dự án để minh hoạ cách Boost giúp AI hiểu đúng mã nguồn.
 
-## 9. Kết luận
+## 12. Kết luận
 
 Nếu bạn hiểu 4 file này là đủ:
 
 - `composer.json`
 - `boost.json`
-- `SeminarKnowledgeBase.php`
+- `AGENTS.md`
 - `SeminarAiChat.php`
 
 Hai file còn lại chỉ là lớp giao diện và mô tả:

@@ -2,7 +2,7 @@
 
 Đây là tài liệu bạn nên đọc đầu tiên nếu đề tài seminar là **Laravel Boost**.
 
-`Seminar Manager` chỉ là project demo để minh hoạ Laravel Boost trong một mã nguồn thật.
+Demo project chỉ là project minh hoạ để Laravel Boost có ngữ cảnh thật.
 
 ## 1. Laravel Boost là gì?
 
@@ -66,7 +66,7 @@ Boost là lớp hỗ trợ AI cho luồng phát triển.
 
 ## 5. Project demo này dùng để làm gì?
 
-`Seminar Manager` được dùng để minh hoạ Boost trong ngữ cảnh thực tế.
+Demo project được dùng để minh hoạ Boost trong ngữ cảnh thực tế.
 
 Project có:
 
@@ -110,6 +110,9 @@ Các file cần nhớ:
 
 - `composer.json` -> có `laravel/boost`
 - `boost.json` -> cấu hình Boost
+- `AGENTS.md` -> hướng dẫn agent chính trong repo
+- `.github/skills/*` -> skills theo domain
+- `.vscode/mcp.json` -> MCP server cho agent
 - `app/Support/SeminarAiChat.php` -> logic trả lời AI
 - `app/Support/SeminarKnowledgeBase.php` -> cơ sở tri thức nội bộ
 - `app/Http/Controllers/AiChatController.php` -> nhận request chat
@@ -131,7 +134,7 @@ AI chat sẽ dùng chế độ demo cục bộ:
 
 Bạn có thể nói:
 
-> Laravel Boost không phải là model AI, mà là lớp hỗ trợ AI cho Laravel. Trong project này, em dùng một cơ sở tri thức nội bộ và một AI chat demo để minh hoạ cách Boost giúp AI hiểu đúng ngữ cảnh của mã nguồn.
+> Laravel Boost không phải là model AI, mà là lớp hỗ trợ AI cho Laravel. Em dùng một demo project cùng cơ sở tri thức nội bộ để minh hoạ cách Boost giúp AI hiểu đúng ngữ cảnh của mã nguồn.
 
 ## 10. Cái gì là trọng tâm của seminar?
 
@@ -146,4 +149,4 @@ Trọng tâm là:
 
 ## 11. Câu chốt ngắn
 
-> Laravel Boost giúp AI hiểu đúng project Laravel bằng ngữ cảnh, tài liệu, schema và công cụ hỗ trợ. Project Seminar Manager chỉ là demo để minh hoạ cách Boost hoạt động trong thực tế.
+> Laravel Boost giúp AI hiểu đúng project Laravel bằng ngữ cảnh, tài liệu, schema và công cụ hỗ trợ. Demo project chỉ là bối cảnh để minh hoạ cách Boost hoạt động trong thực tế.
