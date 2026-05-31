@@ -590,10 +590,11 @@ Mở:
 - `docs/LARAVEL_BOOST_SEMINAR_GUIDE.md`
 - `docs/BOOST_CODE_TOUR.md`
 - `docs/README-DEMO.md`
+- `docs/BOOST_OFFICIAL_STYLE_DEMO.md`
 
 Nói:
 
-> Đây là 3 file em dùng để học và demo đúng trọng tâm Laravel Boost, còn Seminar Manager chỉ là ngữ cảnh minh hoạ.
+> Đây là các file em dùng để học và demo đúng trọng tâm Laravel Boost. Nếu muốn bám sát cách Laravel giới thiệu Boost trên trang chính thức, em sẽ mở thêm `BOOST_OFFICIAL_STYLE_DEMO.md`. Còn Seminar Manager chỉ là ngữ cảnh minh hoạ.
 
 ## 11. Câu nói kết thúc ngắn để học thuộc
 

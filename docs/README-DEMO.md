@@ -318,6 +318,8 @@ Nếu bạn cần chọn thời lượng và cách trình bày, xem thêm:
 - [HOC_THUOC_NHANH.md](HOC_THUOC_NHANH.md)
 - [DEMO_MODES.md](DEMO_MODES.md)
 - [BOOST_TERMINAL_COMMANDS.md](BOOST_TERMINAL_COMMANDS.md)
+- [BOOST_VIDEO_DEMO.md](BOOST_VIDEO_DEMO.md)
+- [BOOST_OFFICIAL_STYLE_DEMO.md](BOOST_OFFICIAL_STYLE_DEMO.md)
 
 Gợi ý nhanh:
 
@@ -325,6 +327,17 @@ Gợi ý nhanh:
 - **5 phút**: thêm AI chat local demo mode
 - **10 phút**: thêm code tour và câu hỏi mẫu
 - **Wow**: chỉ dùng nếu bạn đã test live agent/debug trước trên máy
+
+Nếu bạn muốn bám sát cách Laravel giới thiệu Boost trên trang chính thức, hãy đọc thêm:
+
+- `BOOST_OFFICIAL_STYLE_DEMO.md`
+
+Tài liệu này ưu tiên các ý:
+
+- Boost là MCP server cho Laravel
+- AI đọc project thật qua route, schema, logs, docs
+- AI guidelines và agent skills quan trọng hơn phần giao diện demo
+- Seminar Manager chỉ là ngữ cảnh minh hoạ, không phải trọng tâm bài
 
 ## AI chat mặc định chạy ở local demo mode
 

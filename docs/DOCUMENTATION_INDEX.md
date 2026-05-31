@@ -27,6 +27,8 @@ Nếu mục tiêu là hiểu cấu trúc dự án và cách demo, hãy đọc th
 13. [HOC_THUOC_NHANH.md](HOC_THUOC_NHANH.md)
 14. [DEMO_MODES.md](DEMO_MODES.md)
 15. [BOOST_TERMINAL_COMMANDS.md](BOOST_TERMINAL_COMMANDS.md)
+16. [BOOST_VIDEO_DEMO.md](BOOST_VIDEO_DEMO.md)
+17. [BOOST_OFFICIAL_STYLE_DEMO.md](BOOST_OFFICIAL_STYLE_DEMO.md)
 
 ## Nhóm file và công dụng
 
@@ -122,6 +124,8 @@ Nếu bạn chỉ cần phần cốt lõi, đọc 5 file này:
 6. `HOC_THUOC_NHANH.md`
 7. `DEMO_MODES.md`
 8. `BOOST_TERMINAL_COMMANDS.md`
+9. `BOOST_VIDEO_DEMO.md`
+10. `BOOST_OFFICIAL_STYLE_DEMO.md`
 
 ## Bộ tài liệu để thuyết trình
 
